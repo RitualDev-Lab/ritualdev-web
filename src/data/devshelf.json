@@ -1,6 +1,6 @@
 {
   "updatedAt": "2026-11-01T15:10:11.711Z",
-  "totalCount": 567,
+  "totalCount": 565,
   "reposCount": 357,
   "facets": {
     "repos": 357
@@ -1599,22 +1599,6 @@
       "featured": false,
       "type": "ai",
       "section": "AI Agents & Local LLMs"
-    },
-    {
-      "name": "GitWhisper",
-      "repo": "https://github.com/RitualDev-Lab/GitWhisper",
-      "category": "Git & Version Control",
-      "description": "Local-first & privacy-hardened AI Git commit intelligence with Conventional Commits, AST secret redaction, atomic hunk splitting, and 1-click VS Code extension.",
-      "language": "TypeScript",
-      "license": "MIT",
-      "featured": true,
-      "goodFirstIssues": "https://github.com/RitualDev-Lab/GitWhisper/issues",
-      "statusTags": [
-        "100% Offline-Friendly",
-        "No Card Required"
-      ],
-      "type": "cli",
-      "section": "CLI & Productivity Tools"
     },
     {
       "name": "FlashLane",
@@ -3564,18 +3548,6 @@
       "featured": false,
       "type": "cli",
       "section": "CLI & Productivity Tools"
-    },
-    {
-      "name": "AutoHeal-QA",
-      "repo": "https://github.com/RitualDev-Lab/autoheal-qa",
-      "category": "Browser & E2E Testing",
-      "description": "100% Free & Local-first agentic self-healing E2E test runner for Playwright.  cloud cost with AST auto-patching and verification loop.",
-      "language": "TypeScript",
-      "license": "MIT",
-      "featured": true,
-      "goodFirstIssues": "https://github.com/RitualDev-Lab/autoheal-qa/issues",
-      "type": "testing",
-      "section": "Testing & QA Reliability"
     },
     {
       "name": "Agent QA",

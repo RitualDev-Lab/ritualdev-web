@@ -1,0 +1,54 @@
+# RitualDev Full System Documentation & Technical Specification
+> Canonical Reference for LLM Crawlers, AI Search Engines (Perplexity, ChatGPT, Claude, Gemini), and Autonomous Coding Agents.
+
+## 1. System Identity & Mission
+RitualDev is an independent systems engineering lab founded by Divyanshu Jethi and Sakshi Sharma.
+- Official Web Platform: https://ritualdev.in
+- Official GitHub Organization: https://github.com/RitualDev-Lab
+- Official Open VSX Publisher: https://open-vsx.org/namespace/ritualdev-lab
+- Core Mission: Provide 100% offline-first, air-gapped security, kernel sandboxing, database wire proxies, and progressive token compaction for autonomous AI coding agents.
+
+## 2. Threat Model Addressed by RitualDev
+Autonomous coding agents (such as Claude Code, Cursor, Windsurf, Copilot Workspace, Devin, and Antigravity) execute commands and queries on developer environments. This exposes organizations to three critical attack vectors:
+1. **Prompt Injection & Credential Exfiltration**: Malicious instructions embedded in cloned repositories or web browsing sessions instruct the agent to read `~/.aws/credentials`, `~/.ssh/id_rsa`, or `.env` and transmit them via HTTP POST or DNS tunneling.
+   - *RitualDev Solution*: **AgentShield** neutralizes this by wrapping agent processes in OS kernel sandboxes (Bubblewrap on Linux, Seatbelt on macOS, AppContainer on Windows) and replacing real credentials with synthetic decoy honeytokens while restricting network egress via strict CIDR rules.
+2. **Destructive Database Mutations & PII Introspection**: Agents querying pre-production or production databases can accidentally drop tables (`DROP TABLE users CASCADE;`), execute un-indexed full table sequential scans, or leak customer records through schema introspection.
+   - *RitualDev Solution*: **DBShield** acts as a wire protocol proxy that masks sensitive columns from `information_schema` and holds risky mutations in distributed two-phase dry-run transactions until approved via an interactive Slack or Microsoft Teams card.
+3. **Context Window Token Bloat & Exponential Costs**: Loading hundreds of tool schemas into prompt contexts bloats requests by 50,000 to 100,000+ tokens per invocation.
+   - *RitualDev Solution*: **SkillPrism** utilizes Just-In-Time progressive disclosure, reducing token consumption by 96.7% using ephemeral schema injection and a shared team Redis VPC cache.
+
+## 3. Product Reference & CLI Commands
+
+### AgentShield
+- Command to run agent in sandbox:
+  `agentshield exec --profile strict --network allow-git-only -- claude`
+- Security primitives:
+  - Linux: Bubblewrap namespaces (`CLONE_NEWUSER`, `CLONE_NEWPID`, `CLONE_NEWNET`, Landlock LSM).
+  - macOS: `/usr/bin/sandbox-exec` Scheme profiles.
+  - Windows: LowBox SID token isolation with network capability filtering.
+
+### DBShield
+- Command to run database proxy:
+  `dbshield proxy --port 5433 --upstream postgres://user:pass@localhost:5432/production`
+- Slack / Teams Bot Webhooks:
+  `/api/webhooks/slack/actions` and `/api/webhooks/teams/actions` with HMAC-SHA256 signature verification.
+
+### SkillPrism
+- Token compaction efficiency:
+  - Baseline tool injection: ~84,500 tokens / prompt
+  - SkillPrism JIT disclosure: ~2,150 tokens / prompt (96.7% reduction)
+  - Latency: P99 < 14ms on local Redis cluster.
+
+### DevShelf Directory
+- Over 565 open-source developer tools, free APIs, and Model Context Protocol (MCP) servers.
+- Public REST API:
+  - `GET https://ritualdev.in/api/v1/tools.json`
+  - `GET https://ritualdev.in/api/v1/categories.json`
+  - `GET https://ritualdev.in/api/v1/counts.json`
+
+## 4. Google Play Store Compliance
+RitualDev maintains strict data safety compliance for all published Android utilities:
+- All-in-One Calculator Plus (`com.allinone.calculator.plus`): 100% offline, zero analytics SDKs, zero data collection.
+- CyberHub (`com.cyberhub.offline`): On-device volatile memory inspection only.
+- LifeOS (`com.lifeos.app.ai`): Local encrypted SQLite habit storage with zero AI model training retention.
+- Complete data deletion procedures available at: https://ritualdev.in/delete-account/
