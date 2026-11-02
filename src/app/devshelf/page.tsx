@@ -21,7 +21,11 @@ import {
   BookOpen,
   Bookmark,
   CheckCircle2,
-  Boxes
+  Boxes,
+  CreditCard,
+  BadgeCheck,
+  Globe,
+  DollarSign
 } from "lucide-react";
 import rawData from "@/data/devshelf.json";
 
@@ -78,13 +82,63 @@ function getInstallCommand(tool: Resource): { cmd: string; type: string } {
   return { cmd: `npm install -g ${slug}`, type: "npm" };
 }
 
+// Live Dodo Payments Checkout Configuration
+const DODO_PRODUCT_ID = "pdt_0NpjONGugY5QkrFDUaPva";
+const DODO_BASE_URL = `https://checkout.dodopayments.com/buy/${DODO_PRODUCT_ID}`;
+
+const SPONSOR_PACKAGES = [
+  {
+    id: "categoryTakeover",
+    name: "Category Spotlight",
+    priceUsd: 39,
+    priceInr: 3299,
+    tag: "Most Popular",
+    desc: "Pinned top #1 placement in your category + glowing verified star badge across 565+ dossiers.",
+  },
+  {
+    id: "mcpPro",
+    name: "MCP & AI Agent Pro",
+    priceUsd: 49,
+    priceInr: 4199,
+    tag: "High Intent",
+    desc: "Priority recommendation inside npx devshelf-mcp AI sessions (Claude Code, Cursor, Windsurf).",
+  },
+  {
+    id: "starter",
+    name: "Starter Backer",
+    priceUsd: 9,
+    priceInr: 749,
+    tag: "Founding Backer",
+    desc: "Permanent verified backer status on the Wall of Patrons + catalog dossier backlink.",
+  },
+];
+
 export default function DevShelfPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [quickFilter, setQuickFilter] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState<number>(36);
+  
+  // Modals state
   const [selectedTool, setSelectedTool] = useState<Resource | null>(null);
   const [activeTab, setActiveTab] = useState<"quick-install" | "docker" | "badge">("quick-install");
+  const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
+  const [isBadgeModalOpen, setIsBadgeModalOpen] = useState(false);
+
+  // Badge generator state
+  const [badgeToolName, setBadgeToolName] = useState("DevShelf");
+  const [badgeStyle, setBadgeStyle] = useState<"verified" | "devshelf" | "zero-paywall">("verified");
+
+  // Sponsor form state
+  const [sponsorToolName, setSponsorToolName] = useState("");
+  const [sponsorToolUrl, setSponsorToolUrl] = useState("");
+  const [sponsorName, setSponsorName] = useState("");
+  const [sponsorEmail, setSponsorEmail] = useState("");
+  const [sponsorCategory, setSponsorCategory] = useState("Developer Tools");
+  const [selectedPackageId, setSelectedPackageId] = useState("categoryTakeover");
+  const [currency, setCurrency] = useState<"USD" | "INR">("USD");
+  const [sponsorError, setSponsorError] = useState("");
+
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -107,6 +161,7 @@ export default function DevShelfPage() {
   const openToolModal = useCallback((tool: Resource) => {
     setSelectedTool(tool);
     setActiveTab(tool.dockerCompose ? "docker" : "quick-install");
+    setBadgeToolName(tool.name);
     window.history.replaceState(null, "", `#${toSlug(tool.name)}`);
   }, []);
 
@@ -120,10 +175,19 @@ export default function DevShelfPage() {
     const handleHash = () => {
       const hash = window.location.hash.replace(/^#/, "");
       if (hash) {
+        if (hash === "sponsor") {
+          setIsSponsorModalOpen(true);
+          return;
+        }
+        if (hash === "badge") {
+          setIsBadgeModalOpen(true);
+          return;
+        }
         const found = allResources.find((r) => toSlug(r.name) === hash);
         if (found) {
           setSelectedTool(found);
           setActiveTab(found.dockerCompose ? "docker" : "quick-install");
+          setBadgeToolName(found.name);
         }
       } else {
         setSelectedTool(null);
@@ -136,6 +200,8 @@ export default function DevShelfPage() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         closeToolModal();
+        setIsSponsorModalOpen(false);
+        setIsBadgeModalOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -179,19 +245,16 @@ export default function DevShelfPage() {
     const q = search.toLowerCase().trim();
 
     return allResources.filter((r) => {
-      // Category filter
       if (selectedCategory !== "All" && r.category !== selectedCategory) {
         return false;
       }
 
-      // Quick filter
       if (quickFilter === "featured" && !r.featured) return false;
       if (quickFilter === "alternatives" && !r.alternativeTo) return false;
       if (quickFilter === "docker" && !r.dockerCompose) return false;
       if (quickFilter === "no-card" && !r.statusTags?.some((t) => t.toLowerCase().includes("no card"))) return false;
       if (quickFilter === "ai" && !(r.type === "ai" || r.category?.toLowerCase().includes("ai") || r.category?.toLowerCase().includes("mcp"))) return false;
 
-      // Text query search
       if (!q) return true;
 
       return (
@@ -206,6 +269,58 @@ export default function DevShelfPage() {
       );
     });
   }, [allResources, search, selectedCategory, quickFilter]);
+
+  // Handle Dodo Payments Sponsor Checkout
+  const handleSponsorCheckout = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSponsorError("");
+
+    if (!sponsorToolName.trim()) {
+      setSponsorError("Please enter your Tool Name.");
+      return;
+    }
+    if (!sponsorToolUrl.trim()) {
+      setSponsorError("Please enter your Tool URL or GitHub Repo.");
+      return;
+    }
+
+    const pkg = SPONSOR_PACKAGES.find((p) => p.id === selectedPackageId) || SPONSOR_PACKAGES[0];
+    const amount = currency === "INR" ? pkg.priceInr : pkg.priceUsd;
+
+    const dodoParams = new URLSearchParams();
+    dodoParams.set("name", sponsorName || sponsorToolName);
+    dodoParams.set("fullName", sponsorName || sponsorToolName);
+    if (sponsorEmail) {
+      dodoParams.set("email", sponsorEmail);
+      dodoParams.set("customer_email", sponsorEmail);
+    }
+    dodoParams.set("paymentAmount", String(amount));
+    dodoParams.set("amount", String(amount));
+    dodoParams.set("paymentCurrency", currency);
+    dodoParams.set("currency", currency);
+    dodoParams.set("singlePage", "true");
+    dodoParams.set("product_type", "digital");
+    dodoParams.set("shipping_required", "false");
+    dodoParams.set("redirect_url", `${window.location.origin}/devshelf?sponsor=success`);
+    dodoParams.set("metadata_toolName", sponsorToolName);
+    dodoParams.set("metadata_toolUrl", sponsorToolUrl);
+    dodoParams.set("metadata_package", pkg.id);
+    dodoParams.set("metadata_category", sponsorCategory);
+
+    const checkoutUrl = `${DODO_BASE_URL}?${dodoParams.toString()}`;
+    window.open(checkoutUrl, "_blank", "noopener,noreferrer");
+    setIsSponsorModalOpen(false);
+    copyToClipboard(checkoutUrl, "Dodo Payments checkout URL");
+  };
+
+  // Badge Generator outputs
+  const badgeSlug = toSlug(badgeToolName || "devshelf");
+  const badgeTargetUrl = badgeToolName && badgeToolName !== "DevShelf"
+    ? `https://ritualdev.in/devshelf#${badgeSlug}`
+    : `https://ritualdev.in/devshelf`;
+  const badgeImageUrl = `https://ritualdev.in/api/badge/${badgeStyle}.svg`;
+  const badgeMarkdown = `[![${badgeToolName} on DevShelf](${badgeImageUrl})](${badgeTargetUrl})`;
+  const badgeHtml = `<a href="${badgeTargetUrl}"><img src="${badgeImageUrl}" alt="${badgeToolName} on DevShelf" /></a>`;
 
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -324,20 +439,64 @@ export default function DevShelfPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="px-3.5 py-1.5 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-300 flex items-center gap-2">
+            <button
+              onClick={() => setIsBadgeModalOpen(true)}
+              className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-xs font-mono flex items-center gap-1.5 transition-colors"
+            >
+              <Bookmark className="w-3.5 h-3.5 text-purple-400" />
+              <span>Embed Badge</span>
+            </button>
+
+            <button
+              onClick={() => setIsSponsorModalOpen(true)}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-lg shadow-purple-600/20"
+            >
+              <Star className="w-3.5 h-3.5 fill-white" />
+              <span>Feature Your Tool</span>
+            </button>
+
+            <div className="px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-300 hidden lg:flex items-center gap-2">
               <Terminal className="w-3.5 h-3.5 text-brand-neon" />
               <span>npx devshelf search</span>
             </div>
+
             <Link
               href="/api/v1/tools.json"
               target="_blank"
-              className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-xs font-mono flex items-center gap-1.5 transition-colors"
+              className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-xs font-mono flex items-center gap-1.5 transition-colors"
             >
               <Code2 className="w-3.5 h-3.5 text-brand-cyan" />
               <span>REST API</span>
             </Link>
           </div>
         </div>
+      </div>
+
+      {/* Featured / Sponsor CTA Banner (Monetization Engine) */}
+      <div className="mt-8 glass-panel p-6 rounded-3xl border border-purple-500/30 bg-gradient-to-r from-purple-950/30 via-slate-900/70 to-purple-950/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+        <div>
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/40 text-[11px] font-mono font-bold flex items-center gap-1">
+              <Star className="w-3 h-3 fill-amber-400" />
+              <span>Sponsor / Feature Tool</span>
+            </span>
+            <span className="text-xs font-mono text-slate-400">Reach 10,000+ Software Engineers &amp; AI Agents</span>
+          </div>
+          <h3 className="text-base sm:text-lg font-bold text-white">
+            Want top spotlight for your open-source tool, API, or MCP server?
+          </h3>
+          <p className="text-xs text-slate-400 font-mono mt-1">
+            Get a permanent verified badge, category #1 placement, and visibility in Claude Code / Cursor AI sessions.
+          </p>
+        </div>
+
+        <button
+          onClick={() => setIsSponsorModalOpen(true)}
+          className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-mono font-bold transition-all shrink-0 shadow-lg shadow-purple-600/30 flex items-center gap-2"
+        >
+          <span>Feature Your Tool ($39)</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </button>
       </div>
 
       {/* Search & Multi-Facet Filters */}
@@ -363,7 +522,6 @@ export default function DevShelfPage() {
             )}
           </div>
 
-          {/* Quick Category Dropdown for Mobile / Direct selection */}
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
@@ -485,7 +643,6 @@ export default function DevShelfPage() {
       {/* Tools Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.slice(0, visibleCount).map((tool, idx) => {
-          const repoUrl = tool.repo ? (tool.repo.startsWith("http") ? tool.repo : `https://github.com/${tool.repo}`) : null;
           const install = getInstallCommand(tool);
 
           return (
@@ -630,7 +787,7 @@ export default function DevShelfPage() {
       )}
 
       {/* ========================================================================= */}
-      {/* INTERACTIVE TOOL DETAIL MODAL & DEEP EXPLAINER                           */}
+      {/* 1. INTERACTIVE TOOL DETAIL MODAL & DEEP EXPLAINER                         */}
       {/* ========================================================================= */}
       {selectedTool && (
         <div
@@ -641,7 +798,6 @@ export default function DevShelfPage() {
             className="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#090D17] border border-slate-700/80 shadow-2xl p-6 sm:p-8 space-y-6 text-left"
             onClick={(e) => e.stopPropagation()}
           >
-            
             {/* Top Bar: Title & Action Controls */}
             <div className="flex items-start justify-between gap-4 border-b border-slate-800 pb-5">
               <div>
@@ -885,9 +1041,11 @@ export default function DevShelfPage() {
                     <span className="px-2 py-0.5 rounded bg-purple-600/30 text-purple-300 border border-purple-500/50 text-[10px]">
                       PREVIEW
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 text-[11px] font-bold">
-                      DevShelf Verified
-                    </span>
+                    <img
+                      src={`https://ritualdev.in/api/badge/verified.svg`}
+                      alt="DevShelf Verified Badge"
+                      className="h-5"
+                    />
                   </div>
 
                   <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-400">
@@ -989,6 +1147,357 @@ export default function DevShelfPage() {
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 2. SELF-SERVE DODO PAYMENTS SPONSORSHIP CHECKOUT MODAL                   */}
+      {/* ========================================================================= */}
+      {isSponsorModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
+          onClick={() => setIsSponsorModalOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#090D17] border border-purple-500/50 shadow-2xl p-6 sm:p-8 space-y-6 text-left"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between border-b border-slate-800 pb-5">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                    <Star className="w-4 h-4 fill-amber-400" />
+                  </span>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    Feature Your Developer Tool
+                  </h2>
+                </div>
+                <p className="text-xs font-mono text-slate-400">
+                  Instant activation across 565+ web dossiers &amp; npx devshelf-mcp AI sessions.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsSponsorModalOpen(false)}
+                className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Currency Selector */}
+            <div className="flex items-center justify-between text-xs font-mono p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+              <span className="text-slate-400">Select Billing Currency:</span>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setCurrency("USD")}
+                  className={`px-3 py-1 rounded-lg transition-colors ${
+                    currency === "USD" ? "bg-purple-600 text-white font-bold" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  USD ($)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrency("INR")}
+                  className={`px-3 py-1 rounded-lg transition-colors ${
+                    currency === "INR" ? "bg-purple-600 text-white font-bold" : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  INR (₹)
+                </button>
+              </div>
+            </div>
+
+            {/* Packages Selector */}
+            <div className="space-y-3">
+              <label className="text-xs font-mono uppercase tracking-wider text-slate-400 block">
+                Select Sponsorship Package
+              </label>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {SPONSOR_PACKAGES.map((pkg) => {
+                  const isSelected = selectedPackageId === pkg.id;
+                  const price = currency === "INR" ? `₹${pkg.priceInr}` : `$${pkg.priceUsd}`;
+
+                  return (
+                    <div
+                      key={pkg.id}
+                      onClick={() => setSelectedPackageId(pkg.id)}
+                      className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
+                        isSelected
+                          ? "bg-purple-950/40 border-purple-500 shadow-lg shadow-purple-900/30 ring-1 ring-purple-500"
+                          : "bg-slate-900/50 border-slate-800 hover:border-slate-700"
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-1 mb-2">
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800 text-purple-300 border border-slate-700">
+                            {pkg.tag}
+                          </span>
+                          <span className="text-sm font-bold text-white font-mono">{price}</span>
+                        </div>
+                        <h4 className="text-xs font-bold text-white mb-1.5">{pkg.name}</h4>
+                        <p className="text-[11px] text-slate-400 leading-relaxed font-mono">
+                          {pkg.desc}
+                        </p>
+                      </div>
+
+                      <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center gap-1.5 text-[10px] font-mono text-purple-400">
+                        <Check className="w-3 h-3" />
+                        <span>Instant Activation</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Form Inputs */}
+            <form onSubmit={handleSponsorCheckout} className="space-y-4 text-xs font-mono">
+              {sponsorError && (
+                <div className="p-3 rounded-xl bg-red-950/50 border border-red-500/50 text-red-300">
+                  {sponsorError}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-slate-400">Tool / Product Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. MyDevTool"
+                    value={sponsorToolName}
+                    onChange={(e) => setSponsorToolName(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-slate-400">Tool URL / GitHub Repo *</label>
+                  <input
+                    type="url"
+                    required
+                    placeholder="https://github.com/..."
+                    value={sponsorToolUrl}
+                    onChange={(e) => setSponsorToolUrl(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label className="text-slate-400">Your Name (or Company)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Alex Chen"
+                    value={sponsorName}
+                    onChange={(e) => setSponsorName(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-slate-400">Email (for Dodo PDF Invoice)</label>
+                  <input
+                    type="email"
+                    placeholder="alex@example.com"
+                    value={sponsorEmail}
+                    onChange={(e) => setSponsorEmail(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-slate-400">Target Category</label>
+                <select
+                  value={sponsorCategory}
+                  onChange={(e) => setSponsorCategory(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-purple-500"
+                >
+                  <option value="AI Agents & Local LLMs">AI Agents &amp; Local LLMs</option>
+                  <option value="Security & Defense">Security &amp; Defense</option>
+                  <option value="Developer Productivity & CLI">Developer Productivity &amp; CLI</option>
+                  <option value="Database & Cloud">Database &amp; Cloud</option>
+                  <option value="Testing & QA Automations">Testing &amp; QA Automations</option>
+                  <option value="Public Free APIs">Public Free APIs</option>
+                </select>
+              </div>
+
+              <div className="pt-3 border-t border-slate-800 space-y-3">
+                <button
+                  type="submit"
+                  className="w-full py-3 px-4 rounded-xl font-bold font-mono text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 transition shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  <span>
+                    Proceed to Dodo Checkout (
+                    {currency === "INR"
+                      ? `₹${(SPONSOR_PACKAGES.find((p) => p.id === selectedPackageId) || SPONSOR_PACKAGES[0]).priceInr}`
+                      : `$${(SPONSOR_PACKAGES.find((p) => p.id === selectedPackageId) || SPONSOR_PACKAGES[0]).priceUsd}`}
+                    )
+                  </span>
+                </button>
+
+                <div className="flex items-center justify-center gap-4 text-[11px] text-slate-500">
+                  <span>🔒 Secured by Dodo Payments</span>
+                  <span>•</span>
+                  <span>Global Tax &amp; GST Handled</span>
+                  <span>•</span>
+                  <span>Instant PDF Invoice</span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 3. INTERACTIVE GITHUB README BADGE GENERATOR MODAL                         */}
+      {/* ========================================================================= */}
+      {isBadgeModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in"
+          onClick={() => setIsBadgeModalOpen(false)}
+        >
+          <div
+            className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto rounded-3xl bg-[#090D17] border border-slate-700/80 shadow-2xl p-6 sm:p-8 space-y-6 text-left"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between border-b border-slate-800 pb-5">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="p-1.5 rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/30">
+                    <Bookmark className="w-4 h-4" />
+                  </span>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                    DevShelf README Badge Generator
+                  </h2>
+                </div>
+                <p className="text-xs font-mono text-slate-400">
+                  Showcase that your open-source project is verified on DevShelf.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setIsBadgeModalOpen(false)}
+                className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Inputs */}
+            <div className="space-y-4 text-xs font-mono">
+              <div className="space-y-1.5">
+                <label className="text-slate-400">Your Tool or Repository Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. AgentShield or MyTool"
+                  value={badgeToolName}
+                  onChange={(e) => setBadgeToolName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-slate-400">Choose Badge Style</label>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setBadgeStyle("verified")}
+                    className={`p-2.5 rounded-xl border text-center transition-all ${
+                      badgeStyle === "verified"
+                        ? "bg-purple-600/30 text-purple-300 border-purple-500 font-bold"
+                        : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Verified Badge
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setBadgeStyle("devshelf")}
+                    className={`p-2.5 rounded-xl border text-center transition-all ${
+                      badgeStyle === "devshelf"
+                        ? "bg-purple-600/30 text-purple-300 border-purple-500 font-bold"
+                        : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Listed on DevShelf
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setBadgeStyle("zero-paywall")}
+                    className={`p-2.5 rounded-xl border text-center transition-all ${
+                      badgeStyle === "zero-paywall"
+                        ? "bg-purple-600/30 text-purple-300 border-purple-500 font-bold"
+                        : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    Zero Paywall
+                  </button>
+                </div>
+              </div>
+
+              {/* Live Preview */}
+              <div className="p-4 rounded-2xl bg-black/60 border border-slate-800 space-y-2">
+                <span className="text-[10px] uppercase tracking-wider text-slate-500 block">
+                  Live SVG Badge Preview
+                </span>
+                <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-center">
+                  <img
+                    src={badgeImageUrl}
+                    alt={`${badgeToolName} badge preview`}
+                    className="h-6"
+                  />
+                </div>
+              </div>
+
+              {/* Copy Code: Markdown */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span>Markdown (for GitHub README.md)</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(badgeMarkdown, "Markdown badge")}
+                    className="text-purple-400 hover:text-purple-300 flex items-center gap-1 font-bold"
+                  >
+                    <Copy className="w-3 h-3" />
+                    <span>Copy Markdown</span>
+                  </button>
+                </div>
+                <div className="p-3 rounded-xl bg-black/80 border border-slate-800 text-slate-300 break-all">
+                  {badgeMarkdown}
+                </div>
+              </div>
+
+              {/* Copy Code: HTML */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span>HTML (for Website or Docs)</span>
+                  <button
+                    type="button"
+                    onClick={() => copyToClipboard(badgeHtml, "HTML badge")}
+                    className="text-purple-400 hover:text-purple-300 flex items-center gap-1 font-bold"
+                  >
+                    <Copy className="w-3 h-3" />
+                    <span>Copy HTML</span>
+                  </button>
+                </div>
+                <div className="p-3 rounded-xl bg-black/80 border border-slate-800 text-slate-300 break-all">
+                  {badgeHtml}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
