@@ -209,6 +209,81 @@ export default function DevShelfPage() {
 
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "DevShelf - The Crowdsourced Zero-Paywall Developer Directory",
+            description: "Discover 565+ verified open-source developer tools, free APIs, AI agents, and MCP servers.",
+            url: "https://ritualdev.in/devshelf/",
+            mainEntity: {
+              "@type": "ItemList",
+              numberOfItems: allResources.length,
+              itemListElement: allResources.slice(0, 30).map((tool, idx) => ({
+                "@type": "ListItem",
+                position: idx + 1,
+                name: tool.name,
+                url: `https://ritualdev.in/devshelf/${toSlug(tool.name)}/`,
+                description: tool.description,
+              })),
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What is DevShelf?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "DevShelf is an open-source, zero-paywall directory of 565+ verified developer tools, free APIs, AI agents, and MCP servers created and maintained by RitualDev-Lab.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How do I find free open-source alternatives to Postman, Datadog, or Copilot?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "DevShelf curates self-hostable open-source alternatives with zero telemetry and generous free tiers. You can use the 'Open-Source Alternatives' filter or search directly for tools like Postman, Datadog, or Sentry.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Can I self-host DevShelf tools locally or with Docker?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, over 50+ tools in DevShelf include pre-configured Docker Compose recipes and 1-click CLI install commands.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How do I install or use DevShelf from the terminal?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "You can run 'npx devshelf search <query>' or 'npx devshelf explain <tool>' directly from your terminal, or launch the interactive TUI with 'npx devshelf'.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How do I submit an open-source tool to DevShelf?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Maintainers can submit tools via GitHub Pull Request to RitualDev-Lab/DevShelf. Approved tools receive a verified badge and permanent listing.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
       
       {/* Toast Notification */}
       {toastMessage && (
