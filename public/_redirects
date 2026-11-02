@@ -1,0 +1,9 @@
+# Cloudflare Pages Redirects
+# Redirect donation subdomain or custom routes if needed
+https://donation.ritualdev.in/*  https://ritualdev.in/donate/  302!
+http://donation.ritualdev.in/*   https://ritualdev.in/donate/  301!
+
+# API aliases
+/api/tools                       /api/v1/tools.json           302
+/api/categories                  /api/v1/categories.json      302
+/api/stats                       /api/v1/stats.json           302
