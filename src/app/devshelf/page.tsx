@@ -18,6 +18,7 @@ import rawData from "@/data/devshelf.json";
 interface Resource {
   name: string;
   repo?: string;
+  url?: string;
   category?: string;
   description?: string;
   language?: string;
@@ -143,7 +144,9 @@ export default function DevShelfPage() {
       {/* Tools Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.slice(0, visibleCount).map((tool, idx) => {
-          const repoUrl = tool.repo ? `https://github.com/${tool.repo}` : null;
+          const resourceUrl = tool.repo && /^[\w.-]+\/[\w.-]+$/.test(tool.repo)
+            ? `https://github.com/${tool.repo}`
+            : tool.repo || tool.url;
           return (
             <div
               key={`${tool.name}-${idx}`}
@@ -184,16 +187,17 @@ export default function DevShelfPage() {
                   )}
                 </div>
 
-                {repoUrl && (
-                  <Link
-                    href={repoUrl}
+                {resourceUrl && /^https?:\/\//i.test(resourceUrl) && (
+                  <a
+                    href={resourceUrl}
+                    aria-label={`Visit ${tool.name}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
                   >
-                    <span>GitHub</span>
+                    <span>Visit resource</span>
                     <ExternalLink className="w-3 h-3" />
-                  </Link>
+                  </a>
                 )}
               </div>
             </div>
