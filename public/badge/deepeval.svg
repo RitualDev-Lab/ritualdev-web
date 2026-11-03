@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="164" height="24" viewBox="0 0 164 24" role="img" aria-label="DevShelf: DeepEval">
+  <title>DevShelf: DeepEval</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".15"/>
+    <stop offset="100" stop-opacity=".05"/>
+  </linearGradient>
+  <clipPath id="r">
+    <rect width="164" height="24" rx="6" fill="#fff"/>
+  </clipPath>
+  <g clip-path="url(#r)">
+    <!-- Left Background -->
+    <rect width="84" height="24" fill="#0b101e"/>
+    <!-- Right Background -->
+    <rect x="84" width="80" height="24" fill="#061c14"/>
+    <!-- Glass Highlight -->
+    <rect width="164" height="24" fill="url(#s)"/>
+    <!-- Accent Border -->
+    <rect width="164" height="24" fill="none" stroke="#00F59B" stroke-opacity="0.3" stroke-width="1.5" rx="6"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif" text-rendering="geometricPrecision" font-size="11" font-weight="600">
+    <!-- RD Logo Dot -->
+    <circle cx="12" cy="12" r="3.5" fill="#00F59B"/>
+    <text x="48" y="16" fill="#cbd5e1" textLength="60">DevShelf</text>
+    <text x="124" y="16" fill="#00F59B" font-weight="700" textLength="64">DeepEval</text>
+  </g>
+</svg>

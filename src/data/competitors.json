@@ -1,0 +1,310 @@
+[
+  {
+    "slug": "postman",
+    "name": "Postman",
+    "category": "API Development & Testing",
+    "tagline": "The ubiquitous API platform, now restricted by mandatory cloud login, collection limits, and steep SaaS pricing.",
+    "monthlySearches": "45,000+",
+    "painPoints": [
+      "Mandatory cloud account sign-in required even to test local localhost APIs.",
+      "Workspaces and collection runner runs capped on the free tier.",
+      "Security risk of enterprise API keys and authorization tokens syncing to third-party cloud servers.",
+      "Heavy Electron client memory consumption."
+    ],
+    "matrixCriteria": [
+      { "feature": "Open-Source License", "competitor": "Proprietary", "openSource": "MIT / Apache 2.0" },
+      { "feature": "Local / Offline First", "competitor": "Cloud Required", "openSource": "100% Local Git-stored files" },
+      { "feature": "No Forced Cloud Sync", "competitor": "Mandatory Sync", "openSource": "Zero Telemetry / Air-Gapped" },
+      { "feature": "Collection Runner Limit", "competitor": "25 runs / mo free", "openSource": "Unlimited" },
+      { "feature": "Self-Hostable on Docker", "competitor": "Enterprise Only ($$$)", "openSource": "Included Free" },
+      { "feature": "Native CLI / MCP Support", "competitor": "Proprietary Newman", "openSource": "Direct Terminal & MCP" }
+    ],
+    "recommendedSlugs": ["hoppscotch", "bruno", "httpie"]
+  },
+  {
+    "slug": "datadog",
+    "name": "Datadog",
+    "category": "Observability & APM",
+    "tagline": "Industry standard enterprise observability known for unpredictable billing spikes and proprietary agent lock-in.",
+    "monthlySearches": "32,000+",
+    "painPoints": [
+      "Notorious bill shock: custom metrics, indexed logs, and host retention multiply monthly invoices unpredictably.",
+      "Proprietary agent format creates deep vendor lock-in.",
+      "Compliance friction: storing sensitive customer PII logs in third-party SaaS cloud.",
+      "No community-driven self-hosted edition."
+    ],
+    "matrixCriteria": [
+      { "feature": "Open-Source License", "competitor": "Proprietary SaaS", "openSource": "Apache 2.0 / MIT" },
+      { "feature": "Self-Hostable on VPC", "competitor": "No (SaaS Only)", "openSource": "100% On-Prem / Helm / Docker" },
+      { "feature": "OpenTelemetry Native", "competitor": "Proprietary Protocol", "openSource": "Native OTel Collector" },
+      { "feature": "Predictable Cost", "competitor": "Per-Metric Metering Spike", "openSource": "Your Own Compute / Free" },
+      { "feature": "Data Privacy & GDPR", "competitor": "Third-Party Storage", "openSource": "Zero Egress to External Cloud" },
+      { "feature": "Community Plugins", "competitor": "Closed Marketplace", "openSource": "Grafana / ClickHouse Ecosystem" }
+    ],
+    "recommendedSlugs": ["signoz", "glitchtip", "prometheus", "grafana"]
+  },
+  {
+    "slug": "ngrok",
+    "name": "ngrok",
+    "category": "Reverse Proxy & Ingress Tunnels",
+    "tagline": "Popular localhost tunneling utility now bottlenecked by aggressive bandwidth caps, interstitial warning pages, and domain paywalls.",
+    "monthlySearches": "28,000+",
+    "painPoints": [
+      "Interstitial browser warning page shown on all free HTTP tunnels.",
+      "Custom domains and reserved subdomains locked behind monthly paid subscriptions.",
+      "Strict concurrency and bandwidth limits interrupt webhooks and remote debugging.",
+      "Closed-source relay servers."
+    ],
+    "matrixCriteria": [
+      { "feature": "Open-Source License", "competitor": "Proprietary Client & Server", "openSource": "MIT / Rust / Go" },
+      { "feature": "Self-Hostable Relay", "competitor": "ngrok Cloud Only", "openSource": "Deploy on $5 VPS / Cloudflare" },
+      { "feature": "Custom Domains", "competitor": "Paid Tier ($8+/mo)", "openSource": "Unlimited Free Custom Domains" },
+      { "feature": "No Interstitial Page", "competitor": "Mandatory Warning Page", "openSource": "Direct HTTP / TCP Passthrough" },
+      { "feature": "Bandwidth Caps", "competitor": "1GB / month on free", "openSource": "Unmetered (Your Network)" },
+      { "feature": "TCP / UDP Port Forwarding", "competitor": "Strict Restrictions", "openSource": "Full Raw TCP / UDP Tunneling" }
+    ],
+    "recommendedSlugs": ["bore", "traefik", "caddy"]
+  },
+  {
+    "slug": "docker-desktop",
+    "name": "Docker Desktop",
+    "category": "Container Virtualization",
+    "tagline": "The default container suite for developers, now encumbered by mandatory commercial licenses for medium/large businesses.",
+    "monthlySearches": "38,000+",
+    "painPoints": [
+      "Mandatory paid subscription required for organizations with >250 employees or >$10M revenue.",
+      "High CPU and battery drain caused by background hypervisor daemons on macOS and Windows.",
+      "Bundled proprietary extensions and licensing popups.",
+      "Heavyweight background telemetry."
+    ],
+    "matrixCriteria": [
+      { "feature": "Commercial License Cost", "competitor": "$5 - $24 / user / month", "openSource": "100% Free for Enterprise" },
+      { "feature": "Open-Source Core", "competitor": "Proprietary Wrapper", "openSource": "Apache 2.0 (Podman / Containerd)" },
+      { "feature": "Daemonless Architecture", "competitor": "Centralized Daemon", "openSource": "Rootless / Daemonless" },
+      { "feature": "Docker CLI Drop-In", "competitor": "Default", "openSource": "alias docker=podman 100% Compatible" },
+      { "feature": "Kubernetes Pod Support", "competitor": "Add-on Feature", "openSource": "Native pod generate / play kube" },
+      { "feature": "Resource Overhead", "competitor": "High RAM / Battery Drain", "openSource": "Lightweight VM / Low Footprint" }
+    ],
+    "recommendedSlugs": ["podman"]
+  },
+  {
+    "slug": "github-copilot",
+    "name": "GitHub Copilot",
+    "category": "AI Code Assistant & LLMs",
+    "tagline": "AI coding companion sending proprietary codebase tokens to external cloud servers with monthly per-seat licensing.",
+    "monthlySearches": "50,000+",
+    "painPoints": [
+      "Enterprise security risk: sensitive internal code, proprietary algorithms, and tokens transmitted to cloud LLMs.",
+      "Mandatory $10-$39/user/month subscription fee.",
+      "Rate limits and latency spikes during peak developer working hours.",
+      "No offline air-gapped support on laptops or inside isolated VPCs."
+    ],
+    "matrixCriteria": [
+      { "feature": "Data Privacy & Zero-Egress", "competitor": "Cloud Ingestion", "openSource": "100% Local / On-Device (Ollama / vLLM)" },
+      { "feature": "Monthly Fee", "competitor": "$10 - $39 / user / month", "openSource": "$0 / Unlimited Usage" },
+      { "feature": "Air-Gapped & Offline", "competitor": "Impossible (Cloud API)", "openSource": "Runs on Laptop GPU / Air-gapped VPC" },
+      { "feature": "Model Freedom", "competitor": "Locked OpenAI Models", "openSource": "DeepSeek-R1, Llama 3.3, Qwen 2.5" },
+      { "feature": "Kernel Sandboxing", "competitor": "Unchecked FS Execution", "openSource": "Integrated AgentShield Sandbox" },
+      { "feature": "Context Compaction", "competitor": "Standard Truncation", "openSource": "SkillPrism 96.7% Prompt Reduction" }
+    ],
+    "recommendedSlugs": ["ollama", "vllm", "localai", "agentshield", "skillprism"]
+  },
+  {
+    "slug": "pinecone",
+    "name": "Pinecone",
+    "category": "Vector Database & Embeddings",
+    "tagline": "Hosted serverless vector database with escalating per-index read/write costs and no local offline execution.",
+    "monthlySearches": "22,000+",
+    "painPoints": [
+      "Cannot be run on a local machine for testing or inside isolated VPC clusters.",
+      "High hourly pod and read/write unit costs for large embedding sets.",
+      "Vendor lock-in with proprietary query and filtering APIs.",
+      "Compliance roadblocks for medical (HIPAA) or financial workloads."
+    ],
+    "matrixCriteria": [
+      { "feature": "Self-Hostable", "competitor": "Cloud Only (No Self-Host)", "openSource": "Single Docker Command / Kubernetes" },
+      { "feature": "Open-Source License", "competitor": "Closed Source", "openSource": "Apache 2.0 / MIT" },
+      { "feature": "Hybrid Dense + Sparse Search", "competitor": "Add-on Tier", "openSource": "Native BM25 + Vector Support" },
+      { "feature": "Local Offline Testing", "competitor": "Requires Cloud API Key", "openSource": "Runs locally in memory / disk" },
+      { "feature": "Zero Data Egress", "competitor": "Third-Party Storage", "openSource": "Runs completely inside your VPC" },
+      { "feature": "Payload Filtering Speed", "competitor": "Remote RPC Latency", "openSource": "Sub-millisecond Local Rust / Go Engine" }
+    ],
+    "recommendedSlugs": ["qdrant", "chroma", "milvus", "weaviate"]
+  },
+  {
+    "slug": "auth0",
+    "name": "Auth0 / Okta",
+    "category": "Identity & Authentication",
+    "tagline": "Enterprise identity platform with steep MAU cost spikes once applications scale beyond 7,500 active users.",
+    "monthlySearches": "25,000+",
+    "painPoints": [
+      "Staggering price cliffs: $35/mo jumps to $240/mo and thousands for custom domains and MFA.",
+      "SAML / Enterprise SSO locked behind $10,000+/year enterprise contracts.",
+      "User credentials stored in external US/EU cloud, complicating residency rules.",
+      "Service outages disable customer login flow globally."
+    ],
+    "matrixCriteria": [
+      { "feature": "Active User (MAU) Pricing", "competitor": "Aggressive Tiers ($$$)", "openSource": "Unlimited Users Free" },
+      { "feature": "Self-Hostable", "competitor": "SaaS Only", "openSource": "100% Self-Hosted on Docker / K8s" },
+      { "feature": "Enterprise SSO / SAML", "competitor": "$10,000+ Enterprise Tier", "openSource": "Included in Community Edition" },
+      { "feature": "Session Security & DB Proxy", "competitor": "Standard Tokens", "openSource": "DBShield Virtual RBAC Integration" },
+      { "feature": "Data Sovereignty", "competitor": "Multi-Tenant Cloud", "openSource": "Your Database, Your Encryption Keys" },
+      { "feature": "Open-Source Core", "competitor": "Proprietary", "openSource": "Apache 2.0 / LGPL / MIT" }
+    ],
+    "recommendedSlugs": ["keycloak", "supertokens", "authentik"]
+  },
+  {
+    "slug": "firebase",
+    "name": "Firebase",
+    "category": "Backend-as-a-Service (BaaS)",
+    "tagline": "Google's developer backend platform with proprietary NoSQL document locks and sudden bandwidth bill explosions.",
+    "monthlySearches": "35,000+",
+    "painPoints": [
+      "Proprietary Firestore query syntax locks applications into Google Cloud forever.",
+      "Accidental infinite loops or rogue crawler requests cause sudden $10,000+ Google Cloud invoices.",
+      "No true relational SQL queries (joins, foreign keys, window functions).",
+      "Local emulator suite is bulky and differs from live production behavior."
+    ],
+    "matrixCriteria": [
+      { "feature": "Database Engine", "competitor": "Proprietary NoSQL Firestore", "openSource": "True PostgreSQL (Supabase) / SQLite" },
+      { "feature": "Self-Hostable", "competitor": "Google Cloud Only", "openSource": "100% Self-Hostable on any VPS / Docker" },
+      { "feature": "Relational Joins & SQL", "competitor": "No (Requires Denormalization)", "openSource": "Full Postgres ACID SQL & Extensions" },
+      { "feature": "Realtime WebSockets", "competitor": "Proprietary Listeners", "openSource": "Native PostgreSQL WAL Realtime" },
+      { "feature": "Bill Shock Protection", "competitor": "Per-Read/Write Unlimited Metering", "openSource": "Fixed Predictable Hosting Cost" },
+      { "feature": "Vendor Lock-In", "competitor": "Extremely High", "openSource": "Zero (Standard SQL & REST / GraphQL)" }
+    ],
+    "recommendedSlugs": ["supabase", "appwrite", "pocketbase"]
+  },
+  {
+    "slug": "heroku",
+    "name": "Heroku",
+    "category": "PaaS Application Hosting",
+    "tagline": "The original git-push PaaS that canceled its free tier and charges high fees for basic container dynos.",
+    "monthlySearches": "29,000+",
+    "painPoints": [
+      "Free tier completely removed; idle demo dynos cost minimum $7-$14/month each.",
+      "Postgres add-on pricing escalates sharply for modest storage.",
+      "Dyno sleep times and cold starts harm side projects and proof-of-concepts.",
+      "Closed dashboard and proprietary buildpack ecosystem."
+    ],
+    "matrixCriteria": [
+      { "feature": "Hosting Cost", "competitor": "$7 - $500+ / mo per dyno", "openSource": "Your Own $5 VPS / Bare Metal" },
+      { "feature": "Self-Hostable PaaS Dashboard", "competitor": "Heroku Cloud Only", "openSource": "Coolify / Dokku Self-Hosted UI" },
+      { "feature": "Unlimited Applications", "competitor": "Metered per Dyno", "openSource": "Unlimited Apps on 1 Server" },
+      { "feature": "Free SSL & Automatic Traefik", "competitor": "Automated on Paid", "openSource": "Built-in Automatic Let's Encrypt" },
+      { "feature": "Docker Compose Native", "competitor": "Procfile / Custom Buildpacks", "openSource": "Native docker-compose.yml Deploy" },
+      { "feature": "Server Ownership", "competitor": "Salesforce / AWS Locked", "openSource": "Hetzner, OVH, DigitalOcean, Home Lab" }
+    ],
+    "recommendedSlugs": ["coolify", "minio"]
+  },
+  {
+    "slug": "google-analytics",
+    "name": "Google Analytics (GA4)",
+    "category": "Web Analytics & Privacy",
+    "tagline": "Complex, ad-network-linked analytics platform triggering EU GDPR cookie banner requirements and heavy script bloat.",
+    "monthlySearches": "40,000+",
+    "painPoints": [
+      "Requires annoying EU GDPR cookie consent banners on your website.",
+      "Heavy JavaScript tag (gtag.js) slows down PageSpeed scores and Core Web Vitals.",
+      "GA4 user interface is notoriously complex and frustrating for simple traffic tracking.",
+      "User IP addresses and browsing habits shared with Google ad-targeting networks."
+    ],
+    "matrixCriteria": [
+      { "feature": "Cookie Banner Required", "competitor": "Yes (Mandatory GDPR Banner)", "openSource": "No Cookie Banner Needed (Cookieless)" },
+      { "feature": "Script Weight", "competitor": "~45 KB - 80 KB", "openSource": "< 2 KB Ultra-lightweight" },
+      { "feature": "Data Ownership", "competitor": "Google Ad Infrastructure", "openSource": "100% Yours (Self-Hosted Postgres/ClickHouse)" },
+      { "feature": "Ad-Blocker Resistance", "competitor": "Blocked by 30-50% of dev traffic", "openSource": "First-Party Domain Proxying" },
+      { "feature": "Simple Intuitive Dashboard", "competitor": "Complex GA4 Reporting", "openSource": "Single-page Real-time Clean UI" },
+      { "feature": "Open-Source License", "competitor": "Proprietary", "openSource": "MIT / AGPL" }
+    ],
+    "recommendedSlugs": ["umami", "plausible", "posthog", "matomo"]
+  },
+  {
+    "slug": "algolia",
+    "name": "Algolia",
+    "category": "Search-as-a-Service",
+    "tagline": "Fast hosted search with brutal overage fees for high-frequency autocomplete search queries.",
+    "monthlySearches": "18,000+",
+    "painPoints": [
+      "High per-search-request pricing penalizes search-as-you-type instant queries.",
+      "Index record size limits force compromises on document indexing.",
+      "Search records stored on third-party multi-tenant search clusters.",
+      "Closed-source proprietary ranking algorithm."
+    ],
+    "matrixCriteria": [
+      { "feature": "Query Cost", "competitor": "$0.50 per 1,000 queries", "openSource": "Unlimited Free Queries (Your CPU)" },
+      { "feature": "Self-Hostable", "competitor": "Cloud Only", "openSource": "1-line Docker Run / Single Binary" },
+      { "feature": "Typo Tolerance & Ranking", "competitor": "Proprietary Engine", "openSource": "Native Typo-Tolerance & Filter Synonyms" },
+      { "feature": "Vector / Hybrid Search", "competitor": "Expensive Neural Tier", "openSource": "Built-in Semantic & Hybrid Vector Search" },
+      { "feature": "Search Speed", "competitor": "Network Latency to SaaS", "openSource": "< 10ms In-Memory Local Rust Engine" },
+      { "feature": "Open-Source License", "competitor": "Proprietary", "openSource": "MIT / Apache 2.0" }
+    ],
+    "recommendedSlugs": ["meilisearch", "typesense"]
+  },
+  {
+    "slug": "notion",
+    "name": "Notion",
+    "category": "Workspace & Knowledge Base",
+    "tagline": "The popular workspace app, slowed down by heavy web views, lack of offline reliability, and unencrypted cloud storage.",
+    "monthlySearches": "34,000+",
+    "painPoints": [
+      "Poor offline mode: notes and docs cannot be reliably accessed without an active internet connection.",
+      "No client-side end-to-end encryption; your private company documentation is readable by Notion employees.",
+      "Sluggish loading times for large databases and extensive nested workspaces.",
+      "Proprietary export formats make complete workspace migration painful."
+    ],
+    "matrixCriteria": [
+      { "feature": "100% Offline Capability", "competitor": "Unreliable / Clunky", "openSource": "Native Local-First Offline Engine" },
+      { "feature": "End-to-End Encryption", "competitor": "No (Server-side Decrypted)", "openSource": "Client-Side Zero-Knowledge Encryption" },
+      { "feature": "Data Storage", "competitor": "Notion Cloud Servers", "openSource": "Local Markdown / Git / SQLite Files" },
+      { "feature": "Self-Hostable Team Server", "competitor": "No (SaaS Only)", "openSource": "Deploy via Docker / Kubernetes" },
+      { "feature": "Native Performance", "competitor": "Heavy Electron / Web Wrapper", "openSource": "Native Rust / Flutter / C++ UI" },
+      { "feature": "Open-Source License", "competitor": "Proprietary", "openSource": "AGPL / MIT" }
+    ],
+    "recommendedSlugs": ["appflowy"]
+  },
+  {
+    "slug": "airtable",
+    "name": "Airtable",
+    "category": "Relational Spreadsheet & No-Code",
+    "tagline": "The no-code relational database that caps records at 1,000 to 50,000 rows and charges $20-$45/user/month.",
+    "monthlySearches": "24,000+",
+    "painPoints": [
+      "Brutal row limits (free tier is capped at 1,000 records per base), locking out growing databases.",
+      "Per-seat pricing ($20-$45/month) makes company-wide read/write collaboration prohibitively expensive.",
+      "API rate limits throttle automated data pipelines and background synchronization.",
+      "Data locked in proprietary cloud format; not accessible via standard SQL."
+    ],
+    "matrixCriteria": [
+      { "feature": "Row / Record Limits", "competitor": "1,000 - 50,000 per base", "openSource": "Millions of Rows (PostgreSQL / SQLite Scale)" },
+      { "feature": "Per-Seat Pricing", "competitor": "$20 - $45 / user / month", "openSource": "$0 / Unlimited Users" },
+      { "feature": "Direct SQL Access", "competitor": "No (Proprietary REST API Only)", "openSource": "Connect any BI tool or SQL Client" },
+      { "feature": "Self-Hostable", "competitor": "SaaS Only", "openSource": "Single Docker Container / Kubernetes" },
+      { "feature": "Rich Views (Kanban/Gallery)", "competitor": "Standard", "openSource": "Grid, Kanban, Gallery, Form, Calendar" },
+      { "feature": "Open-Source License", "competitor": "Proprietary", "openSource": "MIT / AGPL" }
+    ],
+    "recommendedSlugs": ["baserow", "nocodb"]
+  },
+  {
+    "slug": "zapier",
+    "name": "Zapier",
+    "category": "Workflow & Integration Automation",
+    "tagline": "The original no-code integration tool with punishing task-execution limits and steep monthly price tiers.",
+    "monthlySearches": "26,000+",
+    "painPoints": [
+      "Task-based pricing means high-frequency webhooks burn through monthly task limits in hours.",
+      "Multi-step Zaps and conditional logic locked behind expensive paid tiers.",
+      "Customer data and API authorization tokens pass unencrypted through Zapier infrastructure.",
+      "Debugging failed execution logs is tedious and opaque."
+    ],
+    "matrixCriteria": [
+      { "feature": "Task Execution Cost", "competitor": "$20 for 750 tasks; $300+ for 50k", "openSource": "Unlimited Free Executions" },
+      { "feature": "Self-Hostable", "competitor": "SaaS Only", "openSource": "100% Self-Hostable on your own servers" },
+      { "feature": "Complex Branching & Loops", "competitor": "Restricted / Paid Tier", "openSource": "Native JavaScript / Python in any node" },
+      { "feature": "Data Privacy", "competitor": "Third-Party SaaS Relay", "openSource": "Zero External Data Transfer" },
+      { "feature": "Pre-built Integrations", "competitor": "5,000+ Apps", "openSource": "400+ Nodes + Custom HTTP / Community Nodes" },
+      { "feature": "Open-Source / Fair-Code", "competitor": "Proprietary", "openSource": "Fair-Code / MIT" }
+    ],
+    "recommendedSlugs": ["n8n"]
+  }
+]

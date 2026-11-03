@@ -154,6 +154,8 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <link rel="alternate" type="text/plain" href="https://ritualdev.in/llms.txt" title="LLM Documentation" />
+        <link rel="alternate" type="application/rss+xml" href="https://ritualdev.in/feed.xml" title="DevShelf RSS Feed" />
+        <link rel="alternate" type="application/atom+xml" href="https://ritualdev.in/atom.xml" title="DevShelf Atom Feed" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

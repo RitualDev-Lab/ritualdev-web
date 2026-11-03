@@ -82,6 +82,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/alternatives" className="hover:text-purple-400 transition-colors flex items-center gap-1.5">
+                  <span>Open-Source Alternatives</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-purple-950/60 text-purple-300 border border-purple-800/40 rounded">Matrix</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/feed.xml" className="hover:text-amber-400 transition-colors flex items-center gap-1.5" target="_blank">
+                  <span>DevShelf RSS Feed</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-amber-950/60 text-amber-300 border border-amber-800/40 rounded">XML</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/pricing" className="hover:text-brand-cyan transition-colors">
                   Pricing &amp; Dodo Payments
                 </Link>

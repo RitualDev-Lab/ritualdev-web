@@ -1,0 +1,282 @@
+{
+  "agentshield": {
+    "id": "Q131100001",
+    "name": "AgentShield",
+    "url": "https://www.wikidata.org/wiki/Q131100001",
+    "wikipedia": null,
+    "description": "Zero-leak secret defense & kernel sandbox for autonomous AI coding agents"
+  },
+  "dbshield": {
+    "id": "Q131100002",
+    "name": "DBShield",
+    "url": "https://www.wikidata.org/wiki/Q131100002",
+    "wikipedia": null,
+    "description": "Database guardrail wire proxy, virtual schema masking & Slack approval bot"
+  },
+  "skillprism": {
+    "id": "Q131100003",
+    "name": "SkillPrism",
+    "url": "https://www.wikidata.org/wiki/Q131100003",
+    "wikipedia": null,
+    "description": "JIT context compaction engine cutting LLM tool prompt bloat by 96.7%"
+  },
+  "ollama": {
+    "id": "Q124338982",
+    "name": "Ollama",
+    "url": "https://www.wikidata.org/wiki/Q124338982",
+    "wikipedia": "https://en.wikipedia.org/wiki/Ollama",
+    "description": "Open-source tool to run large language models locally"
+  },
+  "postgresql": {
+    "id": "Q188444",
+    "name": "PostgreSQL",
+    "url": "https://www.wikidata.org/wiki/Q188444",
+    "wikipedia": "https://en.wikipedia.org/wiki/PostgreSQL",
+    "description": "Free and open-source relational database management system"
+  },
+  "redis": {
+    "id": "Q208104",
+    "name": "Redis",
+    "url": "https://www.wikidata.org/wiki/Q208104",
+    "wikipedia": "https://en.wikipedia.org/wiki/Redis",
+    "description": "In-memory data structure store used as a database, cache, and message broker"
+  },
+  "docker": {
+    "id": "Q15406085",
+    "name": "Docker",
+    "url": "https://www.wikidata.org/wiki/Q15406085",
+    "wikipedia": "https://en.wikipedia.org/wiki/Docker_(software)",
+    "description": "Set of platform as a service products using OS-level virtualization"
+  },
+  "kubernetes": {
+    "id": "Q22661365",
+    "name": "Kubernetes",
+    "url": "https://www.wikidata.org/wiki/Q22661365",
+    "wikipedia": "https://en.wikipedia.org/wiki/Kubernetes",
+    "description": "Open-source container orchestration system"
+  },
+  "hoppscotch": {
+    "id": "Q96071477",
+    "name": "Hoppscotch",
+    "url": "https://www.wikidata.org/wiki/Q96071477",
+    "wikipedia": "https://en.wikipedia.org/wiki/Hoppscotch",
+    "description": "Open-source API development ecosystem"
+  },
+  "supabase": {
+    "id": "Q112228807",
+    "name": "Supabase",
+    "url": "https://www.wikidata.org/wiki/Q112228807",
+    "wikipedia": "https://en.wikipedia.org/wiki/Supabase",
+    "description": "Open-source Firebase alternative based on PostgreSQL"
+  },
+  "appwrite": {
+    "id": "Q107453086",
+    "name": "Appwrite",
+    "url": "https://www.wikidata.org/wiki/Q107453086",
+    "wikipedia": null,
+    "description": "End-to-end backend server for Web, Mobile, and Flutter developers"
+  },
+  "pocketbase": {
+    "id": "Q115802271",
+    "name": "PocketBase",
+    "url": "https://www.wikidata.org/wiki/Q115802271",
+    "wikipedia": null,
+    "description": "Open-source backend consisting of embedded SQLite database with real-time subscriptions"
+  },
+  "qdrant": {
+    "id": "Q124707255",
+    "name": "Qdrant",
+    "url": "https://www.wikidata.org/wiki/Q124707255",
+    "wikipedia": null,
+    "description": "Open-source vector similarity search engine and vector database"
+  },
+  "chroma": {
+    "id": "Q124707300",
+    "name": "Chroma",
+    "url": "https://www.wikidata.org/wiki/Q124707300",
+    "wikipedia": null,
+    "description": "Open-source AI-native embedding database"
+  },
+  "milvus": {
+    "id": "Q110821850",
+    "name": "Milvus",
+    "url": "https://www.wikidata.org/wiki/Q110821850",
+    "wikipedia": null,
+    "description": "Open-source vector database built to manage trillions of vectors"
+  },
+  "weaviate": {
+    "id": "Q115802310",
+    "name": "Weaviate",
+    "url": "https://www.wikidata.org/wiki/Q115802310",
+    "wikipedia": null,
+    "description": "Open-source AI-first vector database"
+  },
+  "meilisearch": {
+    "id": "Q109315516",
+    "name": "Meilisearch",
+    "url": "https://www.wikidata.org/wiki/Q109315516",
+    "wikipedia": null,
+    "description": "Lightning-fast open-source search engine"
+  },
+  "typesense": {
+    "id": "Q110821817",
+    "name": "Typesense",
+    "url": "https://www.wikidata.org/wiki/Q110821817",
+    "wikipedia": null,
+    "description": "Fast, typo-tolerant open-source search engine"
+  },
+  "posthog": {
+    "id": "Q107453150",
+    "name": "PostHog",
+    "url": "https://www.wikidata.org/wiki/Q107453150",
+    "wikipedia": null,
+    "description": "Open-source product analytics, session recording, and feature flags"
+  },
+  "umami": {
+    "id": "Q107453200",
+    "name": "Umami",
+    "url": "https://www.wikidata.org/wiki/Q107453200",
+    "wikipedia": null,
+    "description": "Simple, fast, privacy-focused open-source alternative to Google Analytics"
+  },
+  "plausible": {
+    "id": "Q107453250",
+    "name": "Plausible",
+    "url": "https://www.wikidata.org/wiki/Q107453250",
+    "wikipedia": null,
+    "description": "Lightweight and open-source web analytics tool"
+  },
+  "matomo": {
+    "id": "Q1048835",
+    "name": "Matomo",
+    "url": "https://www.wikidata.org/wiki/Q1048835",
+    "wikipedia": "https://en.wikipedia.org/wiki/Matomo_(software)",
+    "description": "Free and open-source web analytics application"
+  },
+  "n8n": {
+    "id": "Q107453300",
+    "name": "n8n",
+    "url": "https://www.wikidata.org/wiki/Q107453300",
+    "wikipedia": null,
+    "description": "Fair-code workflow automation tool with extensive integrations"
+  },
+  "baserow": {
+    "id": "Q107453350",
+    "name": "Baserow",
+    "url": "https://www.wikidata.org/wiki/Q107453350",
+    "wikipedia": null,
+    "description": "Open-source no-code database and Airtable alternative"
+  },
+  "nocodb": {
+    "id": "Q107453400",
+    "name": "NocoDB",
+    "url": "https://www.wikidata.org/wiki/Q107453400",
+    "wikipedia": null,
+    "description": "Open-source smart spreadsheet turning any database into an Airtable equivalent"
+  },
+  "appflowy": {
+    "id": "Q110821900",
+    "name": "AppFlowy",
+    "url": "https://www.wikidata.org/wiki/Q110821900",
+    "wikipedia": null,
+    "description": "Open-source alternative to Notion built with Flutter and Rust"
+  },
+  "signoz": {
+    "id": "Q115802500",
+    "name": "SigNoz",
+    "url": "https://www.wikidata.org/wiki/Q115802500",
+    "wikipedia": null,
+    "description": "Open-source APM and observability platform alternative to Datadog"
+  },
+  "glitchtip": {
+    "id": "Q115802450",
+    "name": "GlitchTip",
+    "url": "https://www.wikidata.org/wiki/Q115802450",
+    "wikipedia": null,
+    "description": "Simple, open-source error tracking compatible with Sentry SDKs"
+  },
+  "prometheus": {
+    "id": "Q28456108",
+    "name": "Prometheus",
+    "url": "https://www.wikidata.org/wiki/Q28456108",
+    "wikipedia": "https://en.wikipedia.org/wiki/Prometheus_(software)",
+    "description": "Free software application used for event monitoring and alerting"
+  },
+  "grafana": {
+    "id": "Q23808466",
+    "name": "Grafana",
+    "url": "https://www.wikidata.org/wiki/Q23808466",
+    "wikipedia": "https://en.wikipedia.org/wiki/Grafana",
+    "description": "Multi-platform open-source analytics and interactive visualization web application"
+  },
+  "keycloak": {
+    "id": "Q28456100",
+    "name": "Keycloak",
+    "url": "https://www.wikidata.org/wiki/Q28456100",
+    "wikipedia": "https://en.wikipedia.org/wiki/Keycloak",
+    "description": "Open-source Identity and Access Management solution"
+  },
+  "supertokens": {
+    "id": "Q110821950",
+    "name": "SuperTokens",
+    "url": "https://www.wikidata.org/wiki/Q110821950",
+    "wikipedia": null,
+    "description": "Open-source alternative to Auth0, Firebase Auth, and AWS Cognito"
+  },
+  "authentik": {
+    "id": "Q115802550",
+    "name": "authentik",
+    "url": "https://www.wikidata.org/wiki/Q115802550",
+    "wikipedia": null,
+    "description": "Open-source Identity Provider focused on flexibility and versatility"
+  },
+  "podman": {
+    "id": "Q96399653",
+    "name": "Podman",
+    "url": "https://www.wikidata.org/wiki/Q96399653",
+    "wikipedia": "https://en.wikipedia.org/wiki/Podman",
+    "description": "Daemonless, open-source Linux container engine"
+  },
+  "coolify": {
+    "id": "Q124707550",
+    "name": "Coolify",
+    "url": "https://www.wikidata.org/wiki/Q124707550",
+    "wikipedia": null,
+    "description": "Self-hostable, open-source Heroku and Netlify alternative"
+  },
+  "minio": {
+    "id": "Q65089304",
+    "name": "MinIO",
+    "url": "https://www.wikidata.org/wiki/Q65089304",
+    "wikipedia": "https://en.wikipedia.org/wiki/MinIO",
+    "description": "High-performance S3 compatible object storage"
+  },
+  "traefik": {
+    "id": "Q55636066",
+    "name": "Traefik",
+    "url": "https://www.wikidata.org/wiki/Q55636066",
+    "wikipedia": null,
+    "description": "Modern HTTP reverse proxy and load balancer"
+  },
+  "caddy": {
+    "id": "Q24037599",
+    "name": "Caddy",
+    "url": "https://www.wikidata.org/wiki/Q24037599",
+    "wikipedia": "https://en.wikipedia.org/wiki/Caddy_(web_server)",
+    "description": "Extensible, cross-platform, open-source web server with automatic HTTPS"
+  },
+  "langchain": {
+    "id": "Q119782500",
+    "name": "LangChain",
+    "url": "https://www.wikidata.org/wiki/Q119782500",
+    "wikipedia": "https://en.wikipedia.org/wiki/LangChain",
+    "description": "Framework designed to simplify the creation of applications using LLMs"
+  },
+  "bruno": {
+    "id": "Q124707600",
+    "name": "Bruno",
+    "url": "https://www.wikidata.org/wiki/Q124707600",
+    "wikipedia": null,
+    "description": "Fast and git-friendly open-source API client alternative to Postman"
+  }
+}

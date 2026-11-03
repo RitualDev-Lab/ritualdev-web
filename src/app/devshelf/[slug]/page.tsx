@@ -13,9 +13,14 @@ import {
   Server,
   BookOpen,
   Boxes,
-  HelpCircle
+  HelpCircle,
+  Globe2,
+  ArrowRight
 } from "lucide-react";
 import rawData from "@/data/devshelf.json";
+import wikidataData from "@/data/wikidata.json";
+import competitorsData from "@/data/competitors.json";
+import BadgeEmbedWidget from "@/components/BadgeEmbedWidget";
 
 interface Resource {
   name: string;
@@ -141,6 +146,17 @@ export default async function ToolDetailPage({
     .filter((r) => r.category === tool.category && toSlug(r.name) !== slug)
     .slice(0, 3);
 
+  // Wikidata Entity Link
+  const wikiEntry = (wikidataData as Record<string, { id: string; name: string; url: string; wikipedia: string | null; description: string }>)[slug];
+
+  // Matched Competitor Comparison
+  const matchedCompetitor = competitorsData.find((comp) => {
+    if (!tool.alternativeTo) return false;
+    const lowerAlt = tool.alternativeTo.toLowerCase();
+    const compName = comp.name.toLowerCase();
+    return lowerAlt.includes(compName) || comp.slug === toSlug(tool.alternativeTo);
+  });
+
   // Schema.org SoftwareApplication JSON-LD
   const softwareAppSchema = {
     "@context": "https://schema.org",
@@ -157,6 +173,11 @@ export default async function ToolDetailPage({
     license: tool.license || "Open Source",
     url: pageUrl,
     downloadUrl: repoUrl || undefined,
+    sameAs: [
+      wikiEntry?.url,
+      wikiEntry?.wikipedia,
+      repoUrl
+    ].filter(Boolean),
   };
 
   // Schema.org BreadcrumbList JSON-LD
@@ -298,6 +319,20 @@ export default async function ToolDetailPage({
                 <span className="px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/40 text-xs font-mono">
                   {tool.category || "Developer Tool"}
                 </span>
+
+                {wikiEntry && (
+                  <Link
+                    href={wikiEntry.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/40 text-xs font-mono flex items-center gap-1 hover:bg-blue-500/20 transition-colors"
+                    title={`Grounding verified with Wikidata Entity ID: ${wikiEntry.id}`}
+                  >
+                    <Globe2 className="w-3 h-3 text-blue-400" />
+                    <span>Wikidata: {wikiEntry.id}</span>
+                    <ExternalLink className="w-2.5 h-2.5 text-blue-400/80" />
+                  </Link>
+                )}
               </div>
 
               <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400">
@@ -348,19 +383,36 @@ export default async function ToolDetailPage({
 
           {/* Alternative To Callout Banner */}
           {tool.alternativeTo && (
-            <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-start sm:items-center gap-3 mb-6">
-              <Sparkles className="w-5 h-5 text-purple-400 shrink-0 mt-0.5 sm:mt-0" />
-              <div className="text-xs font-mono">
-                <span className="text-purple-400 font-bold uppercase tracking-wider block sm:inline mr-2">
-                  Open-Source Alternative:
-                </span>
-                <span className="text-white font-bold">
-                  Replaces {tool.alternativeTo}
-                </span>
-                <span className="text-slate-400 block sm:inline sm:ml-2">
-                  (Self-hostable, zero vendor lock-in, zero telemetry)
-                </span>
+            <div className="p-4 rounded-2xl bg-purple-500/10 border border-purple-500/30 mb-6 space-y-2">
+              <div className="flex items-start sm:items-center gap-3">
+                <Sparkles className="w-5 h-5 text-purple-400 shrink-0 mt-0.5 sm:mt-0" />
+                <div className="text-xs font-mono">
+                  <span className="text-purple-400 font-bold uppercase tracking-wider block sm:inline mr-2">
+                    Open-Source Alternative:
+                  </span>
+                  <span className="text-white font-bold">
+                    Replaces {tool.alternativeTo}
+                  </span>
+                  <span className="text-slate-400 block sm:inline sm:ml-2">
+                    (Self-hostable, zero vendor lock-in, zero telemetry)
+                  </span>
+                </div>
               </div>
+
+              {matchedCompetitor && (
+                <div className="pt-2 border-t border-purple-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2 pl-8">
+                  <span className="text-[11px] font-mono text-purple-200">
+                    Compare full feature matrix &amp; trade-offs with {matchedCompetitor.name}
+                  </span>
+                  <Link
+                    href={`/alternatives/${matchedCompetitor.slug}/`}
+                    className="text-purple-300 hover:text-white font-mono text-[11px] font-bold flex items-center gap-1 transition-colors"
+                  >
+                    <span>View {matchedCompetitor.name} Comparison Matrix</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              )}
             </div>
           )}
 
@@ -416,6 +468,9 @@ export default async function ToolDetailPage({
             </div>
           )}
         </section>
+
+        {/* Embeddable README Badge Generator */}
+        <BadgeEmbedWidget slug={slug} toolName={tool.name} />
 
         {/* Docker Compose Section (if present) */}
         {tool.dockerCompose && (

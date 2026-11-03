@@ -1,8 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
+// Execute Feed and Badge generators
+try {
+  require('./generate-badges.js');
+  require('./generate-feed.js');
+} catch (err) {
+  console.warn('Notice: helper generator error:', err.message);
+}
+
 const rawData = JSON.parse(
   fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'devshelf.json'), 'utf8')
+);
+
+const competitors = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'competitors.json'), 'utf8')
 );
 
 function toSlug(name) {
@@ -15,6 +27,7 @@ function toSlug(name) {
 const staticRoutes = [
   { path: '', prio: '1.0', change: 'daily' },
   { path: 'devshelf', prio: '0.95', change: 'daily' },
+  { path: 'alternatives', prio: '0.95', change: 'daily' },
   { path: 'agentshield', prio: '0.9', change: 'weekly' },
   { path: 'dbshield', prio: '0.9', change: 'weekly' },
   { path: 'skillprism', prio: '0.9', change: 'weekly' },
@@ -48,6 +61,11 @@ staticRoutes.forEach(r => {
   xml += `<url>\n  <loc>${url}</loc>\n  <lastmod>${now}</lastmod>\n  <changefreq>${r.change}</changefreq>\n  <priority>${r.prio}</priority>\n</url>\n`;
 });
 
+// Programmatic /alternatives/[competitor] comparison hubs
+competitors.forEach(c => {
+  xml += `<url>\n  <loc>https://ritualdev.in/alternatives/${c.slug}/</loc>\n  <lastmod>${now}</lastmod>\n  <changefreq>weekly</changefreq>\n  <priority>0.9</priority>\n</url>\n`;
+});
+
 // All 565 tool detail pages
 const resources = rawData.resources || [];
 resources.forEach(tool => {
@@ -66,4 +84,4 @@ if (fs.existsSync(path.join(__dirname, '..', 'out'))) {
   fs.writeFileSync(outDest, xml, 'utf8');
 }
 
-console.log(`sitemap.xml generated with ${staticRoutes.length + resources.length} total URLs (${staticRoutes.length} core pages + ${resources.length} verified developer tools).`);
+console.log(`sitemap.xml generated with ${staticRoutes.length + competitors.length + resources.length} total URLs (${staticRoutes.length} core pages + ${competitors.length} comparison hubs + ${resources.length} verified developer tools).`);

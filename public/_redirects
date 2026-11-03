@@ -8,3 +8,5 @@ http://donation.ritualdev.in/*      https://donation.ritualdev.in/:splat 301!
 /api/tools                          /api/v1/tools.json            302
 /api/categories                     /api/v1/categories.json       302
 /api/stats                          /api/v1/stats.json            302
+/api/v1/badge                       /badge/verified.svg           302
+/api/v1/badge/*                     /badge/verified.svg           302
