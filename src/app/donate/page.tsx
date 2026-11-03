@@ -17,7 +17,8 @@ import {
   Copy,
   Check,
   Zap,
-  Lock
+  Lock,
+  Cpu
 } from "lucide-react";
 
 // Live Dodo Payments Product ID
@@ -71,48 +72,48 @@ export default function DonatePage() {
 
   const donationTiers = [
     {
-      name: "Coffee Backer",
-      amountUSD: "$5",
-      amountINR: "₹400",
-      type: "One-Time or Monthly",
-      desc: "Fuel late-night kernel driver hacking and open-source documentation maintenance.",
-      icon: Coffee,
-      badge: "Community",
-      amountNumUSD: 5,
-      amountNumINR: 400
-    },
-    {
       name: "Developer Patron",
       amountUSD: "$15",
       amountINR: "₹1,250",
-      type: "Supporter Tier",
-      desc: "Supports ongoing maintenance of our macOS Seatbelt and Windows AppContainer sandboxes.",
+      type: "Monthly or One-Time",
+      desc: "Supports ongoing maintenance of our macOS Seatbelt, Linux Landlock, and Windows AppContainer sandboxes.",
       icon: Heart,
       badge: "Supporter",
       amountNumUSD: 15,
       amountNumINR: 1250
     },
     {
-      name: "Ecosystem Sponsor",
+      name: "Cloud CI & Build Grid",
       amountUSD: "$50",
       amountINR: "₹4,150",
-      type: "Pillar Backer",
-      desc: "Helps sponsor Redis VPC testing infrastructure and multi-arch Docker image builds.",
-      icon: Star,
-      badge: "Partner",
+      type: "Compute Sponsor",
+      desc: "Sponsors GitHub Actions runner hours for multi-arch Linux ARM64/x86_64, macOS, and Windows binary builds.",
+      icon: Cpu,
+      badge: "CI Infrastructure",
       amountNumUSD: 50,
       amountNumINR: 4150
     },
     {
-      name: "Verified DevShelf Partner",
-      amountUSD: "$100+",
-      amountINR: "₹8,300+",
-      type: "Sponsor Package",
-      desc: "For developer tools and API maintainers. Permanent verified badge on DevShelf directory and priority MCP indexing.",
-      icon: Award,
-      badge: "Featured Partner",
+      name: "Air-Gapped Test VPC Grid",
+      amountUSD: "$100",
+      amountINR: "₹8,300",
+      type: "Test Infrastructure",
+      desc: "Subsidizes our isolated Redis VPC and Kubernetes cluster for continuous security regressions and dry-run validation.",
+      icon: Star,
+      badge: "VPC Infrastructure",
       amountNumUSD: 100,
       amountNumINR: 8300
+    },
+    {
+      name: "DevShelf Infrastructure Pillar",
+      amountUSD: "$250+",
+      amountINR: "₹20,000+",
+      type: "Ecosystem Pillar",
+      desc: "Subsidizes edge CDN hosting, OpenAPI endpoints, and unthrottled zero-paywall directory search for 567+ developer tools.",
+      icon: Award,
+      badge: "Pillar Backer",
+      amountNumUSD: 250,
+      amountNumINR: 20000
     }
   ];
 

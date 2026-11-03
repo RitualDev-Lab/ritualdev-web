@@ -88,28 +88,28 @@ const DODO_BASE_URL = `https://checkout.dodopayments.com/buy/${DODO_PRODUCT_ID}`
 
 const SPONSOR_PACKAGES = [
   {
+    id: "featuredSponsor",
+    name: "Featured Tool Sponsor",
+    priceUsd: 99,
+    priceInr: 8300,
+    tag: "Flagship / Pinned #1 Search Spot",
+    desc: "Pinned #1 placement across all 567+ tool search results, gold 'Verified Sponsor' badge, weekly developer newsletter feature, and RSS feed inclusion.",
+  },
+  {
     id: "categoryTakeover",
     name: "Category Spotlight",
-    priceUsd: 39,
-    priceInr: 3299,
-    tag: "Most Popular",
-    desc: "Pinned top #1 placement in your category + glowing verified star badge across 565+ dossiers.",
+    priceUsd: 49,
+    priceInr: 4100,
+    tag: "Category Top",
+    desc: "Pinned top #1 placement in your category + glowing verified star badge across 567+ dossiers.",
   },
   {
     id: "mcpPro",
-    name: "MCP & AI Agent Pro",
-    priceUsd: 49,
-    priceInr: 4199,
+    name: "MCP & AI Agent Recommended",
+    priceUsd: 29,
+    priceInr: 2400,
     tag: "High Intent",
     desc: "Priority recommendation inside npx devshelf-mcp AI sessions (Claude Code, Cursor, Windsurf).",
-  },
-  {
-    id: "starter",
-    name: "Starter Backer",
-    priceUsd: 9,
-    priceInr: 749,
-    tag: "Founding Backer",
-    desc: "Permanent verified backer status on the Wall of Patrons + catalog dossier backlink.",
   },
 ];
 
@@ -135,7 +135,7 @@ export default function DevShelfPage() {
   const [sponsorName, setSponsorName] = useState("");
   const [sponsorEmail, setSponsorEmail] = useState("");
   const [sponsorCategory, setSponsorCategory] = useState("Developer Tools");
-  const [selectedPackageId, setSelectedPackageId] = useState("categoryTakeover");
+  const [selectedPackageId, setSelectedPackageId] = useState("featuredSponsor");
   const [currency, setCurrency] = useState<"USD" | "INR">("USD");
   const [sponsorError, setSponsorError] = useState("");
 
@@ -494,7 +494,7 @@ export default function DevShelfPage() {
           onClick={() => setIsSponsorModalOpen(true)}
           className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-mono font-bold transition-all shrink-0 shadow-lg shadow-purple-600/30 flex items-center gap-2"
         >
-          <span>Feature Your Tool ($39)</span>
+          <span>Feature Your Tool ($99/mo)</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
