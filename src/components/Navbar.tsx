@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   Shield, 
   Database, 
@@ -22,8 +22,30 @@ import {
 export default function Navbar() {
   const [suiteOpen, setSuiteOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const suiteTools = [
+  // Close dropdown on outside click or Escape key
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setSuiteOpen(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSuiteOpen(false);
+        setMobileMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const runtimeTools = [
     {
       name: "AgentShield",
       desc: "Zero-leak secret defense & kernel sandbox",
@@ -43,14 +65,17 @@ export default function Navbar() {
       desc: "JIT context compactor & Redis VPC cache",
       href: "/skillprism",
       icon: Zap,
-      badge: "96.7% Token Cut"
-    },
+      badge: "96.7% Cut"
+    }
+  ];
+
+  const toolchainTools = [
     {
-      name: "DevShelf",
-      desc: "567+ verified developer tools & MCP catalog",
-      href: "/devshelf",
-      icon: Layers,
-      badge: "Directory"
+      name: "Ritual Agent Defense",
+      desc: "Unified extension for Cursor, VS Code, Windsurf",
+      href: "/extension",
+      icon: Cpu,
+      badge: "Open VSX"
     },
     {
       name: "WebSecAuditor",
@@ -67,16 +92,18 @@ export default function Navbar() {
       badge: "Toolkit"
     },
     {
-      name: "Ritual Agent Defense",
-      desc: "Unified extension for Cursor, VS Code, Windsurf",
-      href: "/extension",
-      icon: Cpu,
-      badge: "Open VSX"
+      name: "DevShelf",
+      desc: "567+ verified developer tools & MCP catalog",
+      href: "/devshelf",
+      icon: Layers,
+      badge: "Directory"
     }
   ];
 
+  const allSuiteTools = [...runtimeTools, ...toolchainTools];
+
   return (
-    <header className="sticky top-0 z-50 w-full glass-panel border-b border-slate-800/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full bg-[#080d19]/90 border-b border-slate-800/90 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
@@ -110,51 +137,126 @@ export default function Navbar() {
             
             {/* Products Dropdown */}
             <div 
+              ref={dropdownRef}
               className="relative"
               onMouseEnter={() => setSuiteOpen(true)}
               onMouseLeave={() => setSuiteOpen(false)}
             >
               <button 
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+                type="button"
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  suiteOpen 
+                    ? 'text-white bg-slate-800/90' 
+                    : 'text-slate-200 hover:text-white hover:bg-slate-800/50'
+                }`}
                 onClick={() => setSuiteOpen(!suiteOpen)}
+                aria-expanded={suiteOpen}
+                aria-haspopup="true"
               >
                 <span>AI Defense Suite</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${suiteOpen ? 'rotate-180 text-brand-neon' : 'text-slate-400'}`} />
               </button>
 
               {suiteOpen && (
-                <div className="absolute top-full left-0 w-80 mt-1 py-2 rounded-2xl glass-panel shadow-2xl border border-slate-700/80 bg-slate-950/95 backdrop-blur-2xl">
-                  <div className="px-3 py-1.5 text-[11px] font-mono uppercase tracking-wider text-slate-400 border-b border-slate-800/60 mb-1">
-                    Enterprise Toolchain
-                  </div>
-                  {suiteTools.map((tool) => {
-                    const Icon = tool.icon;
-                    return (
+                <div className="absolute top-full left-0 pt-2 z-[100] w-[620px]">
+                  {/* High-contrast solid background card - zero background bleeding */}
+                  <div className="bg-[#0b101e] rounded-2xl shadow-[0_25px_60px_-10px_rgba(0,0,0,0.98),0_0_20px_rgba(0,245,155,0.08)] border border-slate-700 p-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      
+                      {/* Column 1: Autonomous Runtime Defense */}
+                      <div>
+                        <div className="px-2 pb-2 text-[10px] font-mono uppercase tracking-wider text-brand-neon flex items-center gap-1.5 border-b border-slate-800 mb-2 font-bold">
+                          <Shield className="w-3.5 h-3.5 text-brand-neon" />
+                          <span>Runtime Defense</span>
+                        </div>
+                        <div className="space-y-1">
+                          {runtimeTools.map((tool) => {
+                            const Icon = tool.icon;
+                            return (
+                              <Link
+                                key={tool.name}
+                                href={tool.href}
+                                onClick={() => setSuiteOpen(false)}
+                                className="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-800/80 border border-transparent hover:border-slate-700/80 transition-all group"
+                              >
+                                <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 group-hover:border-brand-neon/60 text-slate-300 group-hover:text-brand-neon transition-colors shrink-0 mt-0.5">
+                                  <Icon className="w-4 h-4" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-xs font-bold text-slate-100 group-hover:text-brand-neon transition-colors">
+                                      {tool.name}
+                                    </span>
+                                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700 shrink-0">
+                                      {tool.badge}
+                                    </span>
+                                  </div>
+                                  <p className="text-[11px] text-slate-400 leading-tight mt-0.5 line-clamp-2">
+                                    {tool.desc}
+                                  </p>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Column 2: Developer Toolchain & Directory */}
+                      <div>
+                        <div className="px-2 pb-2 text-[10px] font-mono uppercase tracking-wider text-brand-cyan flex items-center gap-1.5 border-b border-slate-800 mb-2 font-bold">
+                          <Code2 className="w-3.5 h-3.5 text-brand-cyan" />
+                          <span>Toolchain & Catalog</span>
+                        </div>
+                        <div className="space-y-1">
+                          {toolchainTools.map((tool) => {
+                            const Icon = tool.icon;
+                            return (
+                              <Link
+                                key={tool.name}
+                                href={tool.href}
+                                onClick={() => setSuiteOpen(false)}
+                                className="flex items-start gap-3 p-2 rounded-xl hover:bg-slate-800/80 border border-transparent hover:border-slate-700/80 transition-all group"
+                              >
+                                <div className="p-2 rounded-lg bg-slate-900 border border-slate-800 group-hover:border-brand-cyan/60 text-slate-300 group-hover:text-brand-cyan transition-colors shrink-0 mt-0.5">
+                                  <Icon className="w-4 h-4" />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-xs font-bold text-slate-100 group-hover:text-brand-cyan transition-colors">
+                                      {tool.name}
+                                    </span>
+                                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700 shrink-0">
+                                      {tool.badge}
+                                    </span>
+                                  </div>
+                                  <p className="text-[11px] text-slate-400 leading-tight mt-0.5 line-clamp-2">
+                                    {tool.desc}
+                                  </p>
+                                </div>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Bottom Enterprise Architecture Link */}
+                    <div className="mt-3 pt-3 border-t border-slate-800/90 flex items-center justify-between px-2">
+                      <span className="text-slate-400 font-mono text-[11px]">
+                        Need air-gapped on-prem VPC defense?
+                      </span>
                       <Link
-                        key={tool.name}
-                        href={tool.href}
+                        href="/enterprise"
                         onClick={() => setSuiteOpen(false)}
-                        className="flex items-start gap-3 px-3 py-2.5 mx-1.5 rounded-xl hover:bg-slate-800/60 transition-colors group"
+                        className="text-brand-neon hover:text-white font-mono text-[11px] font-semibold flex items-center gap-1 transition-colors"
                       >
-                        <div className="p-2 rounded-lg bg-slate-900 border border-slate-700 group-hover:border-brand-neon/50 text-slate-300 group-hover:text-brand-neon transition-colors mt-0.5">
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-semibold text-slate-100 group-hover:text-brand-neon transition-colors">
-                              {tool.name}
-                            </span>
-                            <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                              {tool.badge}
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-400 truncate mt-0.5">
-                            {tool.desc}
-                          </p>
-                        </div>
+                        <span>Enterprise Governance</span>
+                        <span aria-hidden="true">&rarr;</span>
                       </Link>
-                    );
-                  })}
+                    </div>
+
+                  </div>
                 </div>
               )}
             </div>
@@ -236,25 +338,35 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown - Solid background without bleeding */}
       {mobileMenuOpen && (
-        <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-2 bg-slate-950/95 backdrop-blur-2xl">
-          <div className="text-xs font-mono text-slate-400 uppercase tracking-wider px-2 pt-1">
-            Defense Suite
+        <div className="md:hidden bg-[#0b101e] border-b border-slate-800 px-4 pt-3 pb-6 space-y-3 shadow-2xl">
+          <div className="text-xs font-mono text-brand-neon uppercase tracking-wider px-2 pt-1 font-bold flex items-center gap-1.5">
+            <Shield className="w-3.5 h-3.5" />
+            <span>AI Defense Suite</span>
           </div>
-          <div className="grid grid-cols-2 gap-1.5">
-            {suiteTools.map((tool) => (
-              <Link
-                key={tool.name}
-                href={tool.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="px-3 py-2 text-xs font-medium text-slate-200 hover:text-brand-neon rounded-lg bg-slate-900/60 border border-slate-800"
-              >
-                {tool.name}
-              </Link>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {allSuiteTools.map((tool) => {
+              const Icon = tool.icon;
+              return (
+                <Link
+                  key={tool.name}
+                  href={tool.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-slate-200 hover:text-white rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-neon/40 transition-colors"
+                >
+                  <Icon className="w-4 h-4 text-brand-neon shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-slate-100">{tool.name}</span>
+                      <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-800 text-slate-400 border border-slate-700">{tool.badge}</span>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
-          <div className="border-t border-slate-800/80 my-2 pt-2 space-y-1">
+          <div className="border-t border-slate-800 my-2 pt-2 space-y-1">
             <Link
               href="/devshelf"
               onClick={() => setMobileMenuOpen(false)}
