@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 export default function McpStarterKitPage() {
-  const checkoutUrl = "https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fmcp-starter-kit%2Fdownload";
+  const checkoutUrl = "https://checkout.dodopayments.com/buy/pdt_0NrFWlIkkreo5fOBIJWxI?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fmcp-starter-kit%2Fdownload";
 
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">

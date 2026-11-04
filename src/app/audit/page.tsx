@@ -75,8 +75,8 @@ export default function AuditPage() {
       // Direct Dodo Payments checkout fallback
       const checkoutUrl =
         packageTier === "pro_399"
-          ? `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=2&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`
-          : `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`;
+          ? `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`
+          : `https://checkout.dodopayments.com/buy/pdt_0NrFWnRHHEI72iaB8AC9r?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`;
 
       window.location.href = checkoutUrl;
     } catch (err: any) {
