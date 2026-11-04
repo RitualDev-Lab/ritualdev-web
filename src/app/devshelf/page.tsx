@@ -58,7 +58,7 @@ function toSlug(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function getInstallCommand(tool: Resource): { cmd: string; type: string } {
+function getInstallCommand(tool: Resource): { cmd: string; type: string } | null {
   const slug = toSlug(tool.name);
   const lang = (tool.language || "").toLowerCase();
 
@@ -79,7 +79,7 @@ function getInstallCommand(tool: Resource): { cmd: string; type: string } {
     const cleanRepo = tool.repo.startsWith("http") ? tool.repo : `https://github.com/${tool.repo}`;
     return { cmd: `git clone ${cleanRepo}.git`, type: "git" };
   }
-  return { cmd: `npm install -g ${slug}`, type: "npm" };
+  return null;
 }
 
 // Live Dodo Payments Checkout Configuration
@@ -121,6 +121,7 @@ export default function DevShelfPage() {
   
   // Modals state
   const [selectedTool, setSelectedTool] = useState<Resource | null>(null);
+  const selectedInstall = selectedTool && getInstallCommand(selectedTool);
   const [activeTab, setActiveTab] = useState<"quick-install" | "docker" | "badge">("quick-install");
   const [isSponsorModalOpen, setIsSponsorModalOpen] = useState(false);
   const [isBadgeModalOpen, setIsBadgeModalOpen] = useState(false);
@@ -726,21 +727,23 @@ export default function DevShelfPage() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      copyToClipboard(install.cmd, `${tool.name} install command`);
-                    }}
-                    className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-brand-cyan border border-slate-800 transition-colors"
-                    title={`Copy install command: ${install.cmd}`}
-                  >
-                    {copiedText === install.cmd ? (
-                      <Check className="w-3.5 h-3.5 text-brand-neon" />
-                    ) : (
-                      <Copy className="w-3.5 h-3.5" />
-                    )}
-                  </button>
+                  {install && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        copyToClipboard(install.cmd, `${tool.name} install command`);
+                      }}
+                      className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-brand-cyan border border-slate-800 transition-colors"
+                      title={`Copy install command: ${install.cmd}`}
+                    >
+                      {copiedText === install.cmd ? (
+                        <Check className="w-3.5 h-3.5 text-brand-neon" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  )}
 
                   <span className="text-purple-400 group-hover:text-purple-300 flex items-center gap-0.5 text-xs font-semibold">
                     <span>Details</span>
@@ -924,7 +927,7 @@ export default function DevShelfPage() {
                   }`}
                 >
                   <Terminal className="w-3.5 h-3.5" />
-                  <span>Quick Install &amp; Run</span>
+                  <span>{selectedInstall ? "Quick Install & Run" : "Getting started"}</span>
                 </button>
 
                 {selectedTool.dockerCompose && (
@@ -959,22 +962,30 @@ export default function DevShelfPage() {
               {/* Quick Install Tab Content */}
               {activeTab === "quick-install" && (
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-black/60 border border-slate-800 font-mono text-xs text-white">
-                    <span className="text-brand-neon mr-2">$</span>
-                    <span className="flex-1 truncate">{getInstallCommand(selectedTool).cmd}</span>
-                    <button
-                      type="button"
-                      onClick={() => copyToClipboard(getInstallCommand(selectedTool).cmd, "install command")}
-                      className="ml-3 p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
-                      title="Copy install command"
-                    >
-                      {copiedText === getInstallCommand(selectedTool).cmd ? (
-                        <Check className="w-4 h-4 text-brand-neon" />
-                      ) : (
-                        <Copy className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
+                  {selectedInstall ? (
+                    <div className="flex items-center justify-between p-3.5 rounded-2xl bg-black/60 border border-slate-800 font-mono text-xs text-white">
+                      <span className="text-brand-neon mr-2">$</span>
+                      <span className="flex-1 truncate">{selectedInstall.cmd}</span>
+                      <button
+                        type="button"
+                        onClick={() => copyToClipboard(selectedInstall.cmd, "install command")}
+                        className="ml-3 p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                        title="Copy install command"
+                      >
+                        {copiedText === selectedInstall.cmd ? (
+                          <Check className="w-4 h-4 text-brand-neon" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
+                      </button>
+                    </div>
+                  ) : selectedTool.url ? (
+                    <a href={selectedTool.url} target="_blank" rel="noopener noreferrer" className="text-brand-cyan underline">
+                      Visit the official site for setup instructions
+                    </a>
+                  ) : (
+                    <p>No installation instructions are listed.</p>
+                  )}
                   {selectedTool.repo && (
                     <div className="flex items-center justify-between p-3.5 rounded-2xl bg-black/60 border border-slate-800 font-mono text-xs text-slate-300">
                       <span className="text-slate-500 mr-2">$</span>
