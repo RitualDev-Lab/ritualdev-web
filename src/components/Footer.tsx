@@ -21,11 +21,11 @@ export default function Footer() {
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
               Independent engineering studio building air-gapped AI agent runtime defense, kernel sandboxing, database wire proxies, and offline Android applications with zero telemetry.
             </p>
-            <div className="flex items-center gap-2 pt-2 text-xs font-mono text-slate-500">
+            <div className="flex items-center gap-2 pt-2 text-xs font-mono text-slate-400">
               <span className="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
               <span>All nodes air-gapped · Cloudflare Pages secured</span>
             </div>
-            <div className="pt-2 text-xs text-slate-500 font-mono">
+            <div className="pt-2 text-xs text-slate-400 font-mono">
               Founded by <span className="text-slate-300 font-medium">Divyanshu Jethi</span> &amp; <span className="text-slate-300 font-medium">Sakshi Sharma</span>.
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 mt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+        <div className="pt-8 mt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-400">
           <div>
             &copy; {new Date().getFullYear()} RitualDev Studio. Independent Engineering. All rights reserved.
           </div>

@@ -53,7 +53,7 @@ export default function HomePage() {
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-brand-green/30 text-xs font-mono text-slate-300 mb-8 backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-brand-neon animate-pulse" />
           <span className="text-brand-neon font-semibold">RITUAL AGENT DEFENSE</span>
-          <span className="text-slate-500">|</span>
+          <span className="text-slate-400">|</span>
           <span>Zero-Leak Autonomous Kernel Sandboxing</span>
         </div>
 
@@ -86,7 +86,7 @@ export default function HomePage() {
                   </button>
                 ))}
               </div>
-              <div className="text-[11px] text-slate-500 hidden sm:block">
+              <div className="text-[11px] text-slate-400 hidden sm:block">
                 One-line install
               </div>
             </div>
@@ -191,7 +191,7 @@ export default function HomePage() {
           <div className="mt-6 bg-slate-950 rounded-2xl p-6 border border-slate-800/90 font-mono text-xs sm:text-sm text-slate-300">
             {activeSimTab === "agentshield" && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-xs text-slate-500 border-b border-slate-800 pb-2">
+                <div className="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800 pb-2">
                   <span className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-rose-500"></span>
                     <span>ATTACK VECTOR: Prompt Injection Exfiltration</span>
@@ -221,7 +221,7 @@ export default function HomePage() {
 
             {activeSimTab === "dbshield" && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-xs text-slate-500 border-b border-slate-800 pb-2">
+                <div className="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800 pb-2">
                   <span className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-amber-500"></span>
                     <span>MUTATION RISK: DROP TABLE Attempt on Production DB</span>
@@ -261,7 +261,7 @@ export default function HomePage() {
 
             {activeSimTab === "skillprism" && (
               <div className="space-y-4">
-                <div className="flex items-center justify-between text-xs text-slate-500 border-b border-slate-800 pb-2">
+                <div className="flex items-center justify-between text-xs text-slate-400 border-b border-slate-800 pb-2">
                   <span className="flex items-center gap-1.5">
                     <span className="w-2 h-2 rounded-full bg-brand-cyan"></span>
                     <span>TOKEN BLOAT: 500+ Tool Schemas Injected</span>

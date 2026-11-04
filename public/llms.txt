@@ -1,88 +1,41 @@
-# RitualDev — Autonomous AI Agent Defense & Governance Suite
-> The enterprise-grade security, database guardrail, and context compaction suite for autonomous AI coding agents (Claude Code, Cursor, Windsurf, Devin, Antigravity).
+# RitualDev
 
-## Overview
+> Autonomous AI Agent Defense, Kernel Sandboxing, Database Wire Proxies & Zero-Leak Studio.
+
 RitualDev (https://ritualdev.in) is an independent engineering platform building zero-trust kernel sandboxing, database wire proxies, and progressive token compaction to protect developer infrastructure against prompt injection, credential exfiltration, and destructive database mutations.
 
-## Core Product Suite
+## Core Products
 
-### 1. AgentShield (Kernel Sandbox & Zero-Leak Defense)
-- **URL**: https://ritualdev.in/agentshield/
-- **Repository**: https://github.com/RitualDev-Lab/AgentShield
-- **Purpose**: Wraps AI coding agent execution within OS-level kernel sandboxes.
-- **Engines**:
-  - Linux: Bubblewrap (bwrap) + Landlock LSM unprivileged user namespaces.
-  - macOS: Apple Seatbelt (sandbox-exec) Scheme confinement.
-  - Windows: AppContainer low-integrity execution tokens.
-- **Key Features**: Synthetic decoy honeytokens for sensitive credentials (~/.aws, ~/.ssh, .env), strict CIDR egress filtering (blocks unauthorized HTTP/DNS exfiltration).
-- **Install**:
-  - Homebrew: `brew tap ritualdev-lab/tap && brew install agentshield`
-  - Scoop: `scoop bucket add ritual && scoop install agentshield`
-  - npm: `npm install -g @ritualdev-lab/agentshield`
+- [AgentShield](https://ritualdev.in/agentshield): Zero-leak secret defense & OS kernel sandboxing (Bubblewrap, Landlock, Seatbelt, AppContainer) for autonomous AI coding agents.
+- [DBShield](https://ritualdev.in/dbshield): Database wire protocol proxy with virtual schema masking, two-phase dry-run simulation, and Slack/Teams ChatOps approval bots.
+- [SkillPrism](https://ritualdev.in/skillprism): Progressive context compaction engine cutting LLM prompt bloat by 96.7% using JIT disclosure.
+- [DevShelf](https://ritualdev.in/devshelf): Community directory of 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers.
+- [WebSecAuditor](https://ritualdev.in/web-sec-auditor): AST taint analysis scanner and turnkey GitHub PR review bot with 1-click remediation.
+- [MCPBuilderKit](https://ritualdev.in/mcp-builder): Production scaffolding engine converting OpenAPI REST specifications into typed MCP servers.
+- [Ritual Agent Defense IDE Extension](https://ritualdev.in/extension): Extension for Cursor, VS Code, and Windsurf providing real-time sandbox telemetry.
+- [Enterprise Governance Suite](https://ritualdev.in/enterprise): Air-gapped VPC modules, Terraform templates, and SOC 2 / ISO 27001 cryptographic audit reporting.
 
-### 2. DBShield (Database Guardrail & Wire Proxy)
-- **URL**: https://ritualdev.in/dbshield/
-- **Repository**: https://github.com/RitualDev-Lab/DBShield
-- **Purpose**: Sits as a transparent wire protocol proxy (PostgreSQL wire format 3.0, SQLite) in front of developer databases.
-- **Key Features**:
-  - Virtual Schema Masking: Intercepts information_schema / pg_catalog queries to hide PII columns and credential tables from agent introspection.
-  - Two-Phase Distributed Dry-Run Tokens: Coordinates simulated commits across multi-store architectures (Postgres + Redis + SQLite).
-  - Real-time ChatOps Bot: Pushes interactive Block Kit / AdaptiveCard approval cards to Slack #db-approvals and Microsoft Teams with 1-click [Approve] / [Reject] buttons.
-- **Install**: `brew install dbshield` or `npm install -g @ritualdev-lab/dbshield`
+## Commercial Subscriptions & Pricing
 
-### 3. SkillPrism (Context Compactor & Shared Redis VPC Cache)
-- **URL**: https://ritualdev.in/skillprism/
-- **Repository**: https://github.com/RitualDev-Lab/SkillPrism
-- **Purpose**: Progressive skill disclosure engine that cuts LLM prompt token bloat by 96.7%.
-- **Key Features**:
-  - Replaces unconditional JSON schema dumping with lightweight JIT semantic receipts and ephemeral schema injection.
-  - Shared Team Redis VPC Cluster: Centralizes tool embeddings and cached query receipts across engineering teams running Cursor or Claude Code.
-  - Deployment: Helm chart (`helm install skillprism-hub ./helm/skillprism-hub`) & Docker Compose (`docker-compose.redis-vpc.yml`).
+- [Pricing & Subscriptions](https://ritualdev.in/pricing): Free community open-source CLI, $15/mo Pro Individual, $99/mo Team Hub, and custom Enterprise VPC.
+- [Pro Delivery Portal](https://ritualdev.in/pricing/success): Instant license key generation, CLI activation, desktop GUI downloads, and MCP proxy configs.
 
-### 4. DevShelf (Open-Source Developer Directory & MCP Catalog)
-- **URL**: https://ritualdev.in/devshelf/
-- **Repository**: https://github.com/RitualDev-Lab/DevShelf
-- **Purpose**: Community directory of 565+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.
-- **API Endpoints**:
-  - Tools JSON: https://ritualdev.in/api/v1/tools.json
-  - Categories: https://ritualdev.in/api/v1/categories.json
+## Developer & Machine Endpoints
 
-### 5. WebSecAuditor (AST Taint Tracking & PR Security Bot)
-- **URL**: https://ritualdev.in/web-sec-auditor/
-- **Repository**: https://github.com/RitualDev-Lab/web-sec-auditor
-- **Purpose**: Static AST taint analysis scanner and turnkey GitHub PR review bot that identifies hardcoded secrets, injection sinks, and prototype pollution with 1-click remediation patches.
+- [Tools API Endpoint](https://ritualdev.in/api/v1/tools.json): Direct JSON feed of 567+ developer tools and MCP servers.
+- [Categories API Endpoint](https://ritualdev.in/api/v1/categories.json): Machine-readable catalog hierarchy.
+- [DevShelf RSS Feed](https://ritualdev.in/feed.xml): Real-time XML syndication feed.
+- [DevShelf Atom Feed](https://ritualdev.in/atom.xml): Real-time Atom syndication feed.
 
-### 6. MCPBuilderKit (OpenAPI-to-MCP Generator)
-- **URL**: https://ritualdev.in/mcp-builder/
-- **Repository**: https://github.com/RitualDev-Lab/mcp-builder-kit
-- **Purpose**: Production scaffolding engine converting OpenAPI v3.0 / v3.1 REST specs into typed TypeScript and Python MCP servers in seconds.
+## Statutory Compliance & Privacy
 
-### 7. Ritual Agent Defense IDE Extension
-- **URL**: https://ritualdev.in/extension/
-- **Open VSX**: https://open-vsx.org/extension/ritualdev-lab/ritual-agent-defense
-- **Purpose**: Unified IDE extension for Cursor, VS Code, and Windsurf showing live sandbox profiles, DB mutation approvals, and token compaction analytics.
-- **Install**: `code --install-extension ritualdev-lab.ritual-agent-defense`
+- [Privacy Policies Center](https://ritualdev.in/privacy): Global data safety disclosures and local-first compute policies.
+- [DPDP Act 2023 Statutory Disclosure](https://ritualdev.in/privacy/dpdp): Formal Data Fiduciary notice under India's Digital Personal Data Protection Act, 2023.
+- [Terms of Service & Refunds](https://ritualdev.in/terms): Software terms, 7-day money-back guarantee, and instant digital fulfillment policies.
+- [Account & Data Deletion](https://ritualdev.in/delete-account): Automated data erasure portal complying with DPDP Section 12 and Google Play policy.
 
-### 8. Enterprise Governance Suite
-- **URL**: https://ritualdev.in/enterprise/
-- **Repository**: https://github.com/RitualDev-Lab/enterprise-governance-suite
-- **Purpose**: AWS VPC Terraform modules and air-gapped Kubernetes Helm charts for enterprise AI agent governance. Includes automated SOC 2 cryptographic compliance PDF reporting.
+## Optional
 
-## Pricing & Monetization
-- **Free Open-Source Core ($0)**: All CLI tools, local kernel sandboxes, MIT/Apache licensed.
-- **Pro Individual ($15/mo)**: Managed cloud audit logs, native desktop menu-bar GUI, priority MCP runner. Powered by Dodo Payments.
-- **Team Cluster ($99/mo)**: Shared Redis VPC cluster, DBShield staging Slack bot, team policy synchronization.
-- **Enterprise Governance ($Custom)**: On-premise air-gapped private VPC, 99.99% uptime SLA, dedicated forward-deployed solutions engineer.
-
-## Official Donation Portal
-- **URL**: https://donation.ritualdev.in (or https://ritualdev.in/donate/)
-- **Sponsorship**: GitHub Sponsors (https://github.com/sponsors/RitualDev-Lab)
-
-## Legal & Google Play Store Compliance
-- Privacy Policies Center: https://ritualdev.in/privacy/
-- All-in-One Calculator Privacy Policy: https://ritualdev.in/privacy/all-in-one-calculator/
-- CyberHub Privacy Policy: https://ritualdev.in/privacy/cyberhub/
-- LifeOS Privacy Policy: https://ritualdev.in/privacy/lifeos/
-- Data & Account Deletion Directory: https://ritualdev.in/delete-account/
-- Terms of Service: https://ritualdev.in/terms/
-- Official Contact: developer@ritualdev.com
+- [Full Documentation Manifest](https://ritualdev.in/llms-full.txt): Deep-dive architectural specification, attack trees, and threat model analysis.
+- [GitHub Organization](https://github.com/RitualDev-Lab): Open-source repositories and issue trackers.
+- [Open VSX Registry](https://open-vsx.org/extension/ritualdev-lab/ritual-agent-defense): Direct extension download.

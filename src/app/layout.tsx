@@ -154,6 +154,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <link rel="alternate" type="text/plain" href="https://ritualdev.in/llms.txt" title="LLM Documentation" />
+        <link rel="ard" type="application/json" href="https://ritualdev.in/.well-known/ard.json" title="Agentic Resource Discovery" />
         <link rel="alternate" type="application/rss+xml" href="https://ritualdev.in/feed.xml" title="DevShelf RSS Feed" />
         <link rel="alternate" type="application/atom+xml" href="https://ritualdev.in/atom.xml" title="DevShelf Atom Feed" />
         <script

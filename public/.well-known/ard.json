@@ -1,0 +1,36 @@
+{
+  "$schema": "https://agenticresourcediscovery.org/schema/v1/ard.json",
+  "name": "RitualDev",
+  "description": "Autonomous AI Agent Defense, Kernel Sandboxing, Database Wire Proxies & Zero-Leak Studio",
+  "url": "https://ritualdev.in",
+  "provider": {
+    "name": "RitualDev Studio",
+    "url": "https://ritualdev.in"
+  },
+  "resources": [
+    {
+      "name": "llms.txt",
+      "type": "documentation",
+      "url": "https://ritualdev.in/llms.txt",
+      "description": "Standardized LLM documentation index according to llmstxt.org"
+    },
+    {
+      "name": "llms-full.txt",
+      "type": "documentation",
+      "url": "https://ritualdev.in/llms-full.txt",
+      "description": "Comprehensive architectural and security reference for AI agents"
+    },
+    {
+      "name": "DevShelf Tools API",
+      "type": "api",
+      "url": "https://ritualdev.in/api/v1/tools.json",
+      "description": "Catalog of 567+ developer tools and MCP servers"
+    },
+    {
+      "name": "DevShelf RSS Feed",
+      "type": "feed",
+      "url": "https://ritualdev.in/feed.xml",
+      "description": "RSS syndication feed for developer tools"
+    }
+  ]
+}
