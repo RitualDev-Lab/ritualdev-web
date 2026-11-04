@@ -40,29 +40,43 @@ export default function MCPBuilderPage() {
     setIsSubmitting(true);
     setErrorMsg("");
 
+    const orderId = `MCP-SVC-${Math.floor(10000 + Math.random() * 90000)}`;
+
     try {
-      const res = await fetch("/api/mcp-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          companyName,
-          apiDocsUrl,
-          contactEmail,
-          tier,
-          preferredTransport,
-          includeMonetization,
-          notes,
-        }),
-      });
+      try {
+        const res = await fetch("/api/mcp-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            companyName,
+            apiDocsUrl,
+            contactEmail,
+            tier,
+            preferredTransport,
+            includeMonetization,
+            notes,
+            orderId,
+          }),
+        });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to initiate MCP build order.");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+            return;
+          }
+        }
+      } catch (_) {
+        // Fallback for static export mode
       }
 
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
-      }
+      // Direct Dodo Payments checkout fallback
+      const checkoutUrl =
+        tier === "pro_699"
+          ? `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=2&redirect_url=${encodeURIComponent(`https://ritualdev.in/mcp-starter-kit/download/?id=${orderId}`)}`
+          : `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/mcp-starter-kit/download/?id=${orderId}`)}`;
+
+      window.location.href = checkoutUrl;
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to process order. Please try again.");
       setIsSubmitting(false);

@@ -20,7 +20,7 @@ function SuccessContent() {
   const orderId = searchParams.get("id") || `AUDIT-${Math.floor(10000 + Math.random() * 90000)}`;
   const [copied, setCopied] = useState(false);
 
-  const badgeMarkdown = `[![AgentShield Verified Secure](https://ritualdev.in/api/v1/badge/audit?id=${orderId})](https://ritualdev.in/audit)`;
+  const badgeMarkdown = `[![AgentShield Verified Secure](https://ritualdev.in/badge/audit.svg)](https://ritualdev.in/audit)`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(badgeMarkdown);

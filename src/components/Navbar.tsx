@@ -272,6 +272,16 @@ export default function Navbar() {
             </Link>
 
             <Link 
+              href="/mcp-starter-kit" 
+              className="px-3 py-2 text-sm font-medium text-purple-300 hover:text-white rounded-lg hover:bg-purple-950/40 transition-colors flex items-center gap-1.5"
+            >
+              <span>MCP Kit</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                $49
+              </span>
+            </Link>
+
+            <Link 
               href="/pricing" 
               className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
             >
@@ -367,6 +377,20 @@ export default function Navbar() {
             })}
           </div>
           <div className="border-t border-slate-800 my-2 pt-2 space-y-1">
+            <Link
+              href="/mcp-starter-kit"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-purple-300 font-bold hover:text-white rounded-lg hover:bg-purple-950/40"
+            >
+              MCP Starter Kit ($49)
+            </Link>
+            <Link
+              href="/audit"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-emerald-400 font-bold hover:text-white rounded-lg hover:bg-emerald-950/40"
+            >
+              Pre-Launch AI Security Audit (2h SLA)
+            </Link>
             <Link
               href="/devshelf"
               onClick={() => setMobileMenuOpen(false)}

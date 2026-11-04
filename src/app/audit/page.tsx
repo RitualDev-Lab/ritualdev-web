@@ -42,30 +42,43 @@ export default function AuditPage() {
     setIsSubmitting(true);
     setErrorMsg("");
 
+    const orderId = `AUDIT-${Math.floor(10000 + Math.random() * 90000)}`;
+
     try {
-      const res = await fetch("/api/audit-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productName,
-          targetUrl,
-          repoUrl,
-          contactEmail,
-          launchDate,
-          packageTier,
-          notes,
-        }),
-      });
+      try {
+        const res = await fetch("/api/audit-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            productName,
+            targetUrl,
+            repoUrl,
+            contactEmail,
+            launchDate,
+            packageTier,
+            notes,
+            orderId,
+          }),
+        });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to initiate audit order.");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.checkoutUrl) {
+            window.location.href = data.checkoutUrl;
+            return;
+          }
+        }
+      } catch (_) {
+        // Fallback for static export mode
       }
 
-      // Redirect directly to checkout
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
-      }
+      // Direct Dodo Payments checkout fallback
+      const checkoutUrl =
+        packageTier === "pro_399"
+          ? `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=2&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`
+          : `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`;
+
+      window.location.href = checkoutUrl;
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to process order. Please try again.");
       setIsSubmitting(false);

@@ -57,8 +57,20 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/audit" className="hover:text-brand-neon transition-colors flex items-center gap-1.5">
+                  <span>Pre-Launch AI Security Audit</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">2h SLA</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/mcp-builder" className="hover:text-brand-neon transition-colors">
-                  MCPBuilderKit (Scaffolder)
+                  MCPBuilderKit (Scaffolder &amp; Services)
+                </Link>
+              </li>
+              <li>
+                <Link href="/mcp-starter-kit" className="hover:text-purple-300 transition-colors flex items-center gap-1.5">
+                  <span>MCP Monetization Starter Kit</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-purple-950/60 text-purple-300 border border-purple-800/40 rounded">$49</span>
                 </Link>
               </li>
               <li>
