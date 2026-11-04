@@ -134,15 +134,21 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Google Play Legal & Policies */}
+          {/* Legal & Statutory Compliance */}
           <div>
             <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-200 mb-4">
-              Play Store Compliance
+              Compliance &amp; Legal
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/privacy" className="hover:text-slate-200 transition-colors">
                   Privacy Policies Center
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy/dpdp" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5 text-slate-300">
+                  <span>DPDP Act Notice (India)</span>
+                  <span className="text-[9px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">Statutory</span>
                 </Link>
               </li>
               <li>
@@ -167,7 +173,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/terms" className="hover:text-slate-200 transition-colors">
-                  Terms of Service
+                  Terms of Service &amp; Refunds
                 </Link>
               </li>
               <li>

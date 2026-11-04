@@ -54,6 +54,29 @@ export default function PrivacyCenterPage() {
         </p>
       </div>
 
+      {/* Statutory DPDP & Global Compliance Banner */}
+      <div className="mb-10 p-6 rounded-2xl bg-slate-900/90 border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold">
+              STATUTORY COMPLIANCE
+            </span>
+            <span className="text-xs font-mono text-slate-400">DPDP Act, 2023 (India) &amp; GDPR</span>
+          </div>
+          <h2 className="text-lg font-bold text-white">Digital Personal Data Protection (DPDP) Notice</h2>
+          <p className="text-xs text-slate-400 max-w-xl">
+            RitualDev operates as a Data Fiduciary with full Data Principal statutory protections (Sections 11–14), on-device compute, and designated Grievance Officer redressal.
+          </p>
+        </div>
+        <Link
+          href="/privacy/dpdp"
+          className="px-4 py-2 rounded-xl bg-emerald-500 text-slate-950 font-mono text-xs font-bold hover:bg-emerald-400 transition-colors shrink-0 flex items-center gap-1.5"
+        >
+          <span>View Statutory Disclosure</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </div>
+
       {/* App Specific Policies */}
       <div className="space-y-6 mb-12">
         <h2 className="text-xs font-mono uppercase tracking-wider text-slate-400">
