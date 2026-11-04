@@ -47,7 +47,7 @@ export default function PricingPage() {
         "Dodo Payments Powered (Global Tax & GST Handled)"
       ],
       ctaText: "Upgrade to Pro ($15/mo)",
-      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess",
       popular: true
     },
     {
@@ -65,7 +65,7 @@ export default function PricingPage() {
         "Dodo Payments Automated Team Invoicing"
       ],
       ctaText: "Deploy Team Hub ($99/mo)",
-      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=2&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSmrXT8zU2u5BKGJ7y?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess",
       popular: false
     },
     {
