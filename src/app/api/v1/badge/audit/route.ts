@@ -1,0 +1,52 @@
+import { NextResponse } from "next/server";
+
+export const runtime = "nodejs";
+
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const client = (searchParams.get("client") || searchParams.get("id") || "verified").slice(0, 30);
+  const grade = (searchParams.get("grade") || "A+").toUpperCase();
+  const year = new Date().getFullYear();
+
+  // Clean XML-safe client label
+  const safeClient = client.replace(/[<>&"']/g, "");
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="230" height="28" viewBox="0 0 230 28" fill="none" role="img" aria-label="AgentShield Verified Secure: Grade ${grade}">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Base Capsule -->
+  <rect width="230" height="28" rx="6" fill="#020617" stroke="#059669" stroke-width="1.2" />
+  
+  <!-- Left Side: Brand -->
+  <rect x="1" y="1" width="105" height="26" rx="5" fill="#0f172a" />
+  
+  <!-- Shield Icon -->
+  <g transform="translate(8, 6)">
+    <path d="M8 1L2 3.5V8C2 11.5 4.5 14.5 8 15.5C11.5 14.5 14 11.5 14 8V3.5L8 1Z" fill="#38bdf8" />
+    <path d="M6 8L7.5 9.5L10.5 6.5" stroke="#020617" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <text x="28" y="18" fill="#e2e8f0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.3">AgentShield</text>
+
+  <!-- Right Side: Status & Grade -->
+  <circle cx="120" cy="14" r="3.5" fill="#10b981" filter="url(#glow)" />
+  <text x="130" y="18" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="11" font-weight="700">Verified ${grade}</text>
+  <text x="195" y="18" fill="#64748b" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="10" font-weight="500">${year}</text>
+</svg>`;
+
+  return new NextResponse(svg, {
+    headers: {
+      "Content-Type": "image/svg+xml; charset=utf-8",
+      "Cache-Control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+    },
+  });
+}
