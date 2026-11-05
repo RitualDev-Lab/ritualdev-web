@@ -19,7 +19,8 @@ import {
   EyeOff,
   AlertTriangle,
   Server,
-  Heart
+  Heart,
+  Download
 } from "lucide-react";
 
 export default function HomePage() {
@@ -31,7 +32,7 @@ export default function HomePage() {
     brew: "brew tap ritualdev-lab/tap && brew install agentshield dbshield",
     scoop: "scoop bucket add ritual && scoop install agentshield",
     npm: "npm install -g @ritualdev-lab/agentshield @ritualdev-lab/dbshield",
-    code: "code --install-extension ritualdev-lab.ritual-agent-defense"
+    code: "code --install-extension ritualdev.agentshield-defense"
   };
 
   const copyToClipboard = (text: string) => {
@@ -106,6 +107,30 @@ export default function HomePage() {
               </button>
             </div>
           </div>
+
+          {/* Direct 1-Click Extension Install Pills */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/40 hover:border-blue-400 text-blue-300 hover:text-white text-xs font-mono transition-all shadow-[0_0_15px_rgba(59,130,246,0.15)] group"
+            >
+              <Download className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform" />
+              <span>Install in VS Code (Marketplace)</span>
+              <ExternalLink className="w-3 h-3 text-blue-400/70" />
+            </Link>
+            <Link
+              href="https://open-vsx.org/extension/ritualdev-lab/agentshield-defense"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600/10 hover:bg-purple-600/20 border border-purple-500/40 hover:border-purple-400 text-purple-300 hover:text-white text-xs font-mono transition-all shadow-[0_0_15px_rgba(168,85,247,0.15)] group"
+            >
+              <Cpu className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform" />
+              <span>Install in Cursor &amp; Windsurf (Open VSX)</span>
+              <ExternalLink className="w-3 h-3 text-purple-400/70" />
+            </Link>
+          </div>
         </div>
 
         {/* Action Buttons */}
@@ -118,20 +143,18 @@ export default function HomePage() {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
+            href="/advisories"
+            className="px-6 py-3 rounded-xl bg-red-950/40 hover:bg-red-950/60 border border-red-800/50 hover:border-red-600 text-red-300 hover:text-white font-medium text-sm transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.15)]"
+          >
+            <Shield className="w-4 h-4 text-red-400" />
+            <span>Security Advisories (CVEs)</span>
+          </Link>
+          <Link
             href="/devshelf"
             className="px-6 py-3 rounded-xl glass-panel text-white font-medium text-sm hover:border-brand-cyan/60 transition-all flex items-center gap-2"
           >
             <Layers className="w-4 h-4 text-brand-cyan" />
             <span>DevShelf Catalog (567+)</span>
-          </Link>
-          <Link
-            href="https://open-vsx.org/extension/ritualdev-lab/ritual-agent-defense"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white text-sm font-mono flex items-center gap-2 transition-all"
-          >
-            <Cpu className="w-4 h-4 text-brand-neon" />
-            <span>Open VSX Registry</span>
           </Link>
         </div>
 

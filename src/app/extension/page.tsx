@@ -50,17 +50,27 @@ export default function ExtensionPage() {
         {/* Action Buttons */}
         <div className="mt-8 flex flex-wrap gap-4 items-center">
           <Link
-            href="https://open-vsx.org/extension/ritualdev-lab/ritual-agent-defense"
+            href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)]"
           >
             <Download className="w-4 h-4" />
-            <span>Install on Open VSX (Cursor / Windsurf)</span>
+            <span>Install in VS Code (Marketplace)</span>
           </Link>
 
           <Link
-            href="https://github.com/RitualDev-Lab/ritual-agent-defense"
+            href="https://open-vsx.org/extension/ritualdev-lab/agentshield-defense"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(168,85,247,0.3)]"
+          >
+            <Cpu className="w-4 h-4" />
+            <span>Install in Cursor &amp; Windsurf (Open VSX)</span>
+          </Link>
+
+          <Link
+            href="https://github.com/RitualDev-Lab/agentshield-vscode"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs flex items-center gap-1.5 transition-colors"
@@ -111,8 +121,19 @@ export default function ExtensionPage() {
       {/* Terminal Command */}
       <section className="py-14">
         <h2 className="text-2xl font-bold text-white mb-6">Install via Terminal</h2>
-        <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 font-mono text-xs sm:text-sm text-slate-300">
-          <span className="text-brand-neon">$</span> code --install-extension ritualdev-lab.ritual-agent-defense
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 font-mono text-xs sm:text-sm text-slate-300 space-y-2">
+            <div className="text-xs text-slate-400">VS Code:</div>
+            <div>
+              <span className="text-brand-neon">$</span> code --install-extension ritualdev.agentshield-defense
+            </div>
+          </div>
+          <div className="bg-slate-950 rounded-2xl p-6 border border-slate-800 font-mono text-xs sm:text-sm text-slate-300 space-y-2">
+            <div className="text-xs text-slate-400">Cursor / Windsurf / VSCodium:</div>
+            <div>
+              <span className="text-brand-neon">$</span> cursor --install-extension ritualdev-lab.agentshield-defense
+            </div>
+          </div>
         </div>
       </section>
 

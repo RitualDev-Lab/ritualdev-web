@@ -10,5 +10,5 @@ http://donation.ritualdev.in/*      https://donation.ritualdev.in/:splat 301!
 /api/stats                          /api/v1/stats.json            302
 /api/v1/badge/audit                 /badge/audit.svg              302
 /api/v1/badge/audit*                /badge/audit.svg              302
-/api/v1/badge                       /badge/verified.svg           302
-/api/v1/badge/*                     /badge/verified.svg           302
+/api/v1/badge                       /badge/secured.svg            302
+/api/v1/badge/*                     /badge/secured.svg            302

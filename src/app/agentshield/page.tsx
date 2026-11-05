@@ -12,7 +12,9 @@ import {
   Cpu,
   Layers,
   FileCode,
-  AlertTriangle
+  AlertTriangle,
+  Download,
+  Check
 } from "lucide-react";
 
 export default function AgentShieldPage() {
@@ -78,7 +80,7 @@ export default function AgentShieldPage() {
           AgentShield wraps your AI agent processes (Claude Code, Cursor, Windsurf, Codex, Antigravity) inside OS-level kernel sandboxes. It traps unauthorized syscalls, redacts environment secrets in volatile memory, and blocks credential exfiltration with strict CIDR egress filtering.
         </p>
 
-        {/* Quick CLI Bar */}
+        {/* Quick CLI & 1-Click Extension Bar */}
         <div className="mt-8 flex flex-wrap gap-4 items-center">
           <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 font-mono text-xs text-slate-200">
             <span className="text-brand-neon">$</span>
@@ -103,12 +105,42 @@ export default function AgentShieldPage() {
           </div>
 
           <Link
+            href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2.5 rounded-xl bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/40 hover:border-blue-400 text-blue-300 hover:text-white font-mono text-xs flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(59,130,246,0.15)]"
+          >
+            <Download className="w-3.5 h-3.5 text-blue-400" />
+            <span>Install in VS Code</span>
+            <ExternalLink className="w-3 h-3 text-blue-400/70" />
+          </Link>
+
+          <Link
+            href="https://open-vsx.org/extension/ritualdev-lab/agentshield-defense"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2.5 rounded-xl bg-purple-600/10 hover:bg-purple-600/20 border border-purple-500/40 hover:border-purple-400 text-purple-300 hover:text-white font-mono text-xs flex items-center gap-2 transition-all shadow-[0_0_15px_rgba(168,85,247,0.15)]"
+          >
+            <Cpu className="w-3.5 h-3.5 text-purple-400" />
+            <span>Install in Cursor &amp; Windsurf</span>
+            <ExternalLink className="w-3 h-3 text-purple-400/70" />
+          </Link>
+
+          <Link
+            href="/advisories"
+            className="px-4 py-2.5 rounded-xl bg-red-950/40 hover:bg-red-950/60 border border-red-800/50 hover:border-red-600 text-red-300 hover:text-white font-mono text-xs flex items-center gap-1.5 transition-colors"
+          >
+            <Shield className="w-3.5 h-3.5 text-red-400" />
+            <span>CVE Disclosures</span>
+          </Link>
+
+          <Link
             href="https://github.com/RitualDev-Lab/AgentShield"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs flex items-center gap-1.5 transition-colors"
           >
-            <span>GitHub Repository</span>
+            <span>GitHub</span>
             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
           </Link>
         </div>
@@ -162,6 +194,135 @@ export default function AgentShieldPage() {
             <div>[agentshield] Generating synthetic decoy canary for ~/.aws/credentials...</div>
             <div>[agentshield] Active Egress CIDR: 140.82.112.0/20 (GitHub), 104.18.0.0/16 (Cloudflare)</div>
             <div className="text-brand-neon font-bold">[agentshield] Sandbox locked. Spawning agent PID 48191...</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Editor & IDE Integration */}
+      <section className="py-14 border-b border-slate-800">
+        <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 gap-4">
+          <div>
+            <div className="text-xs font-mono text-brand-neon uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <Cpu className="w-3.5 h-3.5" />
+              <span>IDE Extensions</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+              Real-Time Defense Inside VS Code, Cursor &amp; Windsurf
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs flex items-center gap-1.5 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>VS Code Marketplace</span>
+            </Link>
+            <Link
+              href="https://open-vsx.org/extension/ritualdev-lab/agentshield-defense"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs flex items-center gap-1.5 transition-colors"
+            >
+              <Cpu className="w-3.5 h-3.5" />
+              <span>Open VSX (Cursor)</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-3">
+            <div className="p-3 rounded-xl bg-brand-green/10 text-brand-neon border border-brand-green/30 w-fit">
+              <Shield className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-white">Live Status Bar Kernel Telemetry</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Shows active sandbox enforcement (Bubblewrap, Seatbelt, AppContainer) and traps unauthorized egress sockets right from your status bar.
+            </p>
+          </div>
+
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-3">
+            <div className="p-3 rounded-xl bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 w-fit">
+              <Lock className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-white">1-Click QuickFix Redactor (Ctrl+.)</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Detects exposed AWS, OpenAI, GitHub, and database keys on keystroke. Press <code className="text-brand-neon bg-slate-900 px-1 py-0.5 rounded">Ctrl+.</code> to instantly replace raw secrets with secure environment references.
+            </p>
+          </div>
+
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-3">
+            <div className="p-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/30 w-fit">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-white">Anti-Exfiltration Hook</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Prevents autonomous agent prompts from reading <code className="text-red-400 bg-slate-900 px-1 py-0.5 rounded">/proc/self/environ</code>, <code className="text-red-400 bg-slate-900 px-1 py-0.5 rounded">~/.ssh</code>, or piping private keys into chat context.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Live README Telemetry Badge */}
+      <section className="py-14 border-b border-slate-800">
+        <div className="glass-panel rounded-3xl p-8 border border-brand-green/30 shadow-2xl">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="max-w-xl space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 text-brand-neon border border-brand-green/30 text-xs font-mono">
+                <Shield className="w-3.5 h-3.5" />
+                <span>Zero-Leak Telemetry Badge</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                Display the AgentShield Verification Badge on Your Repo
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Add our automated SVG status badge to your GitHub repository README to signal enterprise compliance, Landlock kernel sandboxing, and zero secret exfiltration.
+              </p>
+              
+              <div className="pt-2">
+                <div className="text-xs font-mono text-slate-400 mb-2">Live Badge:</div>
+                <div className="inline-block p-3 rounded-2xl bg-slate-950 border border-slate-800">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/badge/secured.svg" alt="Secured by AgentShield • Zero-Leak" className="h-7 w-auto" />
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full lg:w-auto flex-1 max-w-lg space-y-4 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span>Markdown Embed Snippet</span>
+                  <button
+                    onClick={() => copyText("[![Secured by AgentShield](https://ritualdev.in/badge/secured.svg)](https://ritualdev.in)", "badge-md")}
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
+                  >
+                    {copied === "badge-md" ? <Check className="w-3 h-3 text-brand-neon" /> : <Copy className="w-3 h-3" />}
+                    <span>{copied === "badge-md" ? "Copied" : "Copy"}</span>
+                  </button>
+                </div>
+                <code className="text-slate-300 break-all select-all block bg-slate-900/80 p-2 rounded-lg">
+                  [![Secured by AgentShield](https://ritualdev.in/badge/secured.svg)](https://ritualdev.in)
+                </code>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span>HTML Embed Snippet</span>
+                  <button
+                    onClick={() => copyText('<a href="https://ritualdev.in"><img src="https://ritualdev.in/badge/secured.svg" alt="Secured by AgentShield" /></a>', "badge-html")}
+                    className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
+                  >
+                    {copied === "badge-html" ? <Check className="w-3 h-3 text-brand-neon" /> : <Copy className="w-3 h-3" />}
+                    <span>{copied === "badge-html" ? "Copied" : "Copy"}</span>
+                  </button>
+                </div>
+                <code className="text-slate-300 break-all select-all block bg-slate-900/80 p-2 rounded-lg">
+                  &lt;a href=&quot;https://ritualdev.in&quot;&gt;&lt;img src=&quot;https://ritualdev.in/badge/secured.svg&quot; alt=&quot;Secured by AgentShield&quot; /&gt;&lt;/a&gt;
+                </code>
+              </div>
+            </div>
           </div>
         </div>
       </section>

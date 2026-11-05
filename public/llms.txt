@@ -38,6 +38,12 @@ RitualDev (https://ritualdev.in) is an independent engineering platform building
 - [Pro Delivery Portal](https://ritualdev.in/pricing/success): Instant license key generation, CLI activation, desktop GUI downloads, and MCP proxy configs.
 - [Enterprise Contact & Custom Pilot](https://ritualdev.in/enterprise): Inquiries for air-gapped VPC Helm deployments, Okta SSO, custom redactor rules, and 99.99% SLA.
 
+## Security Advisories & Vulnerability Disclosures
+
+- [Security Advisories & CVEs](https://ritualdev.in/advisories): Coordinated vulnerability disclosures, CVSS scores, and verified mitigations (GHSA-92f2-4677-rmvh, GHSA-p3v4-5qw2-92rg, GHSA-g5mq-fjr3-39qp).
+- [README Telemetry Badge](https://ritualdev.in/badge/secured.svg): Dynamic verification SVG badge for repository READMEs showing "Secured by AgentShield • Zero-Leak".
+- [Badge API](https://ritualdev.in/api/v1/badge): Automated SVG badge generator endpoint.
+
 ## Developer & Machine Endpoints
 
 - [Tools API Endpoint](https://ritualdev.in/api/v1/tools.json): Direct JSON feed of 569+ developer tools and MCP servers.

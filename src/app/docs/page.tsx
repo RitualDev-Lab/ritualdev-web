@@ -135,6 +135,32 @@ const DOC_SECTIONS: DocSection[] = [
       "Works with local LLMs (Ollama, vLLM, LocalAI) without internet access.",
       "Cryptographic HMAC audit ledger remains fully verifiable offline."
     ]
+  },
+  {
+    id: "readme-badge",
+    title: "README Telemetry & Verification Badge",
+    category: "CI/CD & DevOps",
+    description: "Display tamper-proof AgentShield verification on your GitHub / GitLab repository README.",
+    codeSnippet: `<!-- Markdown for README.md -->\n[![Secured by AgentShield](https://ritualdev.in/badge/secured.svg)](https://ritualdev.in)\n\n<!-- HTML Embed -->\n<a href="https://ritualdev.in"><img src="https://ritualdev.in/badge/secured.svg" alt="Secured by AgentShield" /></a>`,
+    language: "markdown",
+    details: [
+      "Served via global Cloudflare Edge CDN with zero tracking cookies or IP logging.",
+      "Dynamic /api/v1/badge endpoint supports custom status labels and grades.",
+      "Instant indicator for SOC 2 Type II, ISO 27001, and vendor risk assessors."
+    ]
+  },
+  {
+    id: "security-advisories",
+    title: "Security Advisories & Zero-Leak CVE Fixes",
+    category: "AgentShield",
+    description: "Review coordinated vulnerability disclosures and verified mitigations for AI coding agent sandboxes.",
+    codeSnippet: `# Verify mitigation for /proc/self/environ exfiltration (GHSA-92f2-4677-rmvh)\nnpx @ritualdev-lab/agentshield exec -- cat /proc/self/environ\n\n# Audit CI configuration for self-neutering ignore bypasses (GHSA-p3v4-5qw2-92rg)\nnpx @ritualdev-lab/agentshield ci --strict\n\n# Run linear-time ReDoS benchmark (GHSA-g5mq-fjr3-39qp)\nnpx @ritualdev-lab/agentshield test --dos-check`,
+    language: "bash",
+    details: [
+      "Full public disclosure matrix available at /advisories with CVSS 3.1 vectors.",
+      "Patched in AgentShield v0.2.0+ across npm, Homebrew, and Scoop distributions.",
+      "24-hour patch SLA with safe harbor policy for ethical vulnerability research."
+    ]
   }
 ];
 

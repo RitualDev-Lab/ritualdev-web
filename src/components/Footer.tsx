@@ -85,6 +85,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/advisories" className="hover:text-red-300 transition-colors flex items-center gap-1.5 text-slate-200">
+                  <span>Security Advisories</span>
+                  <span className="text-[9px] font-mono px-1 py-0.2 bg-red-950/60 text-red-300 border border-red-800/40 rounded">CVEs</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/extension" className="hover:text-brand-neon transition-colors flex items-center gap-1.5">
                   <span>IDE Extension</span>
                   <span className="text-[10px] font-mono px-1 py-0.2 bg-slate-800 text-brand-cyan rounded">Open VSX</span>
@@ -213,7 +219,11 @@ export default function Footer() {
               GitHub
             </Link>
             <span>&middot;</span>
-            <Link href="https://open-vsx.org/extension/ritualdev-lab/ritual-agent-defense" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
+            <Link href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
+              VS Code
+            </Link>
+            <span>&middot;</span>
+            <Link href="https://open-vsx.org/extension/ritualdev-lab/agentshield-defense" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
               Open VSX
             </Link>
             <span>&middot;</span>

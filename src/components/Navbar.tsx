@@ -241,11 +241,16 @@ export default function Navbar() {
 
                     </div>
 
-                    {/* Bottom Enterprise Architecture Link */}
+                    {/* Bottom Enterprise & Security Advisory Links */}
                     <div className="mt-3 pt-3 border-t border-slate-800/90 flex items-center justify-between px-2">
-                      <span className="text-slate-400 font-mono text-[11px]">
-                        Need air-gapped on-prem VPC defense?
-                      </span>
+                      <Link
+                        href="/advisories"
+                        onClick={() => setSuiteOpen(false)}
+                        className="text-red-400 hover:text-white font-mono text-[11px] font-semibold flex items-center gap-1 transition-colors"
+                      >
+                        <Shield className="w-3 h-3 text-red-400" />
+                        <span>Security Advisories (CVEs)</span>
+                      </Link>
                       <Link
                         href="/enterprise"
                         onClick={() => setSuiteOpen(false)}
@@ -408,6 +413,14 @@ export default function Navbar() {
             >
               <span>Playground (Interactive Demo)</span>
               <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">LIVE</span>
+            </Link>
+            <Link
+              href="/advisories"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-red-400 font-bold hover:text-white rounded-lg hover:bg-red-950/40 flex items-center justify-between"
+            >
+              <span>Security Advisories &amp; CVEs</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/40">3 Patched</span>
             </Link>
             <Link
               href="/docs"
