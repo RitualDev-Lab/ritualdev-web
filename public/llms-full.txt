@@ -11,26 +11,33 @@ RitualDev is an independent systems engineering lab founded by Divyanshu Jethi a
 
 Autonomous coding agents (Claude Code, Cursor, Windsurf, Devin, Antigravity) execute shell commands, read workspace files, and perform database queries. RitualDev provides runtime containment across three vectors:
 
-- [AgentShield Kernel Sandboxing](https://ritualdev.in/agentshield): Prevents prompt injection and credential exfiltration by executing agent subprocesses inside OS kernel sandboxes (Bubblewrap on Linux, Apple Seatbelt on macOS, AppContainer on Windows) and substituting sensitive credentials with synthetic decoy honeytokens.
+- [AgentShield Kernel Sandboxing](https://ritualdev.in/agentshield): Prevents prompt injection and credential exfiltration by executing agent subprocesses inside OS kernel sandboxes (Bubblewrap on Linux, Landlock, Apple Seatbelt on macOS, AppContainer on Windows) and substituting sensitive credentials with synthetic decoy honeytokens. Available via npm (`npx @ritualdev-lab/agentshield`), PyPI (`pip install agentshield-defense`), Homebrew, Scoop, and VS Code/Cursor extensions.
 - [DBShield Database Wire Proxy](https://ritualdev.in/dbshield): Intercepts PostgreSQL (wire protocol 3.0) and SQLite queries, isolates risky mutations (`DROP`, `DELETE`, `ALTER`) in distributed zero-commit dry-run transactions, and routes interactive approvals to Slack and Microsoft Teams.
 - [SkillPrism Token Compaction](https://ritualdev.in/skillprism): Cuts tool prompt bloat by 96.7% using Just-In-Time progressive schema injection and shared Redis VPC caching.
 
 ## 2. Developer Catalog & APIs
 
-- [DevShelf Directory](https://ritualdev.in/devshelf): 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers.
+- [DevShelf Directory](https://ritualdev.in/devshelf): 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.
 - [Tools JSON API](https://ritualdev.in/api/v1/tools.json): Real-time machine-readable catalog.
 - [Categories API](https://ritualdev.in/api/v1/categories.json): Machine-readable classification schema.
 - [WebSecAuditor](https://ritualdev.in/web-sec-auditor): Turnkey GitHub PR review bot and static AST taint scanner.
 - [MCPBuilderKit](https://ritualdev.in/mcp-builder): Turnkey OpenAPI REST specification compiler for typed MCP servers.
 
-## 3. Commercial Tiers & Deliverables
+## 3. Official Contact Desks
 
-- [Pricing Matrix](https://ritualdev.in/pricing): Comparison of Community Core ($0), Pro Individual ($15/mo), Team Cluster ($99/mo), and Enterprise VPC.
+- Support Desk: `support@ritualdev.in`
+- Developer & Core Engineering: `developer@ritualdev.in`
+- Security & Vulnerability Disclosure: `security@ritualdev.in`
+- General & Enterprise Inquiries: `hello@ritualdev.in`
+
+## 4. Commercial Tiers & Deliverables
+
+- [Pricing Matrix](https://ritualdev.in/pricing): Comparison of Community Core ($0), Pro Individual ($15/mo), Team Cluster ($99/mo), and Enterprise VPC ($10k-$50k/yr).
 - [Pro Delivery Portal](https://ritualdev.in/pricing/success): Instant cryptographic license issuance, CLI token activation, and IDE proxy snippets.
 
-## 4. Statutory Compliance & Legal Disclosures
+## 5. Statutory Compliance & Legal Disclosures
 
 - [Privacy Policies Center](https://ritualdev.in/privacy): Uncompromising offline-first, local-compute principles.
-- [DPDP Act 2023 Statutory Disclosure](https://ritualdev.in/privacy/dpdp): Indian statutory disclosure under Sections 9, 11–14, and designated Grievance Redressal Officer contact.
+- [DPDP Act 2023 Statutory Disclosure](https://ritualdev.in/privacy/dpdp): Indian statutory disclosure under Sections 9, 11–14, and designated Grievance Redressal Officer contact (`security@ritualdev.in`).
 - [Terms of Service & 7-Day Refund Policy](https://ritualdev.in/terms): Commercial licensing terms and instant digital fulfillment.
 - [Account & Data Deletion Portal](https://ritualdev.in/delete-account): Automated self-service data erasure conforming to DPDP Section 12.

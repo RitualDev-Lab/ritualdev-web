@@ -64,7 +64,7 @@ export default function CyberHubPrivacyPage() {
             <span>3. Contact Information</span>
           </h2>
           <div className="text-xs font-mono text-slate-300 space-y-1">
-            <div>Developer: <a href="mailto:developer@ritualdev.com" className="text-brand-cyan hover:underline">developer@ritualdev.com</a></div>
+            <div>Developer: <a href="mailto:developer@ritualdev.in" className="text-brand-cyan hover:underline">developer@ritualdev.in</a></div>
             <div>Website: <Link href="https://ritualdev.in" className="text-brand-cyan hover:underline">https://ritualdev.in</Link></div>
             <div>Data Deletion Instructions: <Link href="/delete-account/cyberhub" className="text-brand-green hover:underline">/delete-account/cyberhub</Link></div>
           </div>

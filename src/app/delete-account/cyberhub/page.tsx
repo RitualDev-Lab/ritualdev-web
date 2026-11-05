@@ -50,7 +50,7 @@ export default function CyberHubDeletePage() {
             For manual deletion confirmation or email assistance:
           </p>
           <div className="text-xs font-mono text-slate-300">
-            Email: <a href="mailto:developer@ritualdev.com?subject=CyberHub%20Data%20Deletion" className="text-amber-400 hover:underline">developer@ritualdev.com</a>
+            Email: <a href="mailto:developer@ritualdev.in?subject=CyberHub%20Data%20Deletion" className="text-amber-400 hover:underline">developer@ritualdev.in</a>
           </div>
         </section>
 

@@ -3,11 +3,14 @@ Allow: /
 
 Sitemap: https://ritualdev.in/sitemap.xml
 
-# Standard AI & Answer Engine Crawler Directives (AEO / GEO)
+# Standard AI, Search & Answer Engine Crawler Directives (AEO / GEO)
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: Claude-Web
@@ -22,5 +25,17 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: GoogleOther
+Allow: /
+
 User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
 Allow: /

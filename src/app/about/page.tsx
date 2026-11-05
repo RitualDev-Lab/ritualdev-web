@@ -67,7 +67,7 @@ export default function AboutPage() {
             Reach out directly for enterprise governance architecture discussions or community inquiries:
           </p>
           <div className="text-xs font-mono text-brand-green">
-            <a href="mailto:developer@ritualdev.com">developer@ritualdev.com</a>
+            <a href="mailto:developer@ritualdev.in">developer@ritualdev.in</a>
           </div>
         </section>
       </div>

@@ -56,7 +56,7 @@ export default function LifeOSPrivacyPage() {
             <span>3. Contact &amp; Inquiries</span>
           </h2>
           <div className="text-xs font-mono text-slate-300 space-y-1">
-            <div>Developer: <a href="mailto:developer@ritualdev.com" className="text-purple-400 hover:underline">developer@ritualdev.com</a></div>
+            <div>Developer: <a href="mailto:developer@ritualdev.in" className="text-purple-400 hover:underline">developer@ritualdev.in</a></div>
             <div>Website: <Link href="https://ritualdev.in" className="text-purple-400 hover:underline">https://ritualdev.in</Link></div>
             <div>Data Deletion Instructions: <Link href="/delete-account/lifeos" className="text-brand-green hover:underline">/delete-account/lifeos</Link></div>
           </div>

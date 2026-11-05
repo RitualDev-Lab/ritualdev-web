@@ -142,8 +142,8 @@ export default function DpdpCompliancePage() {
         <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-xs font-mono space-y-1.5 text-slate-200">
           <div><strong className="text-white">Officer Designation:</strong> Data Protection &amp; Grievance Officer</div>
           <div><strong className="text-white">Entity:</strong> RitualDev Studio (India)</div>
-          <div><strong className="text-white">Grievance Email:</strong> <a href="mailto:privacy@ritualdev.in" className="text-brand-neon hover:underline font-bold">privacy@ritualdev.in</a></div>
-          <div><strong className="text-white">Alternate Support:</strong> <a href="mailto:developer@ritualdev.com" className="text-brand-cyan hover:underline">developer@ritualdev.com</a></div>
+          <div><strong className="text-white">Grievance Email:</strong> <a href="mailto:security@ritualdev.in" className="text-brand-neon hover:underline font-bold">security@ritualdev.in</a></div>
+          <div><strong className="text-white">Alternate Support:</strong> <a href="mailto:developer@ritualdev.in" className="text-brand-cyan hover:underline">developer@ritualdev.in</a></div>
           <div><strong className="text-white">Resolution Timeline:</strong> Preliminary acknowledgment within 24 hours; full statutory resolution within 7 business days.</div>
         </div>
       </section>

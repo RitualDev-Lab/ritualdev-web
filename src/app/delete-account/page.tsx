@@ -102,7 +102,7 @@ export default function DeleteAccountDirectoryPage() {
           For questions or manual data deletion assistance across any RitualDev Android product, email us directly with your device identifier or app details at:
         </p>
         <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-200">
-          Official Deletion Channel: <a href="mailto:developer@ritualdev.com?subject=Data%20Deletion%20Request" className="text-amber-400 font-bold hover:underline">developer@ritualdev.com</a>
+          Official Deletion Channel: <a href="mailto:developer@ritualdev.in?subject=Data%20Deletion%20Request" className="text-amber-400 font-bold hover:underline">developer@ritualdev.in</a>
           <div className="text-slate-500 mt-1">Response Window: All requests processed within 48-72 hours.</div>
         </div>
       </div>

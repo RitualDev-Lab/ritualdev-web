@@ -110,7 +110,7 @@ export default function EnterprisePage() {
         `Additional Architecture Notes: ${notes || "None provided"}\n\n` +
         `Timestamp: ${new Date().toISOString()}\n`
       );
-      window.open(`mailto:enterprise@ritualdev.in?subject=${emailSubject}&body=${emailBody}`, "_blank");
+      window.open(`mailto:hello@ritualdev.in?subject=${emailSubject}&body=${emailBody}`, "_blank");
     } finally {
       setIsSubmitting(false);
     }

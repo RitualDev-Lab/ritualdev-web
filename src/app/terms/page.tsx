@@ -100,8 +100,8 @@ export default function TermsOfServicePage() {
           </p>
           <div className="text-xs font-mono text-slate-300 space-y-1">
             <div>Support: <a href="mailto:support@ritualdev.in" className="text-brand-neon hover:underline">support@ritualdev.in</a></div>
-            <div>Grievance Officer: <a href="mailto:privacy@ritualdev.in" className="text-brand-green hover:underline">privacy@ritualdev.in</a></div>
-            <div>Developer Studio: <a href="mailto:developer@ritualdev.com" className="text-brand-cyan hover:underline">developer@ritualdev.com</a></div>
+            <div>Grievance Officer: <a href="mailto:security@ritualdev.in" className="text-brand-green hover:underline">security@ritualdev.in</a></div>
+            <div>Developer Studio: <a href="mailto:developer@ritualdev.in" className="text-brand-cyan hover:underline">developer@ritualdev.in</a></div>
           </div>
         </section>
 

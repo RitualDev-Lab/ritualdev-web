@@ -64,7 +64,7 @@ export default function CalculatorDeletePage() {
             If you have contacted our support team and wish to verify that your email correspondence or inquiries are deleted, please send a deletion request to:
           </p>
           <div className="text-xs font-mono text-slate-300 space-y-1">
-            <div>Email: <a href="mailto:developer@ritualdev.com?subject=Calculator%20Deletion%20Verification" className="text-amber-400 hover:underline">developer@ritualdev.com</a></div>
+            <div>Email: <a href="mailto:developer@ritualdev.in?subject=Calculator%20Deletion%20Verification" className="text-amber-400 hover:underline">developer@ritualdev.in</a></div>
             <div>Response Window: All requests are acknowledged and processed within 48-72 hours.</div>
           </div>
         </section>

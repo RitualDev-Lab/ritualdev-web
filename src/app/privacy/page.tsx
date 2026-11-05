@@ -144,7 +144,7 @@ export default function PrivacyCenterPage() {
         </div>
 
         <div className="pt-4 border-t border-slate-800 text-xs font-mono text-slate-400">
-          Contact for Privacy Inquiries: <a href="mailto:developer@ritualdev.com" className="text-brand-green hover:underline">developer@ritualdev.com</a>
+          Contact for Privacy Inquiries: <a href="mailto:developer@ritualdev.in" className="text-brand-green hover:underline">developer@ritualdev.in</a>
         </div>
       </div>
 

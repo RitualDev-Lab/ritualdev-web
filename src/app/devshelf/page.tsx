@@ -25,9 +25,11 @@ import {
   CreditCard,
   BadgeCheck,
   Globe,
-  DollarSign
+  DollarSign,
+  ArrowUp
 } from "lucide-react";
 import rawData from "@/data/devshelf.json";
+import { DevShelfSkeletonGrid } from "@/components/Skeleton";
 
 interface Resource {
   name: string;
@@ -118,6 +120,20 @@ export default function DevShelfPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [quickFilter, setQuickFilter] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState<number>(36);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const handleLoadMore = () => {
+    setIsLoadingMore(true);
+    setTimeout(() => {
+      setVisibleCount((prev) => prev + 36);
+      setIsLoadingMore(false);
+    }, 350);
+  };
   
   // Modals state
   const [selectedTool, setSelectedTool] = useState<Resource | null>(null);
@@ -642,7 +658,11 @@ export default function DevShelfPage() {
       </div>
 
       {/* Tools Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {!isMounted ? (
+        <DevShelfSkeletonGrid count={9} />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filtered.slice(0, visibleCount).map((tool, idx) => {
           const install = getInstallCommand(tool);
 
@@ -755,6 +775,13 @@ export default function DevShelfPage() {
           );
         })}
       </div>
+      {isLoadingMore && (
+        <div className="mt-5">
+          <DevShelfSkeletonGrid count={6} />
+        </div>
+      )}
+    </>
+  )}
 
       {/* Empty State */}
       {filtered.length === 0 && (
@@ -777,14 +804,30 @@ export default function DevShelfPage() {
         </div>
       )}
 
-      {/* Load More Button */}
+      {/* Load More & Back to Top */}
       {visibleCount < filtered.length && (
-        <div className="text-center mt-12">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-12">
           <button
-            onClick={() => setVisibleCount((prev) => prev + 36)}
-            className="px-6 py-2.5 rounded-xl glass-panel text-white text-xs font-mono hover:border-purple-500/60 transition-colors"
+            onClick={handleLoadMore}
+            disabled={isLoadingMore}
+            className="px-6 py-3 rounded-xl glass-panel text-white text-xs font-mono hover:border-purple-500/60 transition-all flex items-center gap-2 disabled:opacity-50"
           >
-            Load More Tools ({filtered.length - visibleCount} remaining)
+            {isLoadingMore ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-purple-400 border-t-transparent rounded-full animate-spin" />
+                <span>Loading Next Batch...</span>
+              </>
+            ) : (
+              <span>Load More Tools ({filtered.length - visibleCount} remaining)</span>
+            )}
+          </button>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="px-5 py-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-purple-500/60 text-slate-300 hover:text-white text-xs font-mono transition-colors flex items-center gap-1.5"
+            title="Jump back to top of directory"
+          >
+            <ArrowUp className="w-3.5 h-3.5 text-purple-400" />
+            <span>Back to Top</span>
           </button>
         </div>
       )}

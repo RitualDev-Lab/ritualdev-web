@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export default function HomePage() {
-  const [activeInstallTab, setActiveInstallTab] = useState<"brew" | "scoop" | "npm" | "code">("brew");
+  const [activeInstallTab, setActiveInstallTab] = useState<"brew" | "scoop" | "npm" | "pip" | "code">("brew");
   const [copied, setCopied] = useState(false);
   const [activeSimTab, setActiveSimTab] = useState<"agentshield" | "dbshield" | "skillprism">("agentshield");
 
@@ -32,6 +32,7 @@ export default function HomePage() {
     brew: "brew tap ritualdev-lab/tap && brew install agentshield dbshield",
     scoop: "scoop bucket add ritual && scoop install agentshield",
     npm: "npm install -g @ritualdev-lab/agentshield @ritualdev-lab/dbshield",
+    pip: "pip install agentshield-defense",
     code: "code --install-extension ritualdev.agentshield-defense"
   };
 
@@ -73,7 +74,7 @@ export default function HomePage() {
             {/* Install Tabs */}
             <div className="flex items-center justify-between border-b border-slate-800/80 px-2 pb-2 mb-2 text-xs font-mono">
               <div className="flex gap-1">
-                {(["brew", "scoop", "npm", "code"] as const).map((tab) => (
+                {(["brew", "scoop", "npm", "pip", "code"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveInstallTab(tab)}
@@ -83,7 +84,7 @@ export default function HomePage() {
                         : "text-slate-400 hover:text-white"
                     }`}
                   >
-                    {tab === "code" ? "VS Code / Cursor" : tab}
+                    {tab === "code" ? "VS Code / Cursor" : tab === "pip" ? "Python (pip)" : tab}
                   </button>
                 ))}
               </div>

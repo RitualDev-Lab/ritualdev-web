@@ -231,7 +231,7 @@ export default function Footer() {
               API
             </Link>
             <span>&middot;</span>
-            <span className="text-slate-400">developer@ritualdev.com</span>
+            <span className="text-slate-400">developer@ritualdev.in</span>
           </div>
         </div>
       </div>

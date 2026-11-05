@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
   title: "RitualDev — Autonomous AI Agent Defense, Sandboxing & Zero-Leak Studio",
-  description: "Enterprise-grade runtime secret defense, kernel sandboxing (Bubblewrap, Landlock, Seatbelt, AppContainer), database wire proxy, 96.7% token compaction, and offline-first software.",
+  description: "Enterprise runtime secret defense, kernel sandboxing (Bubblewrap, Landlock, Seatbelt, AppContainer), database wire proxy, 96.7% token compaction, and 567+ verified developer tools.",
   metadataBase: new URL("https://ritualdev.in"),
   alternates: {
     canonical: "/",
   },
   keywords: [
     "AI agent security",
+    "AI agent defense",
     "kernel sandbox",
     "AgentShield",
     "DBShield",
@@ -20,17 +22,21 @@ export const metadata: Metadata = {
     "WebSecAuditor",
     "MCPBuilderKit",
     "Model Context Protocol",
-    "Claude Code security",
+    "MCP servers directory",
+    "Claude Code security hooks",
     "Cursor AI sandbox",
     "Windsurf extension",
-    "database guardrail",
+    "database guardrail proxy",
     "token compaction",
     "prompt injection defense",
     "egress filtering",
     "Bubblewrap Landlock",
     "Seatbelt macOS",
     "AppContainer Windows",
-    "zero-leak"
+    "zero-leak secret redactor",
+    "agentshield-defense PyPI",
+    "free developer tools",
+    "open source alternatives to Postman Datadog Sentry"
   ],
   authors: [
     { name: "Divyanshu Jethi", url: "https://ritualdev.in/about" },
@@ -85,9 +91,33 @@ export default function RootLayout({
         "logo": "https://ritualdev.in/favicon.svg",
         "sameAs": [
           "https://github.com/RitualDev-Lab",
-          "https://open-vsx.org/namespace/ritualdev-lab"
+          "https://open-vsx.org/namespace/ritualdev-lab",
+          "https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense",
+          "https://pypi.org/project/agentshield-defense/"
         ],
         "description": "Independent software engineering studio specializing in autonomous AI agent defense, kernel sandboxing, database wire proxies, and offline-first developer tools.",
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "email": "support@ritualdev.in",
+            "contactType": "customer support"
+          },
+          {
+            "@type": "ContactPoint",
+            "email": "developer@ritualdev.in",
+            "contactType": "technical support"
+          },
+          {
+            "@type": "ContactPoint",
+            "email": "security@ritualdev.in",
+            "contactType": "security"
+          },
+          {
+            "@type": "ContactPoint",
+            "email": "hello@ritualdev.in",
+            "contactType": "sales"
+          }
+        ],
         "founders": [
           {
             "@type": "Person",
@@ -113,7 +143,7 @@ export default function RootLayout({
         "name": "AgentShield",
         "operatingSystem": "Linux, macOS, Windows",
         "applicationCategory": "SecurityApplication",
-        "description": "Zero-leak secret defense & kernel sandbox for autonomous AI coding agents.",
+        "description": "Zero-leak secret defense & OS kernel sandboxing for autonomous AI coding agents (Claude Code, Cursor, Windsurf).",
         "url": "https://ritualdev.in/agentshield/",
         "offers": {
           "@type": "Offer",
@@ -139,13 +169,56 @@ export default function RootLayout({
         "name": "SkillPrism",
         "operatingSystem": "Cross-platform",
         "applicationCategory": "DeveloperApplication",
-        "description": "Context compaction engine cutting LLM tool prompt bloat by 96.7% using JIT disclosure.",
+        "description": "Context compaction engine cutting LLM tool prompt bloat by 96.7% using JIT progressive disclosure.",
         "url": "https://ritualdev.in/skillprism/",
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "USD"
         }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "DevShelf",
+        "operatingSystem": "Web, CLI (npx devshelf-mcp)",
+        "applicationCategory": "DeveloperApplication",
+        "description": "Curated catalog of 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.",
+        "url": "https://ritualdev.in/devshelf/",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://ritualdev.in/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is AgentShield and how does it secure AI coding agents?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "AgentShield is a runtime defense and OS-level kernel sandbox (Bubblewrap on Linux, Landlock, Seatbelt on macOS, AppContainer on Windows) designed for autonomous AI agents like Claude Code, Cursor, and Windsurf. It intercepts process execution, redacts environment credentials (.env, AWS keys, GitHub tokens) before they reach the model, and replaces sensitive tokens with synthetic decoy honeytokens."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does DevShelf help developers find tools and MCP servers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DevShelf is an open-access catalog indexing 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with no login or paywalls. It offers 1-click Docker Compose configs, package install snippets, a terminal CLI, and an official MCP server for AI coding assistants."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does DBShield protect production databases from AI agent queries?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "DBShield acts as an air-gapped PostgreSQL wire proxy (protocol 3.0) and SQLite guardrail that intercepts destructive operations (DROP, TRUNCATE, UPDATE without WHERE), quarantines unindexed table scans, and triggers interactive two-man rule Slack/Teams approvals."
+            }
+          }
+        ]
       }
     ]
   };
@@ -168,6 +241,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

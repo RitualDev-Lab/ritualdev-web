@@ -50,7 +50,7 @@ export default function LifeOSDeletePage() {
             For manual support or to confirm complete deletion:
           </p>
           <div className="text-xs font-mono text-slate-300">
-            Email: <a href="mailto:developer@ritualdev.com?subject=LifeOS%20Data%20Deletion" className="text-amber-400 hover:underline">developer@ritualdev.com</a>
+            Email: <a href="mailto:developer@ritualdev.in?subject=LifeOS%20Data%20Deletion" className="text-amber-400 hover:underline">developer@ritualdev.in</a>
           </div>
         </section>
 

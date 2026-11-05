@@ -89,7 +89,7 @@ export default function CalculatorPrivacyPage() {
             If you have any questions regarding this Privacy Policy, please contact us at:
           </p>
           <div className="text-xs font-mono text-slate-300 space-y-1">
-            <div>Developer: <a href="mailto:developer@ritualdev.com" className="text-brand-green hover:underline">developer@ritualdev.com</a></div>
+            <div>Developer: <a href="mailto:developer@ritualdev.in" className="text-brand-green hover:underline">developer@ritualdev.in</a></div>
             <div>Website: <Link href="https://ritualdev.in" className="text-brand-green hover:underline">https://ritualdev.in</Link></div>
             <div>Data Deletion Instructions: <Link href="/delete-account/all-in-one-calculator" className="text-brand-cyan hover:underline">/delete-account/all-in-one-calculator</Link></div>
           </div>
