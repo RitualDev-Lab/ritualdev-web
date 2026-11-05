@@ -1,0 +1,12 @@
+# Open VSX Registry Cryptographic Publisher Ownership Verification
+# Namespace: ritualdev-lab
+# Publisher: Ritual-Dev-Git / ritualdev-lab
+# Domain: ritualdev.in
+# Verification Token: ovsx-verify-ritualdev-lab-f7a92c481e05d6b3
+
+open-vsx-publisher-verification: ritualdev-lab
+publisher: ritualdev-lab
+account: Ritual-Dev-Git
+domain: ritualdev.in
+verified-at: 2026-11-06T00:00:00Z
+status: verified

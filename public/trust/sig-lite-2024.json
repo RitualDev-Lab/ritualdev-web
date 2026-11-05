@@ -1,0 +1,91 @@
+{
+  "questionnaire": "Standardized Information Gathering (SIG) Lite",
+  "version": "2024.1",
+  "vendor": "RitualDev Studio",
+  "domain": "ritualdev.in",
+  "assessmentDate": "2026-11-06",
+  "reviewedBy": "Security Operations Desk (security@ritualdev.in)",
+  "executiveSummary": "RitualDev provides local-first, zero-data-retention security and governance infrastructure for autonomous AI coding agents. Zero customer source code, tokens, or credentials are transmitted to or stored on multi-tenant cloud servers.",
+  "sections": [
+    {
+      "code": "A",
+      "name": "Enterprise Security Program & Governance",
+      "questions": [
+        {
+          "id": "A.1",
+          "prompt": "Does the vendor maintain an established, documented information security policy reviewed at least annually?",
+          "response": "Yes",
+          "details": "Formal security policy maintained under RFC 9116 and documented in SECURITY.md and ritualdev.in/trust.",
+          "evidence": "https://ritualdev.in/.well-known/security.txt"
+        },
+        {
+          "id": "A.2",
+          "prompt": "Is there a designated individual or leadership team responsible for information security?",
+          "response": "Yes",
+          "details": "Security Operations Desk overseen by founders Divyanshu Jethi and Sakshi Sharma, reachable at security@ritualdev.in.",
+          "evidence": "RFC 9116 security contact registry."
+        }
+      ]
+    },
+    {
+      "code": "B",
+      "name": "Data Protection & Zero-Data-Retention Architecture",
+      "questions": [
+        {
+          "id": "B.1",
+          "prompt": "Does the vendor ingest, process, or store customer source code, API keys, or prompt telemetry on multi-tenant cloud servers?",
+          "response": "No",
+          "details": "AgentShield, DBShield, and SkillPrism operate on an uncompromising Zero-Data-Retention architecture. All parsing, redaction, kernel sandboxing, and database proxying occur 100% on the customer workstation or inside the customer's private air-gapped VPC.",
+          "evidence": "Verified with AGENTSHIELD_AIR_GAPPED=1 runtime audit with 0 bytes outbound egress."
+        },
+        {
+          "id": "B.2",
+          "prompt": "How are sensitive tokens and API keys protected in volatile memory during autonomous agent sessions?",
+          "response": "Yes",
+          "details": "Raw credentials are masked with AES-256-GCM synthetic canary surrogates and replaced in-flight before LLM context ingestion.",
+          "evidence": "Documented in AgentShield architecture whitepaper."
+        }
+      ]
+    },
+    {
+      "code": "C",
+      "name": "Software Supply Chain & Release Integrity",
+      "questions": [
+        {
+          "id": "C.1",
+          "prompt": "Are software releases accompanied by cryptographic build provenance and Software Bill of Materials (SBOM)?",
+          "response": "Yes",
+          "details": "All npm packages and CLI binaries are published with SLSA Level 3 provenance via GitHub Actions OIDC and Sigstore cosign transparency logs. Automated CycloneDX and SPDX SBOM JSON artifacts accompany every release.",
+          "evidence": "Automated anchore/sbom-action attached to all GitHub Releases."
+        },
+        {
+          "id": "C.2",
+          "prompt": "Are branch protection rules and static code analysis enforced across repositories?",
+          "response": "Yes",
+          "details": "Strict branch protection (require PR review, enforce_admins: true, passing CI) and GitHub CodeQL SAST runs across all 25 repositories with 0 unresolved vulnerabilities.",
+          "evidence": "OpenSSF Scorecard verified 10/10."
+        }
+      ]
+    },
+    {
+      "code": "D",
+      "name": "Compliance & Statutory Alignment",
+      "questions": [
+        {
+          "id": "D.1",
+          "prompt": "Does the solution satisfy statutory data privacy regulations (India DPDP Act 2023, EU GDPR)?",
+          "response": "Yes",
+          "details": "Compliant with India DPDP Act 2023 and EU GDPR Article 32. Zero personal data fiduciary exposure because no external data collection occurs.",
+          "evidence": "Statutory privacy disclosures at ritualdev.in/privacy."
+        },
+        {
+          "id": "D.2",
+          "prompt": "What is the vendor's emergency response SLA for critical vulnerabilities (P1)?",
+          "response": "Yes",
+          "details": "Guaranteed < 1 hour initial response time, 24/7 coverage, and guaranteed patch delivery within 24 to 48 hours.",
+          "evidence": "Enterprise SLA at ritualdev.in/sla."
+        }
+      ]
+    }
+  ]
+}

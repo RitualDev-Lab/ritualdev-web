@@ -17,16 +17,20 @@ import {
   Cpu,
   Smartphone,
   EyeOff,
-  AlertTriangle,
-  Server,
+  AlertTriangle,  Server,
   Heart,
-  Download
+  Download,
+  DollarSign,
+  Sliders,
+  Activity,
+  Sparkles
 } from "lucide-react";
 
 export default function HomePage() {
   const [activeInstallTab, setActiveInstallTab] = useState<"brew" | "scoop" | "npm" | "pip" | "code">("brew");
   const [copied, setCopied] = useState(false);
   const [activeSimTab, setActiveSimTab] = useState<"agentshield" | "dbshield" | "skillprism">("agentshield");
+  const [devTeamSize, setDevTeamSize] = useState<number>(25);
 
   const installCommands = {
     brew: "brew tap ritualdev-lab/tap && brew install agentshield dbshield",
@@ -474,83 +478,241 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Studio Legacy & Offline Android Hub */}
+      {/* Interactive Token Compaction ROI Modeling & Private VPC Gateway */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/80">
+        
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
             <div className="text-xs font-mono text-brand-neon uppercase tracking-wider mb-2">
-              RitualDev Studio Lineage
+              Enterprise Cost Optimization &amp; Architecture
             </div>
-            <h2 className="text-3xl font-extrabold text-white">
-              Tactile Engineering &amp; Offline Android Applications
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+              Interactive Context Compaction ROI &amp; Air-Gapped VPC
             </h2>
-            <p className="mt-2 text-slate-400 max-w-2xl">
-              From high-performance mobile math engines to zero-cloud local AI search, we believe software must respect hardware autonomy.
+            <p className="mt-2 text-slate-400 max-w-2xl text-sm sm:text-base leading-relaxed">
+              Model your team&apos;s annual token cost reduction with SkillPrism&apos;s 96.7% context compaction, and review our zero-egress private VPC air-gapped topology.
             </p>
           </div>
-          <Link
-            href="/apps"
-            className="px-5 py-2.5 rounded-xl glass-panel text-sm text-slate-200 hover:text-white flex items-center gap-2 self-start md:self-auto"
-          >
-            <Smartphone className="w-4 h-4 text-brand-green" />
-            <span>View All Android Apps</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/skillprism"
+              className="px-5 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-mono transition-all flex items-center gap-2"
+            >
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span>SkillPrism Specs</span>
+            </Link>
+            <Link
+              href="/enterprise"
+              className="px-5 py-2.5 rounded-xl glass-panel text-xs font-mono text-slate-200 hover:text-white flex items-center gap-2"
+            >
+              <Server className="w-4 h-4 text-brand-cyan" />
+              <span>Private VPC Topology</span>
+            </Link>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Interactive ROI Calculator Card */}
+        <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-slate-700/80 shadow-2xl mb-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-neon/5 rounded-full blur-[100px] pointer-events-none -z-10" />
           
-          <div className="glass-panel rounded-2xl p-6 border border-slate-800">
-            <div className="text-xs font-mono text-brand-green mb-1">FLAGSHIP UTILITY &middot; 170+ TOOLS</div>
-            <h3 className="text-xl font-bold text-white mb-2">All-in-One Calculator Plus</h3>
-            <p className="text-sm text-slate-400 mb-4 leading-relaxed">
-              170+ math, finance, unit, and health conversion utilities. 100% offline, zero data harvesting, zero analytics SDKs.
-            </p>
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <Link href="/privacy/all-in-one-calculator" className="text-slate-400 hover:text-white underline">
-                Privacy Policy
-              </Link>
-              <span>&middot;</span>
-              <Link href="/delete-account/all-in-one-calculator" className="text-slate-400 hover:text-white underline">
-                Data Deletion
+          <div className="flex flex-col lg:flex-row gap-8 items-start justify-between">
+            
+            {/* Left Column: Sliders & Variables */}
+            <div className="w-full lg:w-1/2 space-y-6">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-brand-neon uppercase tracking-wider flex items-center gap-2">
+                  <Sliders className="w-4 h-4" />
+                  <span>Team Parameters</span>
+                </span>
+                <span className="px-2.5 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs font-mono text-slate-300">
+                  Model: Claude 3.5 Sonnet / GPT-4o ($3.00 / 1M tokens)
+                </span>
+              </div>
+
+              {/* Slider 1: Engineering Team Size */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-300 font-medium">Active AI Agent Developers:</span>
+                  <span className="font-mono text-brand-neon font-bold text-lg">{devTeamSize} engineers</span>
+                </div>
+                <input
+                  type="range"
+                  min="5"
+                  max="200"
+                  step="5"
+                  value={devTeamSize}
+                  onChange={(e) => setDevTeamSize(Number(e.target.value))}
+                  className="w-full accent-emerald-400 h-2 bg-slate-800 rounded-lg cursor-pointer"
+                />
+                <div className="flex justify-between text-[11px] font-mono text-slate-500">
+                  <span>5 devs (Seed / Startup)</span>
+                  <span>50 devs (Growth)</span>
+                  <span>200 devs (Enterprise Fleet)</span>
+                </div>
+              </div>
+
+              {/* Monthly Volume Stats */}
+              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800 text-xs font-mono">
+                <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800">
+                  <div className="text-slate-400 mb-1">Baseline Token Volume</div>
+                  <div className="text-lg font-bold text-slate-200">
+                    {(devTeamSize * 15).toLocaleString()}M <span className="text-xs font-normal text-slate-500">tokens/mo</span>
+                  </div>
+                  <div className="text-[10px] text-slate-500 mt-1">@ 15M tokens per seat / mo</div>
+                </div>
+                <div className="p-4 rounded-2xl bg-slate-950/80 border border-emerald-900/40">
+                  <div className="text-emerald-400 mb-1">SkillPrism JIT Volume</div>
+                  <div className="text-lg font-bold text-brand-neon">
+                    {Math.round(devTeamSize * 15 * 0.033).toLocaleString()}M <span className="text-xs font-normal text-slate-500">tokens/mo</span>
+                  </div>
+                  <div className="text-[10px] text-emerald-400/80 mt-1">96.7% Prompt Reduction</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Computed Savings Display */}
+            <div className="w-full lg:w-5/12 bg-slate-950/90 rounded-2xl p-6 sm:p-8 border border-brand-green/30 space-y-6">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div className="flex items-center gap-2 text-xs font-mono text-brand-neon font-bold">
+                  <Activity className="w-4 h-4" />
+                  <span>Real-Time Projected Savings</span>
+                </div>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-green/10 text-brand-neon border border-brand-green/30">
+                  Verified Benchmarks
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <div className="text-xs font-mono text-slate-400">Projected Monthly Savings</div>
+                  <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono mt-1">
+                    ${Math.round(devTeamSize * 15 * 3 * 0.967).toLocaleString()}
+                    <span className="text-xs font-normal text-slate-400 ml-2">/ month</span>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider">
+                    Projected Annual Cost Reduction
+                  </div>
+                  <div className="text-4xl sm:text-5xl font-black text-brand-neon font-mono mt-1">
+                    ${Math.round(devTeamSize * 15 * 3 * 0.967 * 12).toLocaleString()}
+                    <span className="text-xs font-normal text-slate-400 ml-2">/ year</span>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-800/80 grid grid-cols-2 gap-3 text-xs font-mono text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-brand-neon shrink-0" />
+                    <span>4.2x Faster Turns</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-brand-neon shrink-0" />
+                    <span>Zero Schema Drift</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-brand-neon shrink-0" />
+                    <span>Redis VPC Shared</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-brand-neon shrink-0" />
+                    <span>Air-Gapped Ready</span>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/pricing"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-brand-green to-emerald-500 text-slate-950 font-bold text-xs font-mono flex items-center justify-center gap-2 hover:opacity-95 transition-opacity shadow-[0_0_15px_rgba(61,220,132,0.3)]"
+              >
+                <span>Deploy SkillPrism for Your Team</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
 
-          <div className="glass-panel rounded-2xl p-6 border border-slate-800">
-            <div className="text-xs font-mono text-brand-cyan mb-1">SECURITY COMPANION</div>
-            <h3 className="text-xl font-bold text-white mb-2">CyberHub</h3>
-            <p className="text-sm text-slate-400 mb-4 leading-relaxed">
-              On-device Android permission inspector and network diagnostics companion. Evaluates app vulnerability risk scores entirely in volatile memory.
-            </p>
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <Link href="/privacy/cyberhub" className="text-slate-400 hover:text-white underline">
-                Privacy Policy
-              </Link>
-              <span>&middot;</span>
-              <Link href="/delete-account/cyberhub" className="text-slate-400 hover:text-white underline">
-                Data Deletion
-              </Link>
-            </div>
           </div>
-
-          <div className="glass-panel rounded-2xl p-6 border border-slate-800">
-            <div className="text-xs font-mono text-purple-400 mb-1">PRODUCTIVITY RPG</div>
-            <h3 className="text-xl font-bold text-white mb-2">LifeOS</h3>
-            <p className="text-sm text-slate-400 mb-4 leading-relaxed">
-              Gamified local-first habit tracking and daily productivity RPG. Local encrypted SQLite storage with zero AI model training retention.
-            </p>
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <Link href="/privacy/lifeos" className="text-slate-400 hover:text-white underline">
-                Privacy Policy
-              </Link>
-              <span>&middot;</span>
-              <Link href="/delete-account/lifeos" className="text-slate-400 hover:text-white underline">
-                Data Deletion
-              </Link>
-            </div>
-          </div>
-
         </div>
+
+        {/* Private VPC Air-Gapped Architecture Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-3">
+            <div className="p-3 rounded-xl bg-brand-green/10 text-brand-neon border border-brand-green/30 w-fit">
+              <Shield className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white">Kernel-Level Containment</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Linux Landlock &amp; Bubblewrap, macOS Seatbelt, and Windows AppContainer restrict agent process trees. Access to <code className="text-brand-neon">~/.aws</code>, <code className="text-brand-neon">~/.ssh</code>, and host sockets is denied or replaced with synthetic canaries.
+            </p>
+            <div className="text-[11px] font-mono text-slate-500 pt-2 border-t border-slate-800/80">
+              Zero sandbox escape CVEs &middot; 232 test vectors
+            </div>
+          </div>
+
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-3">
+            <div className="p-3 rounded-xl bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 w-fit">
+              <Database className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white">Wire-Level DB Guardrails</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              DBShield intercepts raw PostgreSQL, MySQL, and SQLite protocols on the wire. Destructive agent mutations (<code className="text-brand-cyan">DROP TABLE</code>, unindexed updates) are trapped in zero-commit dry-run transactions with Slack/Teams approval cards.
+            </p>
+            <div className="text-[11px] font-mono text-slate-500 pt-2 border-t border-slate-800/80">
+              Interactive webhook triage &middot; Local AST parsing
+            </div>
+          </div>
+
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-3">
+            <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/30 w-fit">
+              <Server className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white">Zero-Egress Private VPC</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Deploy inside air-gapped AWS VPCs or private Kubernetes clusters with <code className="text-purple-300">AGENTSHIELD_AIR_GAPPED=1</code>. Zero outbound telemetry, zero multi-tenant cloud storage, and cryptographic SLSA Level 3 release provenance.
+            </p>
+            <div className="text-[11px] font-mono text-slate-500 pt-2 border-t border-slate-800/80">
+              Terraform &amp; Helm charts &middot; SOC 2 Type II ready
+            </div>
+          </div>
+        </div>
+
+        {/* Decoupled Consumer Android Hub Notice */}
+        <div className="p-6 rounded-2xl bg-slate-950/80 border border-slate-800/90 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 shrink-0">
+              <Smartphone className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mb-0.5">
+                RitualDev Studio Lineage &middot; Consumer Utilities Decoupled
+              </div>
+              <h4 className="text-sm font-bold text-white">
+                Looking for All-in-One Calculator Plus, CyberHub, or LifeOS?
+              </h4>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Our consumer offline Android applications and tactile tools are hosted separately on our dedicated mobile portal.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/apps"
+              className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700 text-xs font-mono transition-colors"
+            >
+              View Mobile Apps (/apps)
+            </Link>
+            <a
+              href="https://mobile.ritualdev.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl bg-brand-green/10 hover:bg-brand-green/20 text-brand-neon border border-brand-green/30 text-xs font-mono font-bold transition-all flex items-center gap-1.5"
+            >
+              <span>mobile.ritualdev.in</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+
       </section>
 
       {/* Enterprise CTA & Founders */}

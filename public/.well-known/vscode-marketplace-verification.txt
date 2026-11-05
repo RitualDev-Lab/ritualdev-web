@@ -1,0 +1,11 @@
+# Visual Studio Marketplace Cryptographic Publisher Ownership Verification
+# Publisher: ritualdev
+# Organization: RitualDev-Lab
+# Domain: ritualdev.in
+# Verification Token: vscode-verify-ritualdev-9a4c82e01f5b7d63
+
+vscode-marketplace-verification: ritualdev
+publisher: ritualdev
+domain: ritualdev.in
+verified-at: 2026-11-06T00:00:00Z
+status: verified

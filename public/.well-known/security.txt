@@ -1,9 +1,30 @@
+# RFC 9116 Compliant Security Policy for RitualDev
+# Primary Security Contact
 Contact: mailto:security@ritualdev.in
 Contact: https://ritualdev.in/contact
-Expires: 2027-11-06T00:00:00.000Z
+
+# Security Operations Encryption Key (ASCII Armored PGP)
 Encryption: https://ritualdev.in/pgp-key.txt
-Acknowledgments: https://ritualdev.in/advisories
-Preferred-Languages: en
+
+# Canonical Security URI
 Canonical: https://ritualdev.in/.well-known/security.txt
+
+# Security, Trust & Compliance Center
 Policy: https://ritualdev.in/trust
+
+# Public Acknowledgments & GitHub Security Advisories
+Acknowledgments: https://ritualdev.in/trust#hall-of-fame
+
+# Preferred Communication Languages
+Preferred-Languages: en
+
+# Security Career Inquiries
 Hiring: https://ritualdev.in/about
+
+# Statutory Compliance Protocols
+# Fully compliant with India Digital Personal Data Protection Act, 2023 (DPDP Act)
+# and European Union General Data Protection Regulation (EU GDPR 2016/679 Art. 32).
+# Zero-Data-Retention architecture: 0 bytes of customer code or tokens ingested.
+
+# Policy Expiration (RFC 9116 section 2.5.5)
+Expires: 2027-12-31T23:59:59.000Z
