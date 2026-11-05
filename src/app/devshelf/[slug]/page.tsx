@@ -38,6 +38,7 @@ interface Resource {
   url?: string;
   auth?: string;
   freeTier?: string;
+  freeTierCost?: string;
   cors?: string;
   rateLimit?: string;
   goodFirstIssues?: string;
@@ -51,7 +52,7 @@ function toSlug(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function getInstallCommand(tool: Resource): string {
+function getInstallCommand(tool: Resource): string | null {
   const slug = toSlug(tool.name);
   const lang = (tool.language || "").toLowerCase();
 
@@ -72,7 +73,7 @@ function getInstallCommand(tool: Resource): string {
     const cleanRepo = tool.repo.startsWith("http") ? tool.repo : `https://github.com/${tool.repo}`;
     return `git clone ${cleanRepo}.git`;
   }
-  return `npm install -g ${slug}`;
+  return null;
 }
 
 export async function generateStaticParams() {
@@ -98,9 +99,9 @@ export async function generateMetadata({
     };
   }
 
-  const altText = tool.alternativeTo ? ` Free open-source alternative to ${tool.alternativeTo}.` : "";
-  const title = `${tool.name} - Open Source ${tool.category || "Developer Tool"} | DevShelf`;
-  const description = `${tool.description || "Open-source developer utility and toolkit."}${altText} Verified specs, install command, and documentation.`;
+  const altText = tool.alternativeTo ? ` Alternative to ${tool.alternativeTo}.` : "";
+  const title = `${tool.name} - ${tool.category || "Developer Tool"} | DevShelf`;
+  const description = `${tool.description || "Developer tool listed in DevShelf."}${altText} Catalog details and setup resources.`;
   const canonicalUrl = `https://ritualdev.in/devshelf/${slug}/`;
 
   return {
@@ -138,6 +139,14 @@ export default async function ToolDetailPage({
   }
 
   const installCmd = getInstallCommand(tool);
+  const accessAnswer = [
+    tool.freeTier || tool.freeTierCost || (tool.rateLimit ? null : "Free-tier details are not listed."),
+    tool.rateLimit,
+    tool.license ? `License: ${tool.license}.` : "License is not listed.",
+  ].filter(Boolean).join(" ");
+  const setupAnswer = installCmd
+    ? `You can install or run ${tool.name} using the terminal command: "${installCmd}".`
+    : `See the official setup documentation: ${tool.url || "contact the provider"}.`;
   const repoUrl = tool.repo ? (tool.repo.startsWith("http") ? tool.repo : `https://github.com/${tool.repo}`) : null;
   const pageUrl = `https://ritualdev.in/devshelf/${slug}/`;
 
@@ -164,13 +173,7 @@ export default async function ToolDetailPage({
     name: tool.name,
     description: tool.description,
     applicationCategory: "DeveloperApplication",
-    operatingSystem: "All (Linux, macOS, Windows, Docker)",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-    },
-    license: tool.license || "Open Source",
+    license: tool.license || undefined,
     url: pageUrl,
     downloadUrl: repoUrl || undefined,
     sameAs: [
@@ -224,7 +227,7 @@ export default async function ToolDetailPage({
         name: `Is ${tool.name} free and open-source?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `${tool.name} is licensed under ${tool.license || "an open-source license"} and features a ${tool.freeTier || "100% free / open source"} allowance without mandatory paid tiers.`,
+          text: accessAnswer,
         },
       },
       {
@@ -232,7 +235,7 @@ export default async function ToolDetailPage({
         name: `How do I install or run ${tool.name}?`,
         acceptedAnswer: {
           "@type": "Answer",
-          text: `You can install or run ${tool.name} using the terminal command: "${installCmd}".`,
+          text: setupAnswer,
         },
       },
       ...(tool.alternativeTo
@@ -242,7 +245,7 @@ export default async function ToolDetailPage({
               name: `What proprietary tool does ${tool.name} replace?`,
               acceptedAnswer: {
                 "@type": "Answer",
-                text: `${tool.name} is a verified, self-hostable open-source alternative to ${tool.alternativeTo} with zero telemetry and no vendor lock-in.`,
+                text: `${tool.name} is listed as an alternative to ${tool.alternativeTo}. Compare its documented features and terms for your use case.`,
               },
             },
           ]
@@ -453,13 +456,19 @@ export default async function ToolDetailPage({
         <section className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4">
           <h2 className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1.5">
             <Terminal className="w-3.5 h-3.5 text-brand-neon" />
-            <span>Quick Install &amp; Execution</span>
+            <span>{installCmd ? "Quick Install & Execution" : "Setup documentation"}</span>
           </h2>
 
-          <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-white flex items-center">
-            <span className="text-brand-neon mr-2">$</span>
-            <span className="flex-1">{installCmd}</span>
-          </div>
+          {installCmd ? (
+            <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-white flex items-center">
+              <span className="text-brand-neon mr-2">$</span>
+              <span className="flex-1">{installCmd}</span>
+            </div>
+          ) : tool.url ? (
+            <a href={tool.url} target="_blank" rel="noopener noreferrer" className="text-brand-cyan underline">Open official setup documentation</a>
+          ) : (
+            <p className="text-slate-400">Setup instructions are not listed.</p>
+          )}
 
           {repoUrl && (
             <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-slate-300 flex items-center">
@@ -496,28 +505,28 @@ export default async function ToolDetailPage({
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">Free Tier</span>
             <span className="text-white font-bold truncate block">
-              {tool.freeTier || "100% Free / OSS"}
+              {tool.freeTier || tool.freeTierCost || (tool.rateLimit ? "See usage limits" : "Not listed")}
             </span>
           </div>
 
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">Authentication</span>
             <span className="text-white font-bold truncate block">
-              {tool.auth || "No Auth Required"}
+              {tool.auth || "Not listed"}
             </span>
           </div>
 
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">Self-Hostable</span>
             <span className="text-white font-bold truncate block">
-              {tool.dockerCompose ? "Yes (Docker)" : "Native / CLI"}
+              {tool.dockerCompose ? "Yes (Docker)" : tool.statusTags?.includes("Self-Hostable") ? "Yes" : "Not listed"}
             </span>
           </div>
 
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">License</span>
             <span className="text-white font-bold truncate block">
-              {tool.license || "Open Source"}
+              {tool.license || "Not listed"}
             </span>
           </div>
         </section>
@@ -538,14 +547,14 @@ export default async function ToolDetailPage({
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1.5">
               <h3 className="font-bold text-white">Is {tool.name} free and open-source?</h3>
               <p className="text-slate-400 leading-relaxed">
-                Yes, {tool.name} is licensed under {tool.license || "an open-source license"} and provides a {tool.freeTier || "100% free / open source"} tier.
+                {accessAnswer}
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1.5">
               <h3 className="font-bold text-white">How do I install or run {tool.name}?</h3>
               <p className="text-slate-400 leading-relaxed">
-                You can run or install {tool.name} via: <code className="text-brand-neon bg-black/60 px-1.5 py-0.5 rounded">{installCmd}</code>.
+                {setupAnswer}
               </p>
             </div>
 
@@ -553,7 +562,7 @@ export default async function ToolDetailPage({
               <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-1.5">
                 <h3 className="font-bold text-white">What proprietary tool does {tool.name} replace?</h3>
                 <p className="text-slate-400 leading-relaxed">
-                  {tool.name} is a self-hostable open-source alternative to {tool.alternativeTo} with zero telemetry and no vendor lock-in.
+                  {tool.name} is listed as an alternative to {tool.alternativeTo}. Compare its documented features and terms for your use case.
                 </p>
               </div>
             )}
@@ -565,7 +574,7 @@ export default async function ToolDetailPage({
           <section className="pt-6 border-t border-slate-800 space-y-4">
             <h2 className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1.5">
               <Boxes className="w-3.5 h-3.5 text-purple-400" />
-              <span>Other Open-Source Tools in {tool.category}</span>
+              <span>Other Tools in {tool.category}</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
