@@ -200,6 +200,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/sla" className="hover:text-brand-cyan transition-colors flex items-center gap-1.5 text-slate-300">
+                  <span>Enterprise SLA Terms</span>
+                  <span className="text-[9px] font-mono px-1 py-0.2 bg-cyan-950/60 text-brand-cyan border border-cyan-800/40 rounded">Contract</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="hover:text-slate-200 transition-colors">
                   Support &amp; Contact
                 </Link>

@@ -282,6 +282,11 @@ export default function EnterprisePage() {
           <p className="text-xs sm:text-sm text-slate-400 font-mono mt-1">
             Compare coverage guarantees, deployment assistance, and regulatory compliance deliverables.
           </p>
+          <div className="pt-2">
+            <Link href="/sla" className="inline-flex items-center gap-1.5 text-xs font-mono text-brand-cyan hover:underline">
+              <span>View Official Enterprise Master Service Agreement SLA Contract Terms &rarr;</span>
+            </Link>
+          </div>
         </div>
 
         <div className="glass-panel rounded-3xl border border-slate-800 overflow-hidden">
