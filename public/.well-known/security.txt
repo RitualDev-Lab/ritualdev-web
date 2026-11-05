@@ -1,0 +1,9 @@
+Contact: mailto:security@ritualdev.in
+Contact: https://ritualdev.in/contact
+Expires: 2027-11-06T00:00:00.000Z
+Encryption: https://ritualdev.in/pgp-key.txt
+Acknowledgments: https://ritualdev.in/advisories
+Preferred-Languages: en
+Canonical: https://ritualdev.in/.well-known/security.txt
+Policy: https://ritualdev.in/trust
+Hiring: https://ritualdev.in/about
