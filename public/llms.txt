@@ -25,7 +25,8 @@ RitualDev (https://ritualdev.in) is an independent engineering platform building
 ## Developer Packages & CLIs
 
 - [npm: @ritualdev-lab/agentshield](https://www.npmjs.com/package/@ritualdev-lab/agentshield): Node.js CLI & runtime sandbox (`npx @ritualdev-lab/agentshield`).
-- [PyPI / Python SDK: agentshield](https://github.com/RitualDev-Lab/agentshield-python): Native Python SDK (`pip install agentshield`) for LangGraph, CrewAI, AutoGen, and LlamaIndex.
+- [PyPI / Python SDK: agentshield-defense](https://pypi.org/project/agentshield-defense/): Native Python SDK (`pip install agentshield-defense`) for LangGraph, CrewAI, AutoGen, and LlamaIndex.
+- [Container Registry (GHCR): ghcr.io/ritualdev-lab/agentshield](https://github.com/RitualDev-Lab/AgentShield/pkgs/container/agentshield): Multi-arch (`linux/amd64`, `linux/arm64`) distroless container images (`0.2.1`, `latest`) signed with Cosign keyless Sigstore.
 - [GitHub Marketplace Action: setup-agentshield](https://github.com/RitualDev-Lab/setup-agentshield): Official CI action (`uses: RitualDev-Lab/setup-agentshield@v1`).
 - [Homebrew Tap](https://github.com/RitualDev-Lab/homebrew-tap): macOS and Linux Homebrew installation (`brew install ritualdev-lab/tap/agentshield`).
 - [Scoop Bucket](https://github.com/RitualDev-Lab/scoop-bucket): Windows installation (`scoop install agentshield`).
