@@ -37,6 +37,17 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
+                <Link href="/playground" className="hover:text-brand-neon transition-colors flex items-center gap-1.5 text-emerald-300">
+                  <span>Adversarial Playground</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">Live Demo</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/docs" className="hover:text-brand-neon transition-colors">
+                  Documentation &amp; Guides
+                </Link>
+              </li>
+              <li>
                 <Link href="/agentshield" className="hover:text-brand-neon transition-colors">
                   AgentShield (Kernel Sandbox)
                 </Link>
@@ -140,6 +151,12 @@ export default function Footer() {
               Compliance &amp; Legal
             </h3>
             <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link href="/trust" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5 text-slate-200">
+                  <span>Trust Center &amp; SIG Lite</span>
+                  <span className="text-[9px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">Verified</span>
+                </Link>
+              </li>
               <li>
                 <Link href="/privacy" className="hover:text-slate-200 transition-colors">
                   Privacy Policies Center

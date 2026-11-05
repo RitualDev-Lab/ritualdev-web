@@ -262,6 +262,30 @@ export default function Navbar() {
             </div>
 
             <Link 
+              href="/playground" 
+              className="px-3 py-2 text-sm font-medium text-emerald-300 hover:text-white rounded-lg hover:bg-emerald-950/40 transition-colors flex items-center gap-1.5"
+            >
+              <span>Playground</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 animate-pulse">
+                Live Demo
+              </span>
+            </Link>
+
+            <Link 
+              href="/docs" 
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+            >
+              Docs
+            </Link>
+
+            <Link 
+              href="/trust" 
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+            >
+              Trust
+            </Link>
+
+            <Link 
               href="/devshelf" 
               className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors flex items-center gap-1.5"
             >
@@ -377,6 +401,28 @@ export default function Navbar() {
             })}
           </div>
           <div className="border-t border-slate-800 my-2 pt-2 space-y-1">
+            <Link
+              href="/playground"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-emerald-300 font-bold hover:text-white rounded-lg hover:bg-emerald-950/40 flex items-center justify-between"
+            >
+              <span>Playground (Interactive Demo)</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">LIVE</span>
+            </Link>
+            <Link
+              href="/docs"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
+            >
+              Documentation & Quickstarts
+            </Link>
+            <Link
+              href="/trust"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
+            >
+              Trust Center & Compliance
+            </Link>
             <Link
               href="/mcp-starter-kit"
               onClick={() => setMobileMenuOpen(false)}
