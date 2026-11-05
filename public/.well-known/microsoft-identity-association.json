@@ -1,0 +1,10 @@
+{
+  "associatedApplications": [
+    {
+      "applicationId": "ritualdev-vscode-extension-suite"
+    },
+    {
+      "applicationId": "ritualdev-agentshield-defense"
+    }
+  ]
+}

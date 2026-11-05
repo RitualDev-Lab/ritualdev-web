@@ -1,4 +1,10 @@
 # Cloudflare Pages Redirects & Rewrites
+# Dedicated Mobile Applications Subdomain (Decoupled Consumer Lineage)
+https://mobile.ritualdev.in/        /apps/                        200
+https://mobile.ritualdev.in/*       /apps/:splat                  200
+https://apps.ritualdev.in/          /apps/                        200
+https://apps.ritualdev.in/*         /apps/:splat                  200
+
 # Dedicated Donation Subdomain
 https://donation.ritualdev.in/      /donate/                      200
 https://donation.ritualdev.in/*     /donate/                      200

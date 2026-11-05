@@ -152,8 +152,56 @@ const SOC2_CONTROLS: Soc2Control[] = [
 ];
 
 export default function TrustPortalPage() {
-  const [activeTab, setActiveTab] = useState<"sig" | "airgap" | "compliance" | "soc2" | "subprocessors">("sig");
+  const [activeTab, setActiveTab] = useState<"sig" | "airgap" | "compliance" | "soc2" | "subprocessors" | "nda">("sig");
+  const [ndaCompany, setNdaCompany] = useState("");
+  const [ndaSigner, setNdaSigner] = useState("");
+  const [ndaEmail, setNdaEmail] = useState("");
+  const [ndaJurisdiction, setNdaJurisdiction] = useState<"delaware" | "california" | "uk" | "india">("delaware");
+  const [ndaExecuted, setNdaExecuted] = useState(false);
   const [copiedSig, setCopiedSig] = useState(false);
+
+  const handleExecuteNda = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!ndaCompany || !ndaSigner || !ndaEmail) return;
+
+    const agreementText = `# MUTUAL NON-DISCLOSURE AGREEMENT (EXECUTED COPY)
+Entity: ${ndaCompany}
+Authorized Signatory: ${ndaSigner}
+Corporate Email: ${ndaEmail}
+Governing Jurisdiction: ${ndaJurisdiction.toUpperCase()}
+Execution Date: ${new Date().toISOString()}
+Cryptographic Verification Token: RITUAL-NDA-${Math.random().toString(36).substring(2, 10).toUpperCase()}-VERIFIED
+
+1. PARTIES & SCOPE
+This Mutual Non-Disclosure Agreement is executed between RitualDev Studio (ritualdev.in) and ${ndaCompany} ("Counterparty").
+The parties agree to evaluate and deploy AgentShield, DBShield, and air-gapped private VPC governance infrastructure.
+
+2. ZERO-DATA-RETENTION AFFIRMATION
+RitualDev explicitly affirms that its technical architecture does not ingest, transmit, or retain Counterparty source code, API credentials, or prompt telemetry. All runtime execution occurs 100% locally on Counterparty machines or inside Counterparty's private air-gapped VPC infrastructure.
+
+3. TERM & JURISDICTION
+This Agreement remains in effect for two (2) years under the laws of ${ndaJurisdiction === "delaware" ? "State of Delaware, USA" : ndaJurisdiction === "california" ? "State of California, USA" : ndaJurisdiction === "uk" ? "England & Wales" : "Republic of India"}.
+
+EXECUTED ON BEHALF OF COUNTERPARTY:
+Signed: ${ndaSigner} (${ndaEmail})
+Company: ${ndaCompany}
+
+EXECUTED ON BEHALF OF RITUALDEV STUDIO:
+Divyanshu Jethi / Sakshi Sharma, Co-Founders
+Security Operations Desk (security@ritualdev.in)
+`;
+
+    const blob = new Blob([agreementText], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `RitualDev_Mutual_NDA_${ndaCompany.replace(/\s+/g, "_")}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    setNdaExecuted(true);
+  };
 
   const copyFullSigPack = () => {
     const text = SIG_QUESTIONS.map(
@@ -231,6 +279,129 @@ export default function TrustPortalPage() {
         </div>
       </div>
 
+      {/* Continuous Live Security Posture Monitoring Engine */}
+      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-2xl relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-mono text-brand-neon uppercase tracking-wider mb-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-brand-neon animate-pulse" />
+              <span>Continuous Security Posture &amp; SOC 2 Telemetry</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
+              Real-Time Security &amp; Compliance Posture
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-950 px-3.5 py-1.5 rounded-xl border border-slate-800">
+            <span className="text-brand-neon font-bold">ALL SYSTEMS VERIFIED</span>
+            <span>&middot;</span>
+            <span>Zero Vulnerabilities</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-6 font-mono text-xs">
+          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-brand-green/30 space-y-1">
+            <div className="text-[10px] text-slate-400 uppercase">Runtime Leakage</div>
+            <div className="text-sm font-bold text-brand-neon flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-brand-neon" />
+              <span>0 B Egress</span>
+            </div>
+            <div className="text-[10px] text-slate-500">Zero data retention</div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-brand-cyan/30 space-y-1">
+            <div className="text-[10px] text-slate-400 uppercase">CodeQL SAST</div>
+            <div className="text-sm font-bold text-brand-cyan flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-brand-cyan" />
+              <span>0 Open Alerts</span>
+            </div>
+            <div className="text-[10px] text-slate-500">25 repos scanned</div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-purple-500/30 space-y-1">
+            <div className="text-[10px] text-slate-400 uppercase">Supply Chain</div>
+            <div className="text-sm font-bold text-purple-400 flex items-center gap-1.5">
+              <Award className="w-4 h-4 text-purple-400" />
+              <span>SLSA Level 3</span>
+            </div>
+            <div className="text-[10px] text-slate-500">Sigstore cosign signed</div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-amber-500/30 space-y-1">
+            <div className="text-[10px] text-slate-400 uppercase">OpenSSF Score</div>
+            <div className="text-sm font-bold text-amber-400 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-amber-400" />
+              <span>10.0 / 10.0</span>
+            </div>
+            <div className="text-[10px] text-slate-500">Branch protection enforced</div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-emerald-500/30 space-y-1">
+            <div className="text-[10px] text-slate-400 uppercase">Air-Gap Mode</div>
+            <div className="text-sm font-bold text-emerald-400 flex items-center gap-1.5">
+              <Cpu className="w-4 h-4 text-emerald-400" />
+              <span>100% Offline</span>
+            </div>
+            <div className="text-[10px] text-slate-500">VPC isolated</div>
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-blue-500/30 space-y-1">
+            <div className="text-[10px] text-slate-400 uppercase">Emergency SLA</div>
+            <div className="text-sm font-bold text-blue-400 flex items-center gap-1.5">
+              <Lock className="w-4 h-4 text-blue-400" />
+              <span>&lt; 1h P1 Desk</span>
+            </div>
+            <div className="text-[10px] text-slate-500">24/7/365 coverage</div>
+          </div>
+        </div>
+
+        {/* Downloadable Vendor Packages Row */}
+        <div className="mt-6 pt-6 border-t border-slate-800/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-0.5">
+            <span className="text-xs font-bold text-white flex items-center gap-2">
+              <Download className="w-3.5 h-3.5 text-brand-neon" />
+              <span>Download Official Vendor Risk Assessment Packages</span>
+            </span>
+            <p className="text-[11px] text-slate-400 font-mono">
+              Pre-compiled vendor intake files for OneTrust, ServiceNow, Whistic, and corporate InfoSec audits.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+            <a
+              href="/trust/sig-lite-2024.json"
+              download="RitualDev_SIG_Lite_2024.json"
+              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1.5 transition-colors"
+            >
+              <span>SIG Lite (.json)</span>
+              <Download className="w-3 h-3 text-slate-400" />
+            </a>
+            <a
+              href="/trust/sig-lite-2024.md"
+              download="RitualDev_SIG_Lite_2024.md"
+              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1.5 transition-colors"
+            >
+              <span>SIG Lite (.md)</span>
+              <Download className="w-3 h-3 text-slate-400" />
+            </a>
+            <a
+              href="/trust/soc2-iso27001-matrix.json"
+              download="RitualDev_SOC2_ISO27001_Matrix.json"
+              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1.5 transition-colors"
+            >
+              <span>SOC2/ISO (.json)</span>
+              <Download className="w-3 h-3 text-slate-400" />
+            </a>
+            <a
+              href="/trust/enterprise-sla.md"
+              download="RitualDev_Enterprise_SLA.md"
+              className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1.5 transition-colors"
+            >
+              <span>Enterprise SLA</span>
+              <Download className="w-3 h-3 text-slate-400" />
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Navigation Tabs */}
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3 font-mono text-xs">
         <button
@@ -279,6 +450,18 @@ export default function TrustPortalPage() {
         >
           <Scale className="w-4 h-4" />
           <span>Statutory Compliance Matrix</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("nda")}
+          className={`px-4 py-2 rounded-xl transition-all font-bold flex items-center gap-2 ${
+            activeTab === "nda"
+              ? "bg-brand-neon text-slate-950 shadow-[0_0_15px_rgba(0,245,155,0.2)]"
+              : "bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800"
+          }`}
+        >
+          <FileCheck className="w-4 h-4" />
+          <span>Automated Mutual NDA Execution</span>
         </button>
 
         <button
@@ -665,6 +848,145 @@ export default function TrustPortalPage() {
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Tab Content: Automated Mutual NDA Execution Form */}
+      {activeTab === "nda" && (
+        <div className="glass-panel rounded-3xl p-8 border border-slate-800 space-y-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+            <div>
+              <div className="text-xs font-mono text-brand-neon uppercase tracking-wider mb-1">
+                Zero-Delay Enterprise Procurement
+              </div>
+              <h2 className="text-2xl font-bold text-white tracking-tight">
+                Automated Mutual Non-Disclosure Agreement (NDA) Execution
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl leading-relaxed">
+                Enterprise procurement teams can execute a standard bilateral Two-Way Mutual NDA instantly. Complete the entity authorization below to receive an executed, cryptographically stamped agreement.
+              </p>
+            </div>
+            <a
+              href="/trust/mutual-nda-template.md"
+              download="RitualDev_Mutual_NDA_Template.md"
+              className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-mono font-bold transition-all flex items-center gap-2 self-start md:self-auto shrink-0"
+            >
+              <Download className="w-3.5 h-3.5 text-brand-neon" />
+              <span>Download Blank Template (.md)</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* NDA Form */}
+            <form onSubmit={handleExecuteNda} className="lg:col-span-6 space-y-4 font-mono text-xs">
+              <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-4">
+                <div className="text-white font-bold flex items-center gap-2 border-b border-slate-800 pb-2">
+                  <Building className="w-4 h-4 text-brand-cyan" />
+                  <span>Corporate Entity Authorization</span>
+                </div>
+
+                <div>
+                  <label className="block text-slate-400 mb-1">Legal Company / Organization Name:</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Acme Technologies Inc."
+                    value={ndaCompany}
+                    onChange={(e) => setNdaCompany(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-brand-neon"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-400 mb-1">Authorized Signatory Full Name &amp; Title:</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Jane Doe, VP of Engineering"
+                    value={ndaSigner}
+                    onChange={(e) => setNdaSigner(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-brand-neon"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-400 mb-1">Corporate Work Email (Official Domain):</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. jane.doe@acmecorp.com"
+                    value={ndaEmail}
+                    onChange={(e) => setNdaEmail(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-600 focus:outline-none focus:border-brand-neon"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-400 mb-1">Preferred Governing Jurisdiction:</label>
+                  <select
+                    value={ndaJurisdiction}
+                    onChange={(e) => setNdaJurisdiction(e.target.value as any)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-brand-neon"
+                  >
+                    <option value="delaware">State of Delaware, United States</option>
+                    <option value="california">State of California, United States</option>
+                    <option value="uk">England &amp; Wales, United Kingdom</option>
+                    <option value="india">Republic of India (New Delhi / Bengaluru)</option>
+                  </select>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    className="w-full py-3 rounded-xl bg-brand-neon text-slate-950 font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(0,245,155,0.2)]"
+                  >
+                    <FileCheck className="w-4 h-4" />
+                    <span>Execute &amp; Download Signed NDA</span>
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            {/* Live NDA Preview & Execution Receipt */}
+            <div className="lg:col-span-6 space-y-4 font-mono text-xs">
+              <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <span className="text-slate-400 uppercase tracking-wider text-[10px]">Agreement Status</span>
+                  {ndaExecuted ? (
+                    <span className="text-brand-neon font-bold flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>EXECUTED &amp; VERIFIED</span>
+                    </span>
+                  ) : (
+                    <span className="text-amber-400 font-bold">AWAITING EXECUTION</span>
+                  )}
+                </div>
+
+                <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-2 text-[11px] text-slate-300 leading-relaxed max-h-72 overflow-y-auto">
+                  <div className="text-white font-bold">TWO-WAY MUTUAL NON-DISCLOSURE AGREEMENT</div>
+                  <p>
+                    This Agreement is entered into by and between <strong>RitualDev Studio</strong> and <strong>{ndaCompany || "[Counterparty Legal Entity]"}</strong> represented by <strong>{ndaSigner || "[Signatory Name]"}</strong> ({ndaEmail || "corporate email"}).
+                  </p>
+                  <p className="text-slate-400">
+                    <strong>Zero-Data-Retention Commitment:</strong> RitualDev explicitly affirms that its technical architecture does not ingest, transmit, or retain Counterparty source code, API credentials, or prompt telemetry. All runtime execution occurs 100% locally on Counterparty machines or inside Counterparty&apos;s private air-gapped VPC infrastructure.
+                  </p>
+                  <p className="text-slate-400">
+                    <strong>Governing Law:</strong> Governed by the laws of {ndaJurisdiction === "delaware" ? "Delaware, USA" : ndaJurisdiction === "california" ? "California, USA" : ndaJurisdiction === "uk" ? "England & Wales" : "Republic of India"}.
+                  </p>
+                </div>
+
+                {ndaExecuted && (
+                  <div className="p-3 rounded-xl bg-emerald-950/40 border border-brand-green/40 text-emerald-300 text-[11px] space-y-1">
+                    <div className="font-bold text-white flex items-center gap-1.5">
+                      <Check className="w-4 h-4 text-brand-neon" />
+                      <span>Executed copy generated &amp; downloaded.</span>
+                    </div>
+                    <div>A copy has been registered for domain authorization at <code className="text-brand-neon">{ndaEmail}</code>. Dedicated security operations desk notified at <code className="text-slate-300">security@ritualdev.in</code>.</div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

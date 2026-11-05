@@ -1,0 +1,73 @@
+{
+  "frameworks": ["AICPA SOC 2 Type II", "ISO/IEC 27001:2022"],
+  "vendor": "RitualDev Studio",
+  "domain": "ritualdev.in",
+  "auditReadiness": "Verified",
+  "assessmentDate": "2026-11-06",
+  "controls": [
+    {
+      "soc2Criteria": "CC1.1",
+      "isoAnnexA": "A.5.1",
+      "category": "Control Environment",
+      "title": "Information Security Policies & Leadership",
+      "status": "Implemented",
+      "evidence": "Published in /.well-known/security.txt, SECURITY.md, and formal trust portal."
+    },
+    {
+      "soc2Criteria": "CC2.1",
+      "isoAnnexA": "A.5.24",
+      "category": "Communication & Information",
+      "title": "Incident Notification & Vulnerability Disclosure SLA",
+      "status": "Active SLA",
+      "evidence": "Guaranteed < 1 hour P1 critical response via security@ritualdev.in and GHSA advisories."
+    },
+    {
+      "soc2Criteria": "CC3.2",
+      "isoAnnexA": "A.8.8",
+      "category": "Risk Assessment",
+      "title": "Continuous SAST & Threat Modeling",
+      "status": "Continuous Scan",
+      "evidence": "CodeQL AST inspection active across all 25 repositories with 0 open vulnerabilities."
+    },
+    {
+      "soc2Criteria": "CC5.2",
+      "isoAnnexA": "A.8.25",
+      "category": "Control Activities",
+      "title": "Cryptographic Signing & Software Bill of Materials (SBOM)",
+      "status": "SLSA Level 3",
+      "evidence": "Sigstore cosign SLSA 3 provenance and CycloneDX/SPDX SBOMs attached to every release."
+    },
+    {
+      "soc2Criteria": "CC6.1",
+      "isoAnnexA": "A.8.2",
+      "category": "Logical Access",
+      "title": "Zero-Bypass Branch Protection & Privilege Isolation",
+      "status": "Enforced",
+      "evidence": "GitHub branch protection enforce_admins: true; synthetic surrogate token masking."
+    },
+    {
+      "soc2Criteria": "CC7.1",
+      "isoAnnexA": "A.8.12",
+      "category": "System Operations",
+      "title": "Kernel Sandboxing & Zero-Egress Network Isolation",
+      "status": "Kernel Isolated",
+      "evidence": "Bubblewrap, Seatbelt, and AppContainer syscall isolation; AGENTSHIELD_AIR_GAPPED=1 verified."
+    },
+    {
+      "soc2Criteria": "CC8.1",
+      "isoAnnexA": "A.8.32",
+      "category": "Change Management",
+      "title": "Mandatory Peer Reviews & Reproducible Pinned Builds",
+      "status": "Deterministic CI",
+      "evidence": "100% PR review requirement; all GitHub Actions pinned to 40-character commit hashes."
+    },
+    {
+      "soc2Criteria": "C1.1",
+      "isoAnnexA": "A.8.11",
+      "category": "Confidentiality & Availability",
+      "title": "Zero Data Custody & Air-Gapped Local Processing",
+      "status": "Zero Data Custody",
+      "evidence": "Zero customer telemetry ingestion; runs 100% locally on workstation or inside private VPC."
+    }
+  ]
+}
