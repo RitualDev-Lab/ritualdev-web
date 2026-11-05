@@ -338,13 +338,13 @@ export default function Navbar() {
           {/* Right Action Buttons */}
           <div className="hidden sm:flex items-center gap-3">
             <Link
-              href="https://open-vsx.org/extension/ritualdev-lab/ritual-agent-defense"
+              href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3 py-1.5 text-xs font-mono rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-cyan text-slate-300 hover:text-white flex items-center gap-1.5 transition-all"
+              className="px-3 py-1.5 text-xs font-mono rounded-lg bg-slate-900 border border-slate-700 hover:border-brand-neon text-slate-300 hover:text-white flex items-center gap-1.5 transition-all shadow-[0_0_10px_rgba(0,245,155,0.1)]"
             >
-              <Download className="w-3.5 h-3.5 text-brand-cyan" />
-              <span>IDE Extension</span>
+              <Download className="w-3.5 h-3.5 text-brand-neon" />
+              <span>VS Code / Cursor</span>
             </Link>
 
             <Link
