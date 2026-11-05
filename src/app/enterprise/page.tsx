@@ -49,6 +49,7 @@ export default function EnterprisePage() {
     "SkillPrism Redis VPC Cache Clustering",
     "Air-Gapped Egress & Offline Audit",
     "1-Hour P0 Dedicated SLA",
+    "Third-Party SOC 2 Type II & ISO 27001 CPA Audit Report",
     "SOC 2 / HIPAA Cryptographic PDF Reports"
   ];
 
@@ -346,7 +347,7 @@ export default function EnterprisePage() {
                   <td className="py-4 px-6 text-slate-400">Raw HMAC JSON logs</td>
                   <td className="py-4 px-6 text-emerald-300 font-bold flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Cryptographically signed executive SOC 2 / ISO 27001 audit PDFs</span>
+                    <span>Certified SOC 2 Type II / ISO 27001 CPA Audit Reports &amp; Executive Cryptographic PDFs</span>
                   </td>
                 </tr>
 
@@ -359,6 +360,17 @@ export default function EnterprisePage() {
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          {/* Third-Party SOC 2 Type II Callout */}
+          <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/30 text-xs font-mono text-slate-300 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+            <div className="flex items-center gap-2 text-purple-300 font-bold shrink-0">
+              <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
+              <span>Third-Party SOC 2 Type II &amp; ISO 27001 Certification</span>
+            </div>
+            <p className="text-[11px] text-slate-400">
+              For enterprise contracts ($20,000–$50,000+/year), RitualDev provisions formal independent CPA firm SOC 2 Type I/II examination reports via continuous compliance automation (Vanta / Drata).
+            </p>
           </div>
         </div>
       </section>
