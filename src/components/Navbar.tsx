@@ -318,6 +318,16 @@ export default function Navbar() {
             </Link>
 
             <Link 
+              href="/partners" 
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors flex items-center gap-1.5"
+            >
+              <span>Partners</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40">
+                Sponsor
+              </span>
+            </Link>
+
+            <Link 
               href="/enterprise" 
               className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
             >
@@ -463,6 +473,14 @@ export default function Navbar() {
               className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
             >
               Pricing
+            </Link>
+            <Link
+              href="/partners"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-sky-400 font-bold hover:text-white rounded-lg hover:bg-sky-950/40 flex items-center justify-between"
+            >
+              <span>Verified Partner Placements</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40">Sponsor</span>
             </Link>
             <Link
               href="/enterprise"

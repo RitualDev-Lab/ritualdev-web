@@ -1,0 +1,46 @@
+"""
+RitualDev Autonomous Coding Agent Tool & Partner Registry GraphQL Schema
+Enables Claude Code, Cursor, Windsurf, Devin, and Antigravity to query verified tools.
+"""
+
+type Query {
+  tools(category: String, airGappedOnly: Boolean): [VerifiedTool!]!
+  tool(id: ID!): VerifiedTool
+  verifiedPartners: [PartnerPlacement!]!
+  registryMetadata: RegistryMetadata!
+}
+
+type RegistryMetadata {
+  schemaVersion: String!
+  registryName: String!
+  updatedAt: String!
+  airGappedReady: Boolean!
+  zeroDataRetention: Boolean!
+}
+
+type VerifiedTool {
+  id: ID!
+  name: String!
+  version: String!
+  category: String!
+  description: String!
+  vendor: String!
+  license: String!
+  repository: String
+  docsUrl: String
+  runtimeOverheadMs: Float!
+  airGapped: Boolean!
+  capabilities: [String!]!
+  installCommand: String
+  priceUsd: Float
+  checkoutUrl: String
+}
+
+type PartnerPlacement {
+  partnerName: String!
+  tier: String!
+  category: String!
+  zeroPaywallAudit: String!
+  docsUrl: String!
+  mcpIntegration: String!
+}

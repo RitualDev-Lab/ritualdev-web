@@ -111,6 +111,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/partners" className="hover:text-sky-400 transition-colors flex items-center gap-1.5">
+                  <span>DevShelf Partner Placements</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-sky-950/60 text-sky-300 border border-sky-800/40 rounded">$499/mo</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/alternatives" className="hover:text-purple-400 transition-colors flex items-center gap-1.5">
                   <span>Open-Source Alternatives</span>
                   <span className="text-[10px] font-mono px-1 py-0.2 bg-purple-950/60 text-purple-300 border border-purple-800/40 rounded">Matrix</span>

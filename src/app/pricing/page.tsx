@@ -95,6 +95,60 @@ export default function PricingPage() {
     }
   ];
 
+  const productionKits = [
+    {
+      name: "Enterprise RAG Scaffolder",
+      category: "Hybrid Vector & BM25 Search",
+      price: "$149",
+      period: "one-time payment",
+      desc: "Production hybrid retrieval template with sliding-window chunking and cryptographic citation provenance.",
+      badge: "$149 Kit",
+      color: "sky-400",
+      features: [
+        "Hybrid Dense Vector + BM25 Lexical Ranking",
+        "Sliding Window Overlap Chunking (Zero Context Loss)",
+        "Cryptographic Citation Provenance Tracking",
+        "Air-Gapped Embedded Vector Storage Compatible"
+      ],
+      ctaText: "Get Enterprise RAG Kit ($149)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?pack=enterprise_rag"
+    },
+    {
+      name: "Air-Gapped K8s Ops Agent",
+      category: "In-Cluster Kubernetes Governance",
+      price: "$199",
+      period: "one-time payment",
+      desc: "In-cluster operations agent with non-bypassable cordon/drain safety rails and dry-run kubectl admission simulation.",
+      badge: "$199 Kit",
+      color: "emerald-400",
+      features: [
+        "Control-Plane Master Node Protection Safety Rails",
+        "Dry-Run Kubectl Simulation Before Applying Mutations",
+        "In-Cluster Pod Lifecycle & Log Streamer",
+        "Zero-Telemetry AGENTSHIELD_AIR_GAPPED=1 Mode"
+      ],
+      ctaText: "Get K8s Ops Agent ($199)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?pack=k8s_ops"
+    },
+    {
+      name: "Financial Ledger Connector",
+      category: "High-Assurance Double-Entry Accounting",
+      price: "$249",
+      period: "one-time payment",
+      desc: "Double-entry bookkeeping engine with SHA-256 idempotent transaction hashing and append-only hash chains.",
+      badge: "$249 Kit",
+      color: "purple-400",
+      features: [
+        "Strict Double-Entry Invariant (Debits = Credits)",
+        "Cryptographic SHA-256 Idempotency Key Deduplication",
+        "Append-Only Hash-Chained Audit Ledger",
+        "Integer Cent Representation (Zero Float Rounding Errors)"
+      ],
+      ctaText: "Get Financial Ledger Kit ($249)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?pack=financial_ledger"
+    }
+  ];
+
   const enterpriseTiers = [
     {
       name: "Team Cluster",
@@ -270,6 +324,70 @@ export default function PricingPage() {
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Production Scaffolder Kits ($99 - $249) */}
+      <div className="space-y-6 pt-8 border-t border-slate-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="text-xs font-mono text-brand-green uppercase tracking-wider mb-1">
+              Production MCP Scaffolder Kits ($99 – $249)
+            </div>
+            <h2 className="text-2xl font-bold text-white tracking-tight">
+              Pre-Built Air-Gapped Tool Kits &amp; Connectors
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-400">
+              Commercial-grade Model Context Protocol starters featuring hybrid search, cluster safety rails, and cryptographic financial audit trails.
+            </p>
+          </div>
+          <Link
+            href="/partners"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-sky-500/40 bg-sky-950/40 text-xs font-mono text-sky-300 hover:text-white hover:bg-sky-900/50 transition self-start sm:self-auto"
+          >
+            <span>DevShelf Partner Placements ($499 - $1,499/mo)</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {productionKits.map((kit) => (
+            <div
+              key={kit.name}
+              className="glass-panel rounded-2xl p-6 border border-slate-800/80 hover:border-slate-700 bg-slate-900/40 flex flex-col justify-between transition-all"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-mono text-slate-400">{kit.category}</span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-brand-cyan border border-slate-700">
+                    {kit.badge}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{kit.name}</h3>
+                <p className="text-xs text-slate-400 mb-4">{kit.desc}</p>
+                <div className="text-2xl font-extrabold text-white font-mono mb-4">
+                  {kit.price} <span className="text-xs font-normal text-slate-400">/ {kit.period}</span>
+                </div>
+                <div className="space-y-2 border-t border-slate-800/60 pt-4 mb-6">
+                  {kit.features.map((feat) => (
+                    <div key={feat} className="flex items-start gap-2 text-xs text-slate-300">
+                      <Check className="w-3.5 h-3.5 text-brand-green shrink-0 mt-0.5" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <a
+                href={kit.ctaHref}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold font-mono text-white flex items-center justify-center gap-1.5 transition"
+              >
+                <span>{kit.ctaText}</span>
+                <ExternalLink className="w-3 h-3 text-slate-400" />
+              </a>
+            </div>
+          ))}
         </div>
       </div>
 
