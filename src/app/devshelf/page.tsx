@@ -47,6 +47,7 @@ interface Resource {
   url?: string;
   auth?: string;
   freeTier?: string;
+  freeTierCost?: string;
   cors?: string;
   rateLimit?: string;
   goodFirstIssues?: string;
@@ -1126,28 +1127,28 @@ export default function DevShelfPage() {
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">Free Tier</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.freeTier || "100% Free / OSS"}
+                  {selectedTool.freeTier || selectedTool.freeTierCost || (selectedTool.rateLimit ? "See usage limits" : "Not listed")}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">Authentication</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.auth || "No Auth / Zero Token"}
+                  {selectedTool.auth || "Not listed"}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">Self-Hostable</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.dockerCompose ? "Yes (Docker)" : "Native / CLI"}
+                  {selectedTool.dockerCompose ? "Yes (Docker)" : selectedTool.statusTags?.includes("Self-Hostable") ? "Yes" : "Not listed"}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">License</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.license || "Open Source"}
+                  {selectedTool.license || "Not listed"}
                 </span>
               </div>
             </div>
