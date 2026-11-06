@@ -28,6 +28,13 @@ export default function PrivacyCenterPage() {
       tag: "PRODUCTIVITY RPG",
       desc: "Gamified local-first productivity system. On-device SQLite storage, zero AI training retention.",
       href: "/privacy/lifeos"
+    },
+    {
+      name: "PromptShield Enterprise",
+      pkg: "14103720-7a50-4083-a104-3bc47559c09e",
+      tag: "CHROME EXTENSION DLP",
+      desc: "Zero-knowledge in-browser prompt firewall and secret scanner for GenAI tools. 100% client-side, zero cloud telemetry.",
+      href: "/privacy/promptshield"
     }
   ];
 
