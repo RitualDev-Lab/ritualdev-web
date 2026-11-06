@@ -16,7 +16,9 @@ import {
   ExternalLink,
   Cpu,
   Lock,
-  Download
+  Download,
+  ShieldAlert,
+  FileText
 } from "lucide-react";
 
 export default function Navbar() {
@@ -61,39 +63,39 @@ export default function Navbar() {
       badge: "Proxy"
     },
     {
-      name: "SkillPrism",
-      desc: "JIT context compactor & Redis VPC cache",
-      href: "/skillprism",
-      icon: Zap,
-      badge: "96.7% Cut"
+      name: "PromptShield",
+      desc: "In-browser AI DLP & prompt firewall (MV3)",
+      href: "/promptshield",
+      icon: ShieldAlert,
+      badge: "DLP Firewall"
     }
   ];
 
   const toolchainTools = [
     {
-      name: "Ritual Agent Defense",
-      desc: "Unified extension for Cursor, VS Code, Windsurf",
-      href: "/extension",
-      icon: Cpu,
-      badge: "Open VSX"
+      name: "MockForge AI",
+      desc: "Relational mock DB & production masking",
+      href: "/mockforge",
+      icon: Database,
+      badge: "88k rows/s"
     },
     {
-      name: "WebSecAuditor",
-      desc: "AST taint tracker & GitHub PR security bot",
-      href: "/web-sec-auditor",
-      icon: Lock,
-      badge: "Security"
+      name: "FinePrint AI",
+      desc: "In-memory contract & lease redlines",
+      href: "/fineprint",
+      icon: FileText,
+      badge: "Legal Tech"
     },
     {
-      name: "MCPBuilderKit",
-      desc: "OpenAPI-to-MCP converter & scaffolder",
-      href: "/mcp-builder",
-      icon: Code2,
-      badge: "Toolkit"
+      name: "SkillPrism",
+      desc: "JIT context compactor & Redis VPC cache",
+      href: "/skillprism",
+      icon: Zap,
+      badge: "96.7% Cut"
     },
     {
       name: "DevShelf",
-      desc: "567+ verified developer tools & MCP catalog",
+      desc: "570+ verified developer tools & MCP catalog",
       href: "/devshelf",
       icon: Layers,
       badge: "Directory"

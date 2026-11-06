@@ -23,7 +23,9 @@ import {
   DollarSign,
   Sliders,
   Activity,
-  Sparkles
+  Sparkles,
+  ShieldAlert,
+  FileText
 } from "lucide-react";
 
 export default function HomePage() {
@@ -35,8 +37,8 @@ export default function HomePage() {
   const installCommands = {
     brew: "brew tap ritualdev-lab/tap && brew install agentshield dbshield",
     scoop: "scoop bucket add ritual && scoop install agentshield",
-    npm: "npm install -g @ritualdev-lab/agentshield @ritualdev-lab/dbshield",
-    pip: "pip install agentshield-defense",
+    npm: "npm install -g @ritualdev-lab/agentshield @ritualdev/promptshield @ritualdev/mockforge @ritualdev/fineprint",
+    pip: "pip install agentshield-defense promptshield mockforge fineprint",
     code: "code --install-extension ritualdev.agentshield-defense"
   };
 
@@ -352,6 +354,78 @@ export default function HomePage() {
             <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-slate-200">
               <span>Explore Kernel Specs</span>
               <ArrowRight className="w-4 h-4 text-brand-neon" />
+            </div>
+          </Link>
+
+          {/* PromptShield Card */}
+          <Link href="/promptshield" className="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 rounded-xl bg-brand-green/10 text-brand-neon border border-brand-green/30 group-hover:bg-brand-green/20 transition-colors">
+                  <ShieldAlert className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-brand-green/10 text-brand-neon border border-brand-green/30">
+                  In-Browser DLP
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-brand-neon transition-colors">
+                PromptShield
+              </h3>
+              <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+                Enterprise prompt firewall (MV3) stopping source code secrets, customer PII, and API keys from leaking into ChatGPT, Claude, Gemini, and DeepSeek.
+              </p>
+            </div>
+            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-slate-200">
+              <span>View In-Browser Firewall</span>
+              <ArrowRight className="w-4 h-4 text-brand-neon" />
+            </div>
+          </Link>
+
+          {/* MockForge AI Card */}
+          <Link href="/mockforge" className="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 group-hover:bg-cyan-500/20 transition-colors">
+                  <Database className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                  88k rows/sec
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">
+                MockForge AI
+              </h3>
+              <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+                Relational mock DB and production masking synthesizer. Resolves foreign keys with Kahn's DAG and WebAssembly SQLite with 100% referential integrity.
+              </p>
+            </div>
+            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-slate-200">
+              <span>Synthesize Relational Data</span>
+              <ArrowRight className="w-4 h-4 text-cyan-400" />
+            </div>
+          </Link>
+
+          {/* FinePrint AI Card */}
+          <Link href="/fineprint" className="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="p-3 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/30 group-hover:bg-amber-500/20 transition-colors">
+                  <FileText className="w-6 h-6" />
+                </div>
+                <span className="text-xs font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">
+                  Legal Tech
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
+                FinePrint AI
+              </h3>
+              <p className="mt-2 text-sm text-slate-400 leading-relaxed">
+                In-memory contract, lease, and NDA scanner. Detects uncapped indemnities and auto-renewal traps, scoring risk A-F with automated attorney redlines.
+              </p>
+            </div>
+            <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400 group-hover:text-slate-200">
+              <span>Audit Contracts In-Memory</span>
+              <ArrowRight className="w-4 h-4 text-amber-400" />
             </div>
           </Link>
 
