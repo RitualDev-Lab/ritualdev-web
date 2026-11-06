@@ -369,9 +369,60 @@ export default function EnterprisePage() {
               <span>Third-Party SOC 2 Type II &amp; ISO 27001 Certification</span>
             </div>
             <p className="text-[11px] text-slate-400">
-              For enterprise contracts ($20,000–$50,000+/year), RitualDev provisions formal independent CPA firm SOC 2 Type I/II examination reports via continuous compliance automation (Vanta / Drata).
+              For enterprise contracts ($20,000-$50,000+/year), RitualDev provisions formal independent CPA firm SOC 2 Type I/II examination reports via continuous compliance automation (Vanta / Drata).
             </p>
           </div>
+        </div>
+      </section>
+
+            {/* Enterprise Products: Fintech SDK & Pre-Launch Audits */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-brand-cyan flex items-center justify-center">
+              <Cpu className="w-5 h-5" />
+            </div>
+            <div className="text-xs font-mono text-brand-cyan uppercase font-bold tracking-wider">
+              B2B Component Licensing
+            </div>
+            <h3 className="text-xl font-bold text-white">
+              Embedded Fintech KMP Computational SDK
+            </h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              License 170+ audited financial and math engines decoupled from All-in-One Calculator Plus. Compiled natively for Android, iOS, JVM, and WebAssembly with zero floating-point drift and 100% offline air-gapped guarantees ($7,500 - $20,000/yr).
+            </p>
+          </div>
+          <Link
+            href="/enterprise/fintech-sdk"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-brand-cyan font-mono text-xs font-bold transition-colors w-fit"
+          >
+            <span>View Fintech SDK Architecture &amp; Licensing</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center">
+              <ShieldAlert className="w-5 h-5" />
+            </div>
+            <div className="text-xs font-mono text-indigo-400 uppercase font-bold tracking-wider">
+              Productized AI Pen-Testing
+            </div>
+            <h3 className="text-xl font-bold text-white">
+              Pre-Launch AI Security Audits &amp; CPG SAST
+            </h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Whole-program Code Property Graph (AST+CFG+PDG) taint tracking, Shannon entropy secret hunting (H &gt; 4.5), and adversarial jailbreak fuzzing with a 2-hour SLA ($1,500 rapid, $7,500-$15,000 comprehensive architecture review).
+            </p>
+          </div>
+          <Link
+            href="/audit"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-indigo-400 font-mono text-xs font-bold transition-colors w-fit"
+          >
+            <span>Book Pre-Launch Security Audit</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </section>
 
