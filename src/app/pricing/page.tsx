@@ -17,13 +17,85 @@ import {
   Download,
   Building,
   CreditCard,
-  FileCheck
+  FileCheck,
+  ShieldAlert,
+  Scale,
+  FileText
 } from "lucide-react";
 
 export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
 
   const selfServiceProducts = [
+    {
+      name: "PromptShield Enterprise Fleet",
+      category: "In-Browser AI Data Loss Prevention (DLP)",
+      price: billingCycle === "monthly" ? "$49" : "$39",
+      period: "per seat / month",
+      billingNote: billingCycle === "annual" ? "billed annually ($468/yr)" : "billed monthly",
+      desc: "Stop source code secrets, customer PII, and API keys from leaking into ChatGPT, Claude, Gemini, DeepSeek, Copilot, and Perplexity with central fleet policies.",
+      badge: "In-Browser DLP",
+      color: "brand-green",
+      icon: ShieldAlert,
+      features: [
+        "Universal Browser Extension (Chrome, Edge, Brave, Arc)",
+        "60+ Credential Signatures & Shannon Entropy (H > 4.5)",
+        "Central Fleet Policy Sync (api.promptshield.io)",
+        "Splunk HEC, Datadog Logs & Sentinel CEF Streaming",
+        "Synthetic Canary Honeypots for Session Trapping",
+        "Windows GPO .admx & Jamf Deployment Templates",
+        "Commercial Fleet Deployment License"
+      ],
+      ctaText: "Get PromptShield Fleet ($49/mo)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dpromptshield",
+      popular: true
+    },
+    {
+      name: "MockForge AI Pro",
+      category: "Relational Mock DB & Production Masking",
+      price: billingCycle === "monthly" ? "$49" : "$39",
+      period: "per seat / month",
+      billingNote: billingCycle === "annual" ? "billed annually ($468/yr)" : "billed monthly",
+      desc: "Synthesize complex relational mock databases with 100% foreign-key integrity at 88,000+ rows/sec using Kahn's DAG and WebAssembly SQLite.",
+      badge: "88k rows/sec WASM",
+      color: "brand-cyan",
+      icon: Database,
+      features: [
+        "Kahn's Topological DAG Sorter (100% Valid Foreign Keys)",
+        "In-Memory WebAssembly SQLite Engine (88,000+ rows/sec)",
+        "HIPAA / GDPR / SOC 2 Production Database PII Masking",
+        "Ephemeral In-Memory HTTP Mock API Servers for CI/CD",
+        "Multi-Format Exporters (PostgreSQL, MySQL, Prisma, JSON, CSV)",
+        "Bidirectional ORM Synchronizers (Prisma, Drizzle, SQLAlchemy)",
+        "Commercial Relational Synthesis License"
+      ],
+      ctaText: "Get MockForge Pro ($49/mo)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dmockforge",
+      popular: false
+    },
+    {
+      name: "FinePrint AI Pro",
+      category: "In-Memory Contract, Lease & NDA Scanner",
+      price: billingCycle === "monthly" ? "$79" : "$59",
+      period: "per seat / month",
+      billingNote: billingCycle === "annual" ? "billed annually ($708/yr)" : "billed monthly",
+      desc: "Audit contracts, commercial leases, and NDAs in seconds. Uses in-memory PDF AST parsing and Gemini 1.5 Flash to grade risk A-F and generate attorney-grade redlines.",
+      badge: "Legal Tech & Redlines",
+      color: "amber-400",
+      icon: FileText,
+      features: [
+        "In-Memory PDF AST & Semantic Legal Clause Segmenter",
+        "60+ Heuristic Risk Rules (Indemnities, Liability Caps, IP)",
+        "Gemini 1.5 Flash Legal Reasoning & Side-by-Side Redlines",
+        "Custom Corporate Legal Playbook Rule Uploads",
+        "Bulk Contract Repository Auditing (S3, Google Drive, Dropbox)",
+        "DocuSign & PandaDoc Webhook Interceptor (Locks Grade F)",
+        "Zero-Cloud In-Memory Processing (100% Privacy Guarantee)"
+      ],
+      ctaText: "Get FinePrint Pro ($79/mo)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dfineprint",
+      popular: false
+    },
     {
       name: "AgentShield Pro",
       category: "Autonomous Agent Runtime Defense",

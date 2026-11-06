@@ -53,6 +53,25 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/promptshield" className="hover:text-brand-neon transition-colors flex items-center gap-1.5">
+                  <span>PromptShield (In-Browser DLP)</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">New</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/mockforge" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5">
+                  <span>MockForge AI (Relational DB)</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-cyan-950/60 text-cyan-300 border border-cyan-800/40 rounded">88k/s</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/fineprint" className="hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                  <span>FinePrint AI (Legal Scanner)</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-amber-950/60 text-amber-300 border border-amber-800/40 rounded">Redline</span>
+                </Link>
+              </li>
+
+              <li>
                 <Link href="/dbshield" className="hover:text-brand-neon transition-colors">
                   DBShield (Database Wire Proxy)
                 </Link>
