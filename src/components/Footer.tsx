@@ -38,8 +38,26 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/playground" className="hover:text-brand-neon transition-colors flex items-center gap-1.5 text-emerald-300">
-                  <span>Adversarial Playground</span>
+                  <span>Interactive Playground Suite</span>
                   <span className="text-[10px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">Live Demo</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playground/mockforge" className="hover:text-brand-neon transition-colors flex items-center gap-1.5 text-slate-300">
+                  <span>MockForge Playground</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-brand-neon/10 text-brand-neon border border-brand-neon/30 rounded">Wasm DB</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playground/fineprint" className="hover:text-purple-400 transition-colors flex items-center gap-1.5 text-slate-300">
+                  <span>FinePrint Clause Scanner</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded">Redline</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/playground/promptshield" className="hover:text-cyan-400 transition-colors flex items-center gap-1.5 text-slate-300">
+                  <span>PromptShield DLP Simulator</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded">&lt;1ms</span>
                 </Link>
               </li>
               <li>
