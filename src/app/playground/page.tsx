@@ -201,11 +201,110 @@ export default function PlaygroundPage() {
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
       
-      {/* Breadcrumb Navigation */}
-      <div className="flex items-center gap-2 text-xs font-mono text-slate-400 border-b border-slate-800/80 pb-4">
-        <Link href="/" className="hover:text-brand-green transition-colors">Home</Link>
-        <span>/</span>
-        <span className="text-brand-neon font-bold">Interactive Adversarial Playground</span>
+      {/* Breadcrumb Navigation & Global Playground Switcher */}
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <Link href="/" className="hover:text-brand-green transition-colors">Home</Link>
+          <span>/</span>
+          <span className="text-brand-neon font-bold">Interactive Playgrounds Suite</span>
+        </div>
+
+        {/* Global Playground Switcher Pill Bar */}
+        <div className="flex items-center gap-1.5 p-1 bg-slate-900 border border-slate-800 rounded-xl font-mono text-xs">
+          <Link
+            href="/playground"
+            className="px-3 py-1.5 rounded-lg bg-brand-neon text-slate-950 font-bold transition-all shadow-sm"
+          >
+            AgentShield
+          </Link>
+          <Link
+            href="/playground/mockforge"
+            className="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+          >
+            MockForge
+          </Link>
+          <Link
+            href="/playground/fineprint"
+            className="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+          >
+            FinePrint
+          </Link>
+          <Link
+            href="/playground/promptshield"
+            className="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+          >
+            PromptShield
+          </Link>
+        </div>
+      </div>
+
+      {/* Featured Playground Hub Suite Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Link
+          href="/playground/mockforge"
+          className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-brand-neon/60 transition-all group flex flex-col justify-between space-y-4"
+        >
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-brand-neon uppercase tracking-wider">MockForge Simulator</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-brand-neon/10 text-brand-neon border border-brand-neon/30">Wasm / In-Memory</span>
+            </div>
+            <h3 className="text-base font-bold text-white group-hover:text-brand-neon transition-colors">
+              Relational Mock Data & Fixture Playground &rarr;
+            </h3>
+            <p className="text-xs font-mono text-slate-400 leading-relaxed">
+              Paste SQL CREATE TABLE or Prisma schemas. Watch Kahn&apos;s DAG topologically order foreign keys and synthesize 100% consistent JSON/SQL fixtures client-side.
+            </p>
+          </div>
+          <div className="text-xs font-mono text-brand-neon font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            <span>Launch MockForge Playground</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
+
+        <Link
+          href="/playground/fineprint"
+          className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-purple-400/60 transition-all group flex flex-col justify-between space-y-4"
+        >
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">FinePrint AI Scanner</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/10 text-purple-400 border border-purple-500/30">Zero Plaintext Egress</span>
+            </div>
+            <h3 className="text-base font-bold text-white group-hover:text-purple-300 transition-colors">
+              Interactive Contract & NDA Clause Scanner &rarr;
+            </h3>
+            <p className="text-xs font-mono text-slate-400 leading-relaxed">
+              Scan confusing NDA, SaaS, and freelance contracts. Flag mandatory arbitration, AI model training consent, and auto-renewals with 1-click redline pushback drafts.
+            </p>
+          </div>
+          <div className="text-xs font-mono text-purple-400 font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            <span>Launch FinePrint Playground</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
+
+        <Link
+          href="/playground/promptshield"
+          className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-cyan-400/60 transition-all group flex flex-col justify-between space-y-4"
+        >
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">PromptShield Simulator</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">&lt; 1ms Interception</span>
+            </div>
+            <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+              Prompt DLP & Secret Masking Simulator &rarr;
+            </h3>
+            <p className="text-xs font-mono text-slate-400 leading-relaxed">
+              Test regex and Shannon entropy token scrubbing against sample AWS, OpenAI, and Stripe credentials. Live bidirectional WebCrypto rehydration test included.
+            </p>
+          </div>
+          <div className="text-xs font-mono text-cyan-400 font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+            <span>Launch PromptShield Playground</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        </Link>
       </div>
 
       {/* Hero Header */}
