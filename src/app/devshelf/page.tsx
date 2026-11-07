@@ -26,33 +26,22 @@ import {
   BadgeCheck,
   Globe,
   DollarSign,
-  ArrowUp
+  ArrowUp,
+  Grid,
+  ChevronDown,
+  ChevronRight,
+  Zap,
+  HelpCircle,
+  SlidersHorizontal
 } from "lucide-react";
+import {
+  searchResources,
+  highlightText,
+  type AutoCategoryDetection,
+  type Resource,
+} from "@/lib/searchEngine";
 import rawData from "@/data/devshelf.json";
 import { DevShelfSkeletonGrid } from "@/components/Skeleton";
-
-interface Resource {
-  name: string;
-  repo?: string;
-  category?: string;
-  description?: string;
-  language?: string;
-  license?: string;
-  featured?: boolean;
-  statusTags?: string[];
-  type?: string;
-  section?: string;
-  alternativeTo?: string;
-  dockerCompose?: string;
-  url?: string;
-  auth?: string;
-  freeTier?: string;
-  freeTierCost?: string;
-  cors?: string;
-  rateLimit?: string;
-  goodFirstIssues?: string;
-  platform?: string;
-}
 
 function toSlug(name: string): string {
   return name
@@ -116,6 +105,29 @@ const SPONSOR_PACKAGES = [
   },
 ];
 
+
+function HighlightedText({ text, tokens }: { text?: string; tokens?: string[] }) {
+  if (!text) return null;
+  if (!tokens || tokens.length === 0) return <span>{text}</span>;
+  const chunks = highlightText(text, tokens);
+  return (
+    <span>
+      {chunks.map((chunk, i) =>
+        chunk.isMatch ? (
+          <mark
+            key={i}
+            className="bg-purple-500/30 text-purple-200 px-0.5 rounded font-semibold transition-colors"
+          >
+            {chunk.text}
+          </mark>
+        ) : (
+          <span key={i}>{chunk.text}</span>
+        )
+      )}
+    </span>
+  );
+}
+
 export default function DevShelfPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -123,7 +135,12 @@ export default function DevShelfPage() {
   const [visibleCount, setVisibleCount] = useState<number>(36);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [viewMode, setViewMode] = useState<"grid" | "categorized">("grid");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isSyntaxModalOpen, setIsSyntaxModalOpen] = useState(false);
+  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
   const searchRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -214,6 +231,17 @@ export default function DevShelfPage() {
     window.history.replaceState(null, "", window.location.pathname + window.location.search);
   }, []);
 
+    // Close search suggestions on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchFocused(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   // Listen for URL hash changes and keyboard Escape
   useEffect(() => {
     const handleHash = () => {
@@ -294,98 +322,42 @@ export default function DevShelfPage() {
     return { featured, alternatives, docker, noCard, ai };
   }, [allResources]);
 
-  // Filtered and ranked resources with multi-token search and cross-category detection
-  const { filtered, crossCategoryMatches } = useMemo(() => {
-    const rawQuery = search.toLowerCase().trim();
-
-    if (!rawQuery) {
-      const base = allResources.filter((r) => {
-        if (selectedCategory !== "All" && r.category !== selectedCategory) return false;
-        if (quickFilter === "featured" && !r.featured) return false;
-        if (quickFilter === "alternatives" && !r.alternativeTo) return false;
-        if (quickFilter === "docker" && !r.dockerCompose) return false;
-        if (quickFilter === "no-card" && !r.statusTags?.some((t) => t.toLowerCase().includes("no card"))) return false;
-        if (quickFilter === "ai" && !(r.type === "ai" || r.category?.toLowerCase().includes("ai") || r.category?.toLowerCase().includes("mcp"))) return false;
-        return true;
-      });
-      return { filtered: base, crossCategoryMatches: 0 };
-    }
-
-    // Split search into keywords so 'akii seo', 'claude code', 'docker postgres' match
-    const tokens = rawQuery.split(/[\s,+/]+/).filter(Boolean);
-
-    // 1. Find all tools matching all tokens across their searchable text
-    const allMatchingQuery = allResources.filter((r) => {
-      const searchable = [
-        r.name,
-        r.description,
-        r.category,
-        r.alternativeTo,
-        r.language,
-        r.repo,
-        r.license,
-        r.section,
-        ...(r.statusTags || []),
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-      return tokens.every((token) => searchable.includes(token));
+  // Filtered and ranked resources using multi-technique search engine & auto-categorization
+  const {
+    results: filtered,
+    crossCategoryCount: crossCategoryMatches,
+    detectedCategory,
+    scoredResults,
+    availableCategoriesInResults,
+  } = useMemo(() => {
+    return searchResources(allResources, search, {
+      selectedCategory,
+      quickFilter,
+      enableFuzzy: true,
     });
-
-    // 2. Apply current category and quick filter
-    const inCategoryAndFilter = allMatchingQuery.filter((r) => {
-      if (selectedCategory !== "All" && r.category !== selectedCategory) return false;
-      if (quickFilter === "featured" && !r.featured) return false;
-      if (quickFilter === "alternatives" && !r.alternativeTo) return false;
-      if (quickFilter === "docker" && !r.dockerCompose) return false;
-      if (quickFilter === "no-card" && !r.statusTags?.some((t) => t.toLowerCase().includes("no card"))) return false;
-      if (quickFilter === "ai" && !(r.type === "ai" || r.category?.toLowerCase().includes("ai") || r.category?.toLowerCase().includes("mcp"))) return false;
-      return true;
-    });
-
-    // 3. Relevance ranking
-    const scored = inCategoryAndFilter.map((tool) => {
-      let score = 0;
-      const nameLower = tool.name.toLowerCase();
-      const descLower = (tool.description || "").toLowerCase();
-      const catLower = (tool.category || "").toLowerCase();
-      const altLower = (tool.alternativeTo || "").toLowerCase();
-
-      // Highest priority: Exact name match
-      if (nameLower === rawQuery) score += 200;
-      // High priority: Name starts with search query
-      else if (nameLower.startsWith(rawQuery)) score += 120;
-      // High priority: Name contains full query phrase
-      else if (nameLower.includes(rawQuery)) score += 90;
-      // First keyword in name
-      else if (tokens.length > 0 && nameLower.includes(tokens[0])) score += 50;
-
-      // Alternative to match (e.g. searching 'Postman' matches Bruno/Hoppscotch)
-      if (altLower.includes(rawQuery)) score += 80;
-
-      // Category matches
-      if (catLower.includes(rawQuery)) score += 30;
-
-      // Description contains full query
-      if (descLower.includes(rawQuery)) score += 20;
-
-      // Featured boost
-      if (tool.featured) score += 10;
-
-      return { tool, score };
-    });
-
-    scored.sort((a, b) => b.score - a.score);
-
-    const crossCategoryCount = allMatchingQuery.length - inCategoryAndFilter.length;
-
-    return {
-      filtered: scored.map((s) => s.tool),
-      crossCategoryMatches: crossCategoryCount > 0 ? allMatchingQuery.length : 0,
-    };
   }, [allResources, search, selectedCategory, quickFilter]);
+
+  // Token map for keyword highlighting
+  const toolTokensMap = useMemo(() => {
+    const map = new Map<string, string[]>();
+    scoredResults.forEach((s) => {
+      if (s.matchedTokens && s.matchedTokens.length > 0) {
+        map.set(s.tool.name, s.matchedTokens);
+      }
+    });
+    return map;
+  }, [scoredResults]);
+
+  // Grouped results for "Group by Category" view
+  const groupedByCategory = useMemo(() => {
+    const groups: Record<string, Resource[]> = {};
+    filtered.forEach((tool) => {
+      const cat = tool.category || "Developer Tools";
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(tool);
+    });
+    return Object.entries(groups).sort((a, b) => b[1].length - a[1].length);
+  }, [filtered]);
 
   // Handle Dodo Payments Sponsor Checkout
   const handleSponsorCheckout = (e: React.FormEvent) => {
@@ -619,22 +591,27 @@ export default function DevShelfPage() {
       {/* Search & Multi-Facet Filters */}
       <div className="py-8 space-y-5">
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <div className="relative flex-1">
+          <div ref={searchContainerRef} className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
               ref={searchRef}
               type="text"
               placeholder={`Search ${allResources.length}+ zero-paywall tools, APIs, AI agents (e.g. 'Akii', 'Postman', 'Docker')...`}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-24 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-cyan/80 focus:ring-1 focus:ring-brand-cyan/80 transition-all"
+              onFocus={() => setIsSearchFocused(true)}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setIsSearchFocused(true);
+              }}
+              className="w-full pl-11 pr-32 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-cyan/80 focus:ring-1 focus:ring-brand-cyan/80 transition-all"
             />
             <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
-              {search ? (
+              {search && (
                 <button
                   type="button"
                   onClick={() => {
                     setSearch("");
+                    setIsSearchFocused(false);
                     searchRef.current?.focus();
                   }}
                   className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors"
@@ -642,12 +619,115 @@ export default function DevShelfPage() {
                 >
                   <X className="w-4 h-4" />
                 </button>
-              ) : (
-                <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold text-slate-400 bg-slate-800/80 rounded border border-slate-700 select-none">
+              )}
+              <button
+                type="button"
+                onClick={() => setIsSyntaxModalOpen(true)}
+                className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-purple-300 border border-slate-700 text-[10px] font-mono flex items-center gap-1 transition-colors"
+                title="View search syntax tips & techniques"
+              >
+                <HelpCircle className="w-3.5 h-3.5 text-purple-400" />
+                <span className="hidden sm:inline">Syntax</span>
+              </button>
+              {!search && (
+                <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold text-slate-400 bg-slate-800/80 rounded border border-slate-700 select-none">
                   ⌘K /
                 </kbd>
               )}
             </div>
+
+            {/* Instant Autocomplete Suggestions Dropdown */}
+            {isSearchFocused && search.trim().length >= 1 && (
+              <div className="absolute left-0 right-0 top-full mt-2 z-40 p-3.5 rounded-2xl bg-slate-900/98 backdrop-blur-xl border border-slate-700/80 shadow-2xl shadow-purple-950/50 space-y-3 animate-fade-in text-xs font-mono">
+                {/* Top Matching Tools */}
+                {scoredResults.length > 0 ? (
+                  <div>
+                    <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 flex items-center justify-between">
+                      <span>Top Matches ({scoredResults.length} tools found)</span>
+                      <span>Click to view details</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {scoredResults.slice(0, 4).map(({ tool, isFuzzyMatch }) => (
+                        <div
+                          key={tool.name}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            openToolModal(tool);
+                            setIsSearchFocused(false);
+                          }}
+                          className="p-2.5 rounded-xl bg-slate-800/60 hover:bg-purple-950/50 hover:border-purple-500/40 border border-slate-800 flex items-center justify-between cursor-pointer transition-all group"
+                        >
+                          <div className="flex items-center gap-2 truncate">
+                            <span className="font-bold text-white group-hover:text-purple-300 truncate">
+                              <HighlightedText text={tool.name} tokens={toolTokensMap.get(tool.name)} />
+                            </span>
+                            {isFuzzyMatch && (
+                              <span className="px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-300 text-[9px] border border-amber-500/30 shrink-0">
+                                typo match
+                              </span>
+                            )}
+                            <span className="text-[10px] text-purple-400 truncate hidden sm:inline">
+                              • {tool.category || "Tool"}
+                            </span>
+                          </div>
+                          <ArrowRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-purple-300 group-hover:translate-x-0.5 transition-transform shrink-0" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-slate-400 py-1">
+                    No direct matches for &quot;{search}&quot;. Try power syntax like <code className="text-purple-300">cat:ai</code>, <code className="text-purple-300">is:docker</code>, or <code className="text-purple-300">is:free</code>.
+                  </div>
+                )}
+
+                {/* Auto-Categorized Category Match */}
+                {detectedCategory && (
+                  <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-brand-cyan">
+                      <Zap className="w-3.5 h-3.5 text-brand-neon" />
+                      <span>Category Intent: <strong>{detectedCategory.detectedCategory}</strong></span>
+                    </div>
+                    <button
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setSelectedCategory(detectedCategory.detectedCategory);
+                        setIsSearchFocused(false);
+                      }}
+                      className="text-xs text-brand-cyan hover:underline font-bold"
+                    >
+                      Filter ({detectedCategory.confidence}%) →
+                    </button>
+                  </div>
+                )}
+
+                {/* Suggested Queries */}
+                <div className="pt-2 border-t border-slate-800 flex items-center gap-1.5 flex-wrap">
+                  <span className="text-[10px] text-slate-500">Suggested:</span>
+                  {[
+                    search.toLowerCase().includes("docker") ? "docker compose" : "is:docker",
+                    search.toLowerCase().includes("ai") ? "ai mcp agent" : "cat:ai",
+                    search.toLowerCase().includes("postman") ? "alt:postman" : "lang:python",
+                    "is:free",
+                  ].map((sug) => (
+                    <button
+                      key={sug}
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        setSearch(sug);
+                        setIsSearchFocused(false);
+                        searchRef.current?.focus();
+                      }}
+                      className="px-2 py-0.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] transition-colors"
+                    >
+                      {sug}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <select
@@ -693,6 +773,57 @@ export default function DevShelfPage() {
             </button>
           ))}
         </div>
+
+        {/* Real-time Auto-Categorized Query Intent */}
+        {detectedCategory && selectedCategory !== detectedCategory.detectedCategory && (
+          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-brand-cyan/10 via-purple-950/40 to-brand-cyan/5 border border-brand-cyan/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+            <div className="flex items-center gap-2 text-brand-cyan">
+              <Zap className="w-4 h-4 text-brand-neon shrink-0 animate-pulse" />
+              <span>
+                Auto-Categorized Intent: <strong>{detectedCategory.detectedCategory}</strong>
+                <span className="text-slate-400 text-[11px] ml-1.5 hidden sm:inline">
+                  ({detectedCategory.confidence}% confidence • {detectedCategory.explanation})
+                </span>
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCategory(detectedCategory.detectedCategory);
+                searchRef.current?.focus();
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-brand-cyan/20 hover:bg-brand-cyan/30 text-brand-cyan hover:text-white border border-brand-cyan/40 font-bold transition-all text-xs whitespace-nowrap self-start sm:self-auto"
+            >
+              Filter to {detectedCategory.detectedCategory} →
+            </button>
+          </div>
+        )}
+
+        {/* Dynamic Category Chips for Current Search */}
+        {search && availableCategoriesInResults.length > 1 && (
+          <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] font-mono text-slate-400 no-scrollbar pt-1">
+            <span className="text-slate-500 shrink-0 flex items-center gap-1 mr-1">
+              <Filter className="w-3 h-3 text-purple-400" /> Categories in Results:
+            </span>
+            {availableCategoriesInResults.slice(0, 6).map((c) => (
+              <button
+                key={c.name}
+                type="button"
+                onClick={() => setSelectedCategory(c.name)}
+                className={`px-2.5 py-1 rounded-lg whitespace-nowrap transition-colors flex items-center gap-1.5 text-[11px] ${
+                  selectedCategory === c.name
+                    ? "bg-purple-600 text-white font-bold"
+                    : "bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-slate-800 hover:border-slate-700"
+                }`}
+              >
+                <span>{c.name}</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-slate-800 text-purple-300 text-[10px] font-bold">
+                  {c.count}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Cross-Category Search Match Banner */}
         {crossCategoryMatches > 0 && filtered.length === 0 && (
@@ -810,142 +941,327 @@ export default function DevShelfPage() {
         </div>
       </div>
 
-      {/* Results Count & Sponsor Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-slate-500 mb-6">
-        <div>
-          Showing {Math.min(visibleCount, filtered.length)} of {filtered.length} matching resources
-          {search && <span className="text-purple-400 ml-1.5">for &quot;{search}&quot;</span>}
+      {/* Results Count, View Toggle & Auto-Categorization */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-slate-500 mb-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <span>
+            Showing {Math.min(visibleCount, filtered.length)} of {filtered.length} matching resources
+            {search && <span className="text-purple-400 ml-1.5">for &quot;{search}&quot;</span>}
+          </span>
+          {detectedCategory && (
+            <span className="px-2 py-0.5 rounded-full bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 text-[10px]">
+              Intent: {detectedCategory.detectedCategory}
+            </span>
+          )}
         </div>
-        <div className="text-slate-400">
-          Click any tool card to view full capabilities &amp; install snippets
+
+        <div className="flex items-center gap-2">
+          {/* View Mode Toggle: Grid vs Group by Category */}
+          <div className="flex items-center gap-1 p-0.5 rounded-xl bg-slate-900 border border-slate-800 text-[11px]">
+            <button
+              type="button"
+              onClick={() => setViewMode("grid")}
+              className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+                viewMode === "grid"
+                  ? "bg-purple-600/30 text-purple-300 font-bold border border-purple-500/40"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Grid className="w-3.5 h-3.5" />
+              <span>Grid View</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("categorized")}
+              className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+                viewMode === "categorized"
+                  ? "bg-purple-600/30 text-purple-300 font-bold border border-purple-500/40"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5 text-purple-400" />
+              <span>By Category ({groupedByCategory.length})</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Tools Grid */}
+      {/* Tools Display: Grid or Grouped by Auto-Detected Category */}
       {!isMounted ? (
         <DevShelfSkeletonGrid count={9} />
+      ) : viewMode === "categorized" ? (
+        <div className="space-y-8">
+          {groupedByCategory.map(([catName, catTools]) => {
+            const isCollapsed = collapsedCategories[catName];
+            return (
+              <div key={catName} className="space-y-4">
+                <div
+                  onClick={() =>
+                    setCollapsedCategories((prev) => ({
+                      ...prev,
+                      [catName]: !prev[catName],
+                    }))
+                  }
+                  className="flex items-center justify-between p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-purple-500/40 cursor-pointer transition-all"
+                >
+                  <div className="flex items-center gap-2.5">
+                    {isCollapsed ? (
+                      <ChevronRight className="w-4 h-4 text-purple-400" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-purple-400" />
+                    )}
+                    <h2 className="text-base font-bold text-white flex items-center gap-2.5">
+                      <span>{catName}</span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/30 text-xs font-mono">
+                        {catTools.length} {catTools.length === 1 ? "tool" : "tools"}
+                      </span>
+                    </h2>
+                  </div>
+                  <span className="text-xs font-mono text-slate-500">
+                    {isCollapsed ? "Click to expand" : "Click to collapse"}
+                  </span>
+                </div>
+
+                {!isCollapsed && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {catTools.map((tool, idx) => {
+                      const install = getInstallCommand(tool);
+                      const matchedTokens = toolTokensMap.get(tool.name);
+
+                      return (
+                        <div
+                          key={`${catName}-${tool.name}-${idx}`}
+                          onClick={() => openToolModal(tool)}
+                          className="glass-panel glass-panel-hover rounded-2xl p-5 border border-slate-800 flex flex-col justify-between cursor-pointer group transition-all"
+                        >
+                          <div>
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <h3 className="font-bold text-base text-white group-hover:text-purple-300 transition-colors flex items-center gap-2">
+                                <HighlightedText text={tool.name} tokens={matchedTokens} />
+                              </h3>
+                              {tool.featured && (
+                                <span className="p-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/30 shrink-0" title="Featured Tool">
+                                  <Star className="w-3 h-3 fill-amber-400" />
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
+                              <span className="text-[11px] font-mono text-purple-400/90">
+                                {tool.category || "Developer Tool"}
+                              </span>
+                              {tool.dockerCompose && (
+                                <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30 text-[10px] font-mono">
+                                  🐳 Docker
+                                </span>
+                              )}
+                            </div>
+
+                            {tool.alternativeTo && (
+                              <div className="mb-3 px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/25 text-[11px] font-mono text-purple-300 flex items-center gap-1.5">
+                                <Sparkles className="w-3 h-3 text-purple-400 shrink-0" />
+                                <span className="truncate">
+                                  Alt to: <strong className="text-white"><HighlightedText text={tool.alternativeTo} tokens={matchedTokens} /></strong>
+                                </span>
+                              </div>
+                            )}
+
+                            <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                              <HighlightedText text={tool.description || "Open-source developer utility and toolkit."} tokens={matchedTokens} />
+                            </p>
+
+                            {tool.statusTags && tool.statusTags.length > 0 && (
+                              <div className="flex flex-wrap gap-1.5 mb-4">
+                                {tool.statusTags.slice(0, 2).map((tag, tIdx) => (
+                                  <span
+                                    key={tIdx}
+                                    className="px-2 py-0.5 rounded-md bg-slate-900/90 text-slate-300 border border-slate-800 text-[10px] font-mono"
+                                  >
+                                    <HighlightedText text={tag} tokens={matchedTokens} />
+                                  </span>
+                                ))}
+                                {tool.statusTags.length > 2 && (
+                                  <span className="text-[10px] font-mono text-slate-500 self-center">
+                                    +{tool.statusTags.length - 2} more
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                            <div className="flex items-center gap-1.5">
+                              {tool.language && (
+                                <span className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 truncate max-w-[100px]">
+                                  {tool.language}
+                                </span>
+                              )}
+                              {tool.license && (
+                                <span className="text-slate-500 hidden sm:inline">
+                                  {tool.license}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              {install && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    copyToClipboard(install.cmd, `${tool.name} install command`);
+                                  }}
+                                  className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-brand-cyan border border-slate-800 transition-colors"
+                                  title={`Copy install command: ${install.cmd}`}
+                                >
+                                  {copiedText === install.cmd ? (
+                                    <Check className="w-3.5 h-3.5 text-brand-neon" />
+                                  ) : (
+                                    <Copy className="w-3.5 h-3.5" />
+                                  )}
+                                </button>
+                              )}
+
+                              <span className="text-purple-400 group-hover:text-purple-300 flex items-center gap-0.5 text-xs font-semibold">
+                                <span>Details</span>
+                                <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filtered.slice(0, visibleCount).map((tool, idx) => {
-          const install = getInstallCommand(tool);
+            {filtered.slice(0, visibleCount).map((tool, idx) => {
+              const install = getInstallCommand(tool);
+              const matchedTokens = toolTokensMap.get(tool.name);
 
-          return (
-            <div
-              key={`${tool.name}-${idx}`}
-              onClick={() => openToolModal(tool)}
-              className="glass-panel glass-panel-hover rounded-2xl p-5 border border-slate-800 flex flex-col justify-between cursor-pointer group transition-all"
-            >
-              <div>
-                {/* Header row */}
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="font-bold text-base text-white group-hover:text-purple-300 transition-colors flex items-center gap-2">
-                    <span>{tool.name}</span>
-                  </h3>
-                  {tool.featured && (
-                    <span className="p-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/30 shrink-0" title="Featured Tool">
-                      <Star className="w-3 h-3 fill-amber-400" />
-                    </span>
-                  )}
-                </div>
+              return (
+                <div
+                  key={`${tool.name}-${idx}`}
+                  onClick={() => openToolModal(tool)}
+                  className="glass-panel glass-panel-hover rounded-2xl p-5 border border-slate-800 flex flex-col justify-between cursor-pointer group transition-all"
+                >
+                  <div>
+                    {/* Header row */}
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <h3 className="font-bold text-base text-white group-hover:text-purple-300 transition-colors flex items-center gap-2">
+                        <HighlightedText text={tool.name} tokens={matchedTokens} />
+                      </h3>
+                      {tool.featured && (
+                        <span className="p-1 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/30 shrink-0" title="Featured Tool">
+                          <Star className="w-3 h-3 fill-amber-400" />
+                        </span>
+                      )}
+                    </div>
 
-                {/* Category & Alternative tag */}
-                <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
-                  <span className="text-[11px] font-mono text-purple-400/90">
-                    {tool.category || "Developer Tool"}
-                  </span>
-
-                  {tool.dockerCompose && (
-                    <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30 text-[10px] font-mono">
-                      🐳 Docker
-                    </span>
-                  )}
-                </div>
-
-                {/* Alternative to Callout if exists */}
-                {tool.alternativeTo && (
-                  <div className="mb-3 px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/25 text-[11px] font-mono text-purple-300 flex items-center gap-1.5">
-                    <Sparkles className="w-3 h-3 text-purple-400 shrink-0" />
-                    <span className="truncate">Alt to: <strong className="text-white">{tool.alternativeTo}</strong></span>
-                  </div>
-                )}
-
-                {/* Description */}
-                <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-4">
-                  {tool.description || "Open-source developer utility and toolkit."}
-                </p>
-
-                {/* Status Tags */}
-                {tool.statusTags && tool.statusTags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {tool.statusTags.slice(0, 2).map((tag, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-2 py-0.5 rounded-md bg-slate-900/90 text-slate-300 border border-slate-800 text-[10px] font-mono"
-                      >
-                        {tag}
+                    {/* Category & Alternative tag */}
+                    <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
+                      <span className="text-[11px] font-mono text-purple-400/90">
+                        {tool.category || "Developer Tool"}
                       </span>
-                    ))}
-                    {tool.statusTags.length > 2 && (
-                      <span className="text-[10px] font-mono text-slate-500 self-center">
-                        +{tool.statusTags.length - 2} more
-                      </span>
+
+                      {tool.dockerCompose && (
+                        <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30 text-[10px] font-mono">
+                          🐳 Docker
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Alternative to Callout if exists */}
+                    {tool.alternativeTo && (
+                      <div className="mb-3 px-2.5 py-1 rounded-lg bg-purple-500/10 border border-purple-500/25 text-[11px] font-mono text-purple-300 flex items-center gap-1.5">
+                        <Sparkles className="w-3 h-3 text-purple-400 shrink-0" />
+                        <span className="truncate">
+                          Alt to: <strong className="text-white"><HighlightedText text={tool.alternativeTo} tokens={matchedTokens} /></strong>
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed mb-4">
+                      <HighlightedText text={tool.description || "Open-source developer utility and toolkit."} tokens={matchedTokens} />
+                    </p>
+
+                    {/* Status Tags */}
+                    {tool.statusTags && tool.statusTags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {tool.statusTags.slice(0, 2).map((tag, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="px-2 py-0.5 rounded-md bg-slate-900/90 text-slate-300 border border-slate-800 text-[10px] font-mono"
+                          >
+                            <HighlightedText text={tag} tokens={matchedTokens} />
+                          </span>
+                        ))}
+                        {tool.statusTags.length > 2 && (
+                          <span className="text-[10px] font-mono text-slate-500 self-center">
+                            +{tool.statusTags.length - 2} more
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
 
-              {/* Bottom specs & Quick Copy */}
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                <div className="flex items-center gap-1.5">
-                  {tool.language && (
-                    <span className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 truncate max-w-[100px]">
-                      {tool.language}
-                    </span>
-                  )}
-                  {tool.license && (
-                    <span className="text-slate-500 hidden sm:inline">
-                      {tool.license}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {install && (
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        copyToClipboard(install.cmd, `${tool.name} install command`);
-                      }}
-                      className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-brand-cyan border border-slate-800 transition-colors"
-                      title={`Copy install command: ${install.cmd}`}
-                    >
-                      {copiedText === install.cmd ? (
-                        <Check className="w-3.5 h-3.5 text-brand-neon" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
+                  {/* Bottom specs & Quick Copy */}
+                  <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                    <div className="flex items-center gap-1.5">
+                      {tool.language && (
+                        <span className="px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 truncate max-w-[100px]">
+                          {tool.language}
+                        </span>
                       )}
-                    </button>
-                  )}
+                      {tool.license && (
+                        <span className="text-slate-500 hidden sm:inline">
+                          {tool.license}
+                        </span>
+                      )}
+                    </div>
 
-                  <span className="text-purple-400 group-hover:text-purple-300 flex items-center gap-0.5 text-xs font-semibold">
-                    <span>Details</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </span>
+                    <div className="flex items-center gap-2">
+                      {install && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            copyToClipboard(install.cmd, `${tool.name} install command`);
+                          }}
+                          className="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-brand-cyan border border-slate-800 transition-colors"
+                          title={`Copy install command: ${install.cmd}`}
+                        >
+                          {copiedText === install.cmd ? (
+                            <Check className="w-3.5 h-3.5 text-brand-neon" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      )}
+
+                      <span className="text-purple-400 group-hover:text-purple-300 flex items-center gap-0.5 text-xs font-semibold">
+                        <span>Details</span>
+                        <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              );
+            })}
+          </div>
+          {isLoadingMore && (
+            <div className="mt-5">
+              <DevShelfSkeletonGrid count={6} />
             </div>
-          );
-        })}
-      </div>
-      {isLoadingMore && (
-        <div className="mt-5">
-          <DevShelfSkeletonGrid count={6} />
-        </div>
+          )}
+        </>
       )}
-    </>
-  )}
 
       {/* Empty State */}
       {filtered.length === 0 && (
@@ -1735,6 +2051,112 @@ export default function DevShelfPage() {
         </div>
       )}
 
+      {/* Search Syntax & Techniques Modal */}
+      {isSyntaxModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-xl p-6 rounded-3xl bg-slate-900 border border-slate-800 text-white font-mono space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2 text-base font-bold text-white">
+                <Zap className="w-4 h-4 text-brand-neon" />
+                <span>Search Techniques &amp; Power Syntax</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsSyntaxModalOpen(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-400 leading-relaxed">
+              DevShelf features a multi-technique search engine designed for rapid developer discovery. Mix and match any of these patterns:
+            </p>
+
+            <div className="space-y-3 text-xs">
+              <div className="p-3 rounded-xl bg-black/50 border border-slate-800 space-y-1">
+                <div className="text-purple-300 font-bold flex items-center gap-2">
+                  <span>1. Multi-Token &amp; Word-by-Word</span>
+                  <code className="text-[10px] bg-purple-500/20 text-purple-200 px-1.5 py-0.5 rounded">docker postgres</code>
+                </div>
+                <p className="text-slate-400 text-[11px]">
+                  Matches keywords in any order across tool name, description, tags, and languages.
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/50 border border-slate-800 space-y-1">
+                <div className="text-purple-300 font-bold flex items-center gap-2">
+                  <span>2. Typo-Tolerance &amp; Fuzzy Search</span>
+                  <code className="text-[10px] bg-purple-500/20 text-purple-200 px-1.5 py-0.5 rounded">posgres</code>
+                  <span className="text-slate-500 text-[10px]">→ finds PostgreSQL</span>
+                </div>
+                <p className="text-slate-400 text-[11px]">
+                  Automatic Levenshtein typo-correction (e.g. <code className="text-white">dockr</code>, <code className="text-white">claud</code>, <code className="text-white">kubernets</code>).
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/50 border border-slate-800 space-y-1">
+                <div className="text-purple-300 font-bold flex items-center gap-2">
+                  <span>3. Synonym &amp; Acronym Expansion</span>
+                  <code className="text-[10px] bg-purple-500/20 text-purple-200 px-1.5 py-0.5 rounded">k8s</code>
+                  <span className="text-slate-500 text-[10px]">→ finds Kubernetes</span>
+                </div>
+                <p className="text-slate-400 text-[11px]">
+                  Maps <code className="text-white">db</code> → Database, <code className="text-white">ai</code> → LLM/Agent, <code className="text-white">auth</code> → Authentication.
+                </p>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/50 border border-slate-800 space-y-1.5">
+                <div className="text-purple-300 font-bold">4. Power Operators</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">is:docker</code>
+                    <span className="text-slate-400">Self-hostable tools</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">is:featured</code>
+                    <span className="text-slate-400">Featured spotlights</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">is:free</code>
+                    <span className="text-slate-400">No card required</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">cat:ai</code>
+                    <span className="text-slate-400">Filter category</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">lang:rust</code>
+                    <span className="text-slate-400">Filter language</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">alt:postman</code>
+                    <span className="text-slate-400">Alternative to</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">-paid</code>
+                    <span className="text-slate-400">Exclude term</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <code className="px-1.5 py-0.5 rounded bg-slate-800 text-brand-cyan">&quot;exact phrase&quot;</code>
+                    <span className="text-slate-400">Exact match</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsSyntaxModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors"
+              >
+                Got it, let&apos;s search!
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
