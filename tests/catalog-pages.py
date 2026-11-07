@@ -38,10 +38,10 @@ class Page(HTMLParser):
             self.hidden = False
 
 
-resources = json.loads(Path('src/data/devshelf.json').read_text())['resources']
+resources = json.loads(Path('src/data/devshelf.json').read_text(encoding='utf-8'))['resources']
 for tool in resources:
     slug = re.sub(r'[^a-z0-9]+', '-', tool['name'].lower()).strip('-')
-    page = Page(Path(f'out/devshelf/{slug}/index.html').read_text())
+    page = Page(Path(f'out/devshelf/{slug}/index.html').read_text(encoding='utf-8'))
     text = ' '.join(page.text)
     app = next(s for s in page.schemas if s.get('@type') == 'SoftwareApplication')
     faq = next(s for s in page.schemas if s.get('@type') == 'FAQPage')['mainEntity']
