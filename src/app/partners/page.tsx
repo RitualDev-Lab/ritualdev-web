@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -81,39 +81,48 @@ export default function PartnersPage() {
     },
   ];
 
-  const activePartners = [
+  const openCategoryPlacements = [
     {
-      name: "Neon Serverless Postgres",
+      name: "Managed Databases & Storage",
       category: "databases",
-      tier: "Category Leader ($999/mo)",
-      badge: "Zero-Paywall Verified",
-      desc: "Serverless Postgres with bottomless storage and instant branching. Verified zero-telemetry local proxy compatibility.",
-      docsUrl: "https://neon.tech",
-      mcpCommand: "npx -y @neondatabase/mcp-server",
+      tier: "Category Leader Available",
+      badge: "1 Exclusive Slot Open",
+      badgeColor: "text-amber-400 bg-amber-500/10 border-amber-500/30",
+      desc: "Prime placement and primary database recommendation for autonomous AI coding agents in Cursor, Claude Code, and Windsurf via DevShelf.",
+      targetTech: "Postgres, Distributed SQL, Serverless Storage",
+      ctaText: "Claim Database Category (#1)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?tier=partner_leader",
+      previewMcp: "npx -y @your-company/mcp-server",
     },
     {
-      name: "Qdrant Vector Database",
+      name: "Vector & AI Infrastructure",
       category: "ai",
-      tier: "Category Leader ($999/mo)",
-      badge: "Open-Source Verified",
-      desc: "High-performance vector search engine with payload-based filtering. 100% air-gapped on-premise Docker deployment.",
-      docsUrl: "https://qdrant.tech",
-      mcpCommand: "npx -y @qdrant/mcp-server",
+      tier: "Category Leader Available",
+      badge: "1 Exclusive Slot Open",
+      badgeColor: "text-amber-400 bg-amber-500/10 border-amber-500/30",
+      desc: "Top retrieval and vector indexing partner spotlighted in SkillPrism dynamic context discovery, agent memory systems, and RAG architectures.",
+      targetTech: "Vector Databases, Embeddings, Inference APIs",
+      ctaText: "Claim AI Infra Category (#1)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?tier=partner_leader",
+      previewMcp: "npx -y @your-vector-engine/mcp-server",
     },
     {
-      name: "ClickHouse Cloud",
-      category: "databases",
-      tier: "Category Sponsor ($499/mo)",
-      badge: "Zero-Paywall Verified",
-      desc: "Fast open-source columnar database management system for real-time analytical reporting and large scale metrics.",
-      docsUrl: "https://clickhouse.com",
-      mcpCommand: "npx -y @clickhouse/mcp-server",
+      name: "DevOps & Cloud Orchestration",
+      category: "devops",
+      tier: "Spotlight Available",
+      badge: "2 Slots Open",
+      badgeColor: "text-sky-400 bg-sky-500/10 border-sky-500/30",
+      desc: "High-visibility placement across developer terminal environments, containerized deployment pipelines, and zero-telemetry local sandboxes.",
+      targetTech: "Cloud Hosting, CI/CD, Container Registries",
+      ctaText: "Claim DevOps Placement",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?tier=partner_spotlight",
+      previewMcp: "npx -y @your-platform/cli",
     },
   ];
 
-  const filteredPartners = selectedCategory === "all"
-    ? activePartners
-    : activePartners.filter((p) => p.category === selectedCategory);
+  const filteredPlacements = selectedCategory === "all"
+    ? openCategoryPlacements
+    : openCategoryPlacements.filter((p) => p.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
@@ -271,15 +280,15 @@ export default function PartnersPage() {
           </div>
         </div>
 
-        {/* Active Verified Partners Showcase */}
+        {/* Open Category Placements Showcase */}
         <div className="space-y-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-white">Current Verified Ecosystem Partners</h2>
-              <p className="text-slate-400 text-sm">Audited and featured across DevShelf and autonomous coding agents</p>
+              <h2 className="text-2xl font-bold text-white">Available Category Placements</h2>
+              <p className="text-slate-400 text-sm">Inaugural verified placement slots open for infrastructure and developer tool vendors</p>
             </div>
-            <div className="flex gap-2">
-              {(["all", "databases", "ai"] as const).map((cat) => (
+            <div className="flex flex-wrap gap-2">
+              {(["all", "databases", "ai", "devops"] as const).map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
@@ -296,20 +305,37 @@ export default function PartnersPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {filteredPartners.map((p) => (
-              <div key={p.name} className="p-6 rounded-xl border border-slate-800 bg-slate-900/40 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
-                    {p.badge}
-                  </span>
-                  <span className="text-xs text-slate-500">{p.tier}</span>
-                </div>
-                <h3 className="text-lg font-bold text-white">{p.name}</h3>
-                <p className="text-slate-400 text-xs leading-relaxed">{p.desc}</p>
-                <div className="pt-2">
-                  <div className="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono text-slate-300 select-all">
-                    {p.mcpCommand}
+            {filteredPlacements.map((p) => (
+              <div key={p.name} className="p-6 rounded-xl border border-slate-800 bg-slate-900/40 flex flex-col justify-between space-y-4 hover:border-slate-700 transition">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className={`text-xs font-mono px-2.5 py-0.5 rounded-full border ${p.badgeColor}`}>
+                      {p.badge}
+                    </span>
+                    <span className="text-xs text-slate-400 font-mono">{p.tier}</span>
                   </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{p.name}</h3>
+                    <p className="text-xs text-sky-400 font-mono mt-0.5">Target: {p.targetTech}</p>
+                  </div>
+                  <p className="text-slate-400 text-xs leading-relaxed">{p.desc}</p>
+                  <div className="pt-1">
+                    <div className="text-[11px] text-slate-500 font-mono mb-1">PREVIEW INTEGRATION:</div>
+                    <div className="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs font-mono text-slate-400">
+                      {p.previewMcp}
+                    </div>
+                  </div>
+                </div>
+                <div className="pt-2">
+                  <a
+                    href={p.ctaHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 text-xs font-bold transition"
+                  >
+                    {p.ctaText}
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               </div>
             ))}
