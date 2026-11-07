@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { 
   Layers, 
@@ -123,10 +123,36 @@ export default function DevShelfPage() {
   const [visibleCount, setVisibleCount] = useState<number>(36);
   const [isMounted, setIsMounted] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("q") || params.get("search");
+      if (q) setSearch(q);
+      const cat = params.get("cat") || params.get("category");
+      if (cat) setSelectedCategory(cat);
+      const filter = params.get("filter");
+      if (filter) setQuickFilter(filter);
+    }
   }, []);
+
+  // Synchronize search query, category, and quick filter with browser URL
+  useEffect(() => {
+    if (!isMounted || typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (search.trim()) url.searchParams.set("q", search.trim());
+    else url.searchParams.delete("q");
+
+    if (selectedCategory && selectedCategory !== "All") url.searchParams.set("cat", selectedCategory);
+    else url.searchParams.delete("cat");
+
+    if (quickFilter && quickFilter !== "all") url.searchParams.set("filter", quickFilter);
+    else url.searchParams.delete("filter");
+
+    window.history.replaceState(null, "", url.toString());
+  }, [search, selectedCategory, quickFilter, isMounted]);
 
   const handleLoadMore = () => {
     setIsLoadingMore(true);
@@ -216,7 +242,17 @@ export default function DevShelfPage() {
     window.addEventListener("hashchange", handleHash);
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Focus search input on / or Cmd+K / Ctrl+K
+      if ((e.key === "/" || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) && document.activeElement !== searchRef.current) {
+        e.preventDefault();
+        searchRef.current?.focus();
+        searchRef.current?.select();
+      }
+
       if (e.key === "Escape") {
+        if (document.activeElement === searchRef.current) {
+          searchRef.current?.blur();
+        }
         closeToolModal();
         setIsSponsorModalOpen(false);
         setIsBadgeModalOpen(false);
@@ -258,34 +294,97 @@ export default function DevShelfPage() {
     return { featured, alternatives, docker, noCard, ai };
   }, [allResources]);
 
-  // Filtered resources
-  const filtered = useMemo(() => {
-    const q = search.toLowerCase().trim();
+  // Filtered and ranked resources with multi-token search and cross-category detection
+  const { filtered, crossCategoryMatches } = useMemo(() => {
+    const rawQuery = search.toLowerCase().trim();
 
-    return allResources.filter((r) => {
-      if (selectedCategory !== "All" && r.category !== selectedCategory) {
-        return false;
-      }
+    if (!rawQuery) {
+      const base = allResources.filter((r) => {
+        if (selectedCategory !== "All" && r.category !== selectedCategory) return false;
+        if (quickFilter === "featured" && !r.featured) return false;
+        if (quickFilter === "alternatives" && !r.alternativeTo) return false;
+        if (quickFilter === "docker" && !r.dockerCompose) return false;
+        if (quickFilter === "no-card" && !r.statusTags?.some((t) => t.toLowerCase().includes("no card"))) return false;
+        if (quickFilter === "ai" && !(r.type === "ai" || r.category?.toLowerCase().includes("ai") || r.category?.toLowerCase().includes("mcp"))) return false;
+        return true;
+      });
+      return { filtered: base, crossCategoryMatches: 0 };
+    }
 
+    // Split search into keywords so 'akii seo', 'claude code', 'docker postgres' match
+    const tokens = rawQuery.split(/[\s,+/]+/).filter(Boolean);
+
+    // 1. Find all tools matching all tokens across their searchable text
+    const allMatchingQuery = allResources.filter((r) => {
+      const searchable = [
+        r.name,
+        r.description,
+        r.category,
+        r.alternativeTo,
+        r.language,
+        r.repo,
+        r.license,
+        r.section,
+        ...(r.statusTags || []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return tokens.every((token) => searchable.includes(token));
+    });
+
+    // 2. Apply current category and quick filter
+    const inCategoryAndFilter = allMatchingQuery.filter((r) => {
+      if (selectedCategory !== "All" && r.category !== selectedCategory) return false;
       if (quickFilter === "featured" && !r.featured) return false;
       if (quickFilter === "alternatives" && !r.alternativeTo) return false;
       if (quickFilter === "docker" && !r.dockerCompose) return false;
       if (quickFilter === "no-card" && !r.statusTags?.some((t) => t.toLowerCase().includes("no card"))) return false;
       if (quickFilter === "ai" && !(r.type === "ai" || r.category?.toLowerCase().includes("ai") || r.category?.toLowerCase().includes("mcp"))) return false;
-
-      if (!q) return true;
-
-      return (
-        r.name.toLowerCase().includes(q) ||
-        (r.description && r.description.toLowerCase().includes(q)) ||
-        (r.category && r.category.toLowerCase().includes(q)) ||
-        (r.alternativeTo && r.alternativeTo.toLowerCase().includes(q)) ||
-        (r.language && r.language.toLowerCase().includes(q)) ||
-        (r.repo && r.repo.toLowerCase().includes(q)) ||
-        (r.license && r.license.toLowerCase().includes(q)) ||
-        (r.statusTags && r.statusTags.some((tag) => tag.toLowerCase().includes(q)))
-      );
+      return true;
     });
+
+    // 3. Relevance ranking
+    const scored = inCategoryAndFilter.map((tool) => {
+      let score = 0;
+      const nameLower = tool.name.toLowerCase();
+      const descLower = (tool.description || "").toLowerCase();
+      const catLower = (tool.category || "").toLowerCase();
+      const altLower = (tool.alternativeTo || "").toLowerCase();
+
+      // Highest priority: Exact name match
+      if (nameLower === rawQuery) score += 200;
+      // High priority: Name starts with search query
+      else if (nameLower.startsWith(rawQuery)) score += 120;
+      // High priority: Name contains full query phrase
+      else if (nameLower.includes(rawQuery)) score += 90;
+      // First keyword in name
+      else if (tokens.length > 0 && nameLower.includes(tokens[0])) score += 50;
+
+      // Alternative to match (e.g. searching 'Postman' matches Bruno/Hoppscotch)
+      if (altLower.includes(rawQuery)) score += 80;
+
+      // Category matches
+      if (catLower.includes(rawQuery)) score += 30;
+
+      // Description contains full query
+      if (descLower.includes(rawQuery)) score += 20;
+
+      // Featured boost
+      if (tool.featured) score += 10;
+
+      return { tool, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+
+    const crossCategoryCount = allMatchingQuery.length - inCategoryAndFilter.length;
+
+    return {
+      filtered: scored.map((s) => s.tool),
+      crossCategoryMatches: crossCategoryCount > 0 ? allMatchingQuery.length : 0,
+    };
   }, [allResources, search, selectedCategory, quickFilter]);
 
   // Handle Dodo Payments Sponsor Checkout
@@ -350,7 +449,7 @@ export default function DevShelfPage() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: "DevShelf - The Crowdsourced Zero-Paywall Developer Directory",
-            description: "Discover 565+ verified open-source developer tools, free APIs, AI agents, and MCP servers.",
+            description: "Discover 575+ verified open-source developer tools, free APIs, AI agents, and MCP servers.",
             url: "https://ritualdev.in/devshelf/",
             mainEntity: {
               "@type": "ItemList",
@@ -378,7 +477,7 @@ export default function DevShelfPage() {
                 name: "What is DevShelf?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "DevShelf is an open-source, zero-paywall directory of 565+ verified developer tools, free APIs, AI agents, and MCP servers created and maintained by RitualDev-Lab.",
+                  text: "DevShelf is an open-source, zero-paywall directory of 575+ verified developer tools, free APIs, AI agents, and MCP servers created and maintained by RitualDev-Lab.",
                 },
               },
               {
@@ -451,7 +550,7 @@ export default function DevShelfPage() {
                 </span>
               </div>
               <p className="text-slate-400 text-sm sm:text-base font-mono mt-1.5">
-                The Community Directory for 565+ Open-Source Developer Tools, Free APIs &amp; MCP Servers
+                The Community Directory for 575+ Open-Source Developer Tools, Free APIs &amp; MCP Servers
               </p>
             </div>
           </div>
@@ -523,21 +622,32 @@ export default function DevShelfPage() {
           <div className="relative flex-1">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input
+              ref={searchRef}
               type="text"
-              placeholder="Search 565+ tools by name, description, alternative to (e.g. 'Postman', 'Datadog', 'Sentry')..."
+              placeholder={`Search ${allResources.length}+ zero-paywall tools, APIs, AI agents (e.g. 'Akii', 'Postman', 'Docker')...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-11 pr-10 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-cyan/80 focus:ring-1 focus:ring-brand-cyan/80 transition-all"
+              className="w-full pl-11 pr-24 py-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-cyan/80 focus:ring-1 focus:ring-brand-cyan/80 transition-all"
             />
-            {search && (
-              <button
-                onClick={() => setSearch("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 rounded-lg text-slate-400 hover:text-white"
-                title="Clear search"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5">
+              {search ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    searchRef.current?.focus();
+                  }}
+                  className="p-1 rounded-lg text-slate-400 hover:text-white transition-colors"
+                  title="Clear search (Esc)"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              ) : (
+                <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono font-bold text-slate-400 bg-slate-800/80 rounded border border-slate-700 select-none">
+                  ⌘K /
+                </kbd>
+              )}
+            </div>
           </div>
 
           <select
@@ -552,6 +662,59 @@ export default function DevShelfPage() {
             ))}
           </select>
         </div>
+
+        {/* Popular Quick-Search Suggestions */}
+        <div className="flex items-center gap-1.5 overflow-x-auto text-[11px] font-mono text-slate-400 no-scrollbar pt-0.5">
+          <span className="text-slate-500 shrink-0 flex items-center gap-1 mr-1">
+            <Sparkles className="w-3 h-3 text-purple-400" /> Quick Search:
+          </span>
+          {[
+            { label: "Akii", query: "Akii" },
+            { label: "Claude Code", query: "Claude Code" },
+            { label: "Postman Alternative", query: "Postman" },
+            { label: "Local LLM", query: "Local LLM" },
+            { label: "Docker Compose", query: "Docker" },
+            { label: "Postgres", query: "Postgres" },
+            { label: "Zero Telemetry", query: "Zero Telemetry" },
+            { label: "MCP Server", query: "MCP" },
+          ].map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              onClick={() => {
+                setSearch(item.query);
+                setSelectedCategory("All");
+                setQuickFilter("all");
+                searchRef.current?.focus();
+              }}
+              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-purple-950/40 text-slate-400 hover:text-purple-300 border border-slate-800 hover:border-purple-500/40 whitespace-nowrap transition-colors"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Cross-Category Search Match Banner */}
+        {crossCategoryMatches > 0 && filtered.length === 0 && (
+          <div className="p-3.5 rounded-2xl bg-purple-950/40 border border-purple-500/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono text-purple-200">
+            <div className="flex items-center gap-2">
+              <span className="text-base">💡</span>
+              <span>
+                Found <strong>{crossCategoryMatches}</strong> matching {crossCategoryMatches === 1 ? "tool" : "tools"} for &quot;<strong>{search}</strong>&quot; outside current category &quot;<strong>{selectedCategory}</strong>&quot;.
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedCategory("All");
+                setQuickFilter("all");
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold transition-colors whitespace-nowrap shrink-0"
+            >
+              Show all results ({crossCategoryMatches}) →
+            </button>
+          </div>
+        )}
 
         {/* Quick Filter Chips */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-mono no-scrollbar">
@@ -789,19 +952,34 @@ export default function DevShelfPage() {
         <div className="py-20 text-center glass-panel rounded-3xl border border-slate-800">
           <Search className="w-10 h-10 text-slate-600 mx-auto mb-3" />
           <h3 className="text-lg font-bold text-white mb-1">No developer tools matched your search</h3>
-          <p className="text-slate-400 text-xs font-mono mb-4">
-            Try adjusting your search query, or clear selected category filters.
+          <p className="text-slate-400 text-xs font-mono mb-4 max-w-md mx-auto">
+            {crossCategoryMatches > 0
+              ? `We found ${crossCategoryMatches} tools matching "${search}" in other categories. Click below to view them.`
+              : "Try adjusting your search query, searching by alternative (e.g. 'Postman'), or resetting filters."}
           </p>
-          <button
-            onClick={() => {
-              setSearch("");
-              setSelectedCategory("All");
-              setQuickFilter("all");
-            }}
-            className="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-mono font-bold hover:bg-purple-500 transition-colors"
-          >
-            Reset All Filters
-          </button>
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            {crossCategoryMatches > 0 && (
+              <button
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setQuickFilter("all");
+                }}
+                className="px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-mono font-bold hover:bg-purple-500 transition-colors shadow-lg shadow-purple-600/30"
+              >
+                Show All {crossCategoryMatches} Matching Tools
+              </button>
+            )}
+            <button
+              onClick={() => {
+                setSearch("");
+                setSelectedCategory("All");
+                setQuickFilter("all");
+              }}
+              className="px-4 py-2 rounded-xl bg-slate-800 text-slate-200 text-xs font-mono font-bold hover:bg-slate-700 transition-colors border border-slate-700"
+            >
+              Reset All Filters
+            </button>
+          </div>
         </div>
       )}
 
@@ -1229,7 +1407,7 @@ export default function DevShelfPage() {
                   </h2>
                 </div>
                 <p className="text-xs font-mono text-slate-400">
-                  Instant activation across 565+ web dossiers &amp; npx devshelf-mcp AI sessions.
+                  Instant activation across 575+ web dossiers &amp; npx devshelf-mcp AI sessions.
                 </p>
               </div>
 

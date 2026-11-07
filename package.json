@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/generate-sitemap.js",
+    "sync-devshelf": "node scripts/sync-devshelf.js",
     "start": "next start",
     "lint": "next lint",
     "deploy": "next build && node scripts/generate-sitemap.js && npx wrangler pages deploy out --project-name ritualdev"
