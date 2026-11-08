@@ -164,6 +164,29 @@ export default function PricingPage() {
       ctaText: "Buy MCP Starter Kit ($49)",
       ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSmrXT8zU2u5BKGJ7y?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess",
       popular: false
+    },
+    {
+      name: "Pre-Launch AI Security Audit",
+      category: "Full Security & Compliance Dossier for Launch Day",
+      price: "$199",
+      period: "one-time per repo",
+      billingNote: "delivered in < 24 hours",
+      desc: "For solo devs and indie teams launching on Product Hunt or Hacker News. Comprehensive static AST taint analysis, credential entropy audit, prompt injection fuzzing, and compliance readiness certificate.",
+      badge: "$199 Solo Launch",
+      color: "purple-400",
+      icon: FileCheck,
+      features: [
+        "Full Static AST Taint Analysis with WebSecAuditor",
+        "Credential Entropy Audit (H > 4.5 Shannon Detection)",
+        "Prompt Injection & Delimiter Fuzzing Simulation",
+        "OASIS SARIF v2.1.0 GitHub Code Scanning Export",
+        "Auditor-Grade Executive HTML Compliance Dossier",
+        "1-Click Git Diff Remediation Patches",
+        "Guaranteed 24-Hour Turnaround by Security Engineers"
+      ],
+      ctaText: "Order Security Audit ($199)",
+      ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NpjONEJnu5OcWhncWF68?pack=security_audit",
+      popular: false
     }
   ];
 
@@ -223,36 +246,36 @@ export default function PricingPage() {
 
   const enterpriseTiers = [
     {
-      name: "Team Cluster",
-      price: "$99",
-      period: "per month base",
-      desc: "For engineering teams (5–50 devs) running autonomous coding fleets at scale.",
-      badge: "Shared VPC Hub",
+      name: "B2B: Team SaaS (SkillPrism + DBShield Gateway)",
+      price: "$10/seat + $99/db",
+      period: "per month",
+      desc: "SkillPrism Team Hub (shared Redis token cache pool saving > 80% context tokens) + DBShield Gateway with interactive Slack & Microsoft Teams two-man approval webhooks.",
+      badge: "B2B Team SaaS",
       features: [
-        "Includes 5 seats of AgentShield Pro & DBShield Pro",
-        "Shared Team SkillPrism Redis VPC Hub (96.7% Token Savings)",
-        "Staging DBShield Proxy with Central Slack #db-approvals Bot",
-        "Continuous Automated PR Security Bot on GitHub Org",
-        "Centralized Enterprise Security Policies (.agentshield.json)",
+        "$10/seat/mo SkillPrism Team Hub (shared Redis token cache pool)",
+        "$99/db/mo DBShield Gateway (PostgreSQL & MySQL wire proxy)",
+        "Interactive Two-Man Rule Approval Webhooks in Slack & Teams",
+        "Centralized Fleet Policy Sync (cloud.ritualdev.in)",
+        "SCIM 2.0 Directory Sync (Okta & Microsoft Entra ID)",
         "Automated Monthly Invoicing via Dodo Payments (Tax / GST)"
       ],
-      ctaText: "Deploy Team Hub ($99/mo)",
+      ctaText: "Deploy Team SaaS Hub",
       ctaHref: "https://checkout.dodopayments.com/buy/pdt_0NrFSmrXT8zU2u5BKGJ7y?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess",
       popular: false
     },
     {
-      name: "Air-Gapped Private VPC",
-      price: "$35k – $75k",
-      period: "annual contract",
-      desc: "For Fortune 500 enterprises, regulated banking, and healthcare environments.",
-      badge: "Strict Air-Gapped",
+      name: "B2E: Private VPC Enterprise",
+      price: "$450 / seat",
+      period: "per year ($15,000 – $50,000 ARR)",
+      desc: "Air-gapped private corporate VPC deployments (AWS Terraform + Helm DaemonSets), SOC 2 Type II compliance pack, and 24/7/365 P1 SLA (< 60 min response guarantee).",
+      badge: "B2E Air-Gapped",
       features: [
-        "Private AWS VPC / Azure VNet / Helm Kubernetes Deployment",
-        "100% Air-Gapped Mode (AGENTSHIELD_AIR_GAPPED=1 verified)",
-        "SOC 2 Type II & ISO 27001 Cryptographic Audit Package",
-        "Centralized Fleet Telemetry Dashboard for 5,000+ Developer Machines",
-        "Native SIEM Connectors (Splunk, Datadog, AWS CloudWatch)",
-        "Guaranteed < 1 hour P1 Emergency SLA & Dedicated Solutions Architect"
+        "Private AWS VPC Terraform Module (Zero Egress, AWS PrivateLink)",
+        "Kubernetes Helm DaemonSets (agentshield-helm: agentshieldd, DBShield, SkillPrism)",
+        "100% Strict Air-Gapped Mode (AGENTSHIELD_AIR_GAPPED=1 verified)",
+        "SOC 2 Type II, ISO 27001, and EU AI Act / DPDP Compliance Export Pack",
+        "Mission-Critical 24/7/365 P1 SLA (< 60 min response guarantee)",
+        "Dedicated Enterprise Solutions Architect & Custom Integrations"
       ],
       ctaText: "Contact Enterprise Solutions",
       ctaHref: "/enterprise",
