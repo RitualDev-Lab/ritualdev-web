@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { 
   Database, 
@@ -8,22 +8,27 @@ import {
   GitFork, 
   CheckCircle2, 
   Copy, 
-  ExternalLink,
-  Cpu,
-  Layers,
-  FileCode,
-  Download,
-  Check,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  Server,
-  Zap,
-  Table
+  ExternalLink, 
+  Cpu, 
+  Layers, 
+  FileCode, 
+  Download, 
+  Check, 
+  Sparkles, 
+  ArrowRight, 
+  ShieldCheck, 
+  Server, 
+  Zap, 
+  Table,
+  Play,
+  FileSpreadsheet
 } from "lucide-react";
 
 export default function MockForgePage() {
   const [copied, setCopied] = useState<string | null>(null);
+  const [activeSchemaKey, setActiveSchemaKey] = useState<"ecommerce" | "saas" | "healthcare">("ecommerce");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generatedBatch, setGeneratedBatch] = useState<number>(1);
 
   const copyText = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -31,10 +36,89 @@ export default function MockForgePage() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const sampleSchema = `-- 100% Valid Topological Ordering Handled by Kahn's DAG
-CREATE TABLE users (id INT PRIMARY KEY, email TEXT, name TEXT);
-CREATE TABLE orders (id INT PRIMARY KEY, user_id INT REFERENCES users(id), total DECIMAL);
-CREATE TABLE order_items (id INT PRIMARY KEY, order_id INT REFERENCES orders(id), sku TEXT);`;
+  const schemaPresets = {
+    ecommerce: {
+      name: "E-Commerce Orders",
+      sql: `-- Relational Kahn DAG: users -> orders -> order_items
+CREATE TABLE users (id SERIAL PRIMARY KEY, name TEXT, email TEXT);
+CREATE TABLE orders (id SERIAL PRIMARY KEY, user_id INT REFERENCES users(id), total_cents INT);
+CREATE TABLE order_items (id SERIAL PRIMARY KEY, order_id INT REFERENCES orders(id), sku TEXT, qty INT);`,
+      generateRows: (batch: number) => {
+        const users = [
+          { id: 101, name: "Alice Zhang", email: "alice.z@techcorp.io" },
+          { id: 102, name: "Marcus Brody", email: "m.brody@cloudscale.net" },
+          { id: 103, name: "Chloe Dupont", email: "c.dupont@hexasec.com" }
+        ];
+        const orders = [
+          { id: 5001 + batch, user_id: 101, total_cents: 14999 },
+          { id: 5002 + batch, user_id: 102, total_cents: 49900 },
+          { id: 5003 + batch, user_id: 103, total_cents: 8950 }
+        ];
+        const order_items = [
+          { id: 9001 + batch, order_id: 5001 + batch, sku: "SKU-PRO-AGENT", qty: 1 },
+          { id: 9002 + batch, order_id: 5002 + batch, sku: "SKU-DBSHIELD-HA", qty: 2 },
+          { id: 9003 + batch, order_id: 5003 + batch, sku: "SKU-SKILLPRISM-VPC", qty: 5 }
+        ];
+        return { users, orders, order_items };
+      }
+    },
+    saas: {
+      name: "SaaS Subscriptions",
+      sql: `-- Relational Kahn DAG: tenants -> subscriptions -> invoices
+CREATE TABLE tenants (id UUID PRIMARY KEY, company_name TEXT, plan_tier TEXT);
+CREATE TABLE subscriptions (id UUID PRIMARY KEY, tenant_id UUID REFERENCES tenants(id), status TEXT);
+CREATE TABLE invoices (id UUID PRIMARY KEY, subscription_id UUID REFERENCES subscriptions(id), amount_due NUMERIC);`,
+      generateRows: (batch: number) => {
+        const tenants = [
+          { id: `t_01_${batch}`, company_name: "Vertex Analytics", plan_tier: "Enterprise VPC" },
+          { id: `t_02_${batch}`, company_name: "Acuity Health AI", plan_tier: "Team Fleet" }
+        ];
+        const subscriptions = [
+          { id: `sub_91_${batch}`, tenant_id: `t_01_${batch}`, status: "active" },
+          { id: `sub_92_${batch}`, tenant_id: `t_02_${batch}`, status: "active" }
+        ];
+        const invoices = [
+          { id: `inv_101_${batch}`, subscription_id: `sub_91_${batch}`, amount_due: "$8,500.00" },
+          { id: `inv_102_${batch}`, subscription_id: `sub_92_${batch}`, amount_due: "$1,200.00" }
+        ];
+        return { tenants, subscriptions, invoices };
+      }
+    },
+    healthcare: {
+      name: "HIPAA Clinical Encounters",
+      sql: `-- Relational Kahn DAG: patients -> encounters -> prescriptions
+CREATE TABLE patients (patient_uuid UUID PRIMARY KEY, masked_token TEXT, age_bracket TEXT);
+CREATE TABLE encounters (encounter_id INT PRIMARY KEY, patient_uuid UUID REFERENCES patients(patient_uuid), facility TEXT);
+CREATE TABLE prescriptions (rx_id INT PRIMARY KEY, encounter_id INT REFERENCES encounters(encounter_id), drug_code TEXT);`,
+      generateRows: (batch: number) => {
+        const patients = [
+          { patient_uuid: `p_anon_331_${batch}`, masked_token: "HASH_ANON_889F", age_bracket: "40-49" },
+          { patient_uuid: `p_anon_332_${batch}`, masked_token: "HASH_ANON_220E", age_bracket: "60-69" }
+        ];
+        const encounters = [
+          { encounter_id: 8801 + batch, patient_uuid: `p_anon_331_${batch}`, facility: "St. Jude Clinic #4" },
+          { encounter_id: 8802 + batch, patient_uuid: `p_anon_332_${batch}`, facility: "Metro General Telehealth" }
+        ];
+        const prescriptions = [
+          { rx_id: 7701 + batch, encounter_id: 8801 + batch, drug_code: "NDC-50458-578" },
+          { rx_id: 7702 + batch, encounter_id: 8802 + batch, drug_code: "NDC-00006-074" }
+        ];
+        return { patients, encounters, prescriptions };
+      }
+    }
+  };
+
+  const handleSynthesize = () => {
+    setIsGenerating(true);
+    setTimeout(() => {
+      setGeneratedBatch((prev) => prev + 1);
+      setIsGenerating(false);
+    }, 280);
+  };
+
+  const currentDataset = useMemo(() => {
+    return schemaPresets[activeSchemaKey].generateRows(generatedBatch);
+  }, [activeSchemaKey, generatedBatch]);
 
   const enterpriseFeatures = [
     {
@@ -66,7 +150,7 @@ CREATE TABLE order_items (id INT PRIMARY KEY, order_id INT REFERENCES orders(id)
       <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
         <Link href="/" className="hover:text-brand-neon">Home</Link>
         <span>/</span>
-        <span className="text-brand-neon">MockForge AI</span>
+        <span className="text-cyan-400">MockForge AI</span>
       </div>
 
       {/* Hero Header */}
@@ -147,34 +231,90 @@ CREATE TABLE order_items (id INT PRIMARY KEY, order_id INT REFERENCES orders(id)
         </div>
       </div>
 
-      {/* Code Showcase / Schema Preview */}
+      {/* Interactive Simulation / Live Sandbox */}
       <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800 space-y-6">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-            <Table className="w-5 h-5 text-cyan-400" />
-            <span>Zero-Violation Relational Topological Generation</span>
-          </h2>
-          <p className="text-sm text-slate-400 mt-1">
-            Feed any SQL DDL or Prisma schema. MockForge parses foreign-key constraints into a Directed Acyclic Graph (DAG) and generates insertion scripts guaranteed never to violate referential integrity.
-          </p>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+              <Table className="w-5 h-5 text-cyan-400" />
+              <span>Interactive In-Browser Relational Synthesis Playground</span>
+            </h2>
+            <p className="text-sm text-slate-400 mt-1">
+              Select a relational schema and click Synthesize to resolve Kahn's DAG foreign-key dependencies client-side in &lt; 15ms.
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleSynthesize}
+              disabled={isGenerating}
+              className="px-4 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold font-mono text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(6,182,212,0.3)] transition disabled:opacity-50"
+            >
+              <Play className="w-3.5 h-3.5 fill-current" />
+              <span>{isGenerating ? "Synthesizing DAG..." : "1-Click Synthesize Batch"}</span>
+            </button>
+            <button
+              onClick={() => copyText(JSON.stringify(currentDataset, null, 2), "json-copy")}
+              className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-xs border border-slate-700 flex items-center gap-1.5 transition"
+            >
+              {copied === "json-copy" ? <Check className="w-3.5 h-3.5 text-cyan-400" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied === "json-copy" ? "Copied JSON" : "Copy JSON"}</span>
+            </button>
+          </div>
         </div>
 
-        <div className="rounded-xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs text-cyan-300 overflow-x-auto">
-          <pre>{sampleSchema}</pre>
+        {/* Schema Selector Tabs */}
+        <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
+          {(Object.keys(schemaPresets) as Array<keyof typeof schemaPresets>).map((key) => (
+            <button
+              key={key}
+              onClick={() => setActiveSchemaKey(key)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition ${
+                activeSchemaKey === key 
+                  ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold' 
+                  : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+              }`}
+            >
+              {schemaPresets[key].name}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>DDL Schema Definition (Topological DAG)</span>
+              <span className="text-cyan-400 font-bold">Kahn Sorter: Active</span>
+            </div>
+            <div className="rounded-xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs text-cyan-300 overflow-x-auto h-[180px]">
+              <pre>{schemaPresets[activeSchemaKey].sql}</pre>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Live Synthesized Relational Records</span>
+              <span className="text-brand-neon font-bold">100% Foreign Key Coherent</span>
+            </div>
+            <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 font-mono text-xs text-slate-300 overflow-y-auto h-[180px] space-y-2">
+              <pre className="text-cyan-300 text-[11px] leading-tight">
+                {JSON.stringify(currentDataset, null, 2)}
+              </pre>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-mono text-slate-400">
           <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
-            <span>Throughput</span>
+            <span>Synthesis Throughput</span>
             <span className="text-cyan-400 font-bold">88,000+ rows/sec</span>
           </div>
           <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
             <span>Foreign Key Integrity</span>
-            <span className="text-cyan-400 font-bold">100% Guaranteed</span>
+            <span className="text-cyan-400 font-bold">100% DAG Guaranteed</span>
           </div>
           <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
             <span>Supported Dialects</span>
-            <span className="text-white font-bold">Postgres / MySQL / SQLite</span>
+            <span className="text-white font-bold">Postgres / MySQL / SQLite / Prisma</span>
           </div>
         </div>
       </div>

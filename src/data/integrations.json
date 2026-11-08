@@ -1,0 +1,90 @@
+[
+  {
+    "slug": "claude-code",
+    "name": "Claude Code CLI",
+    "vendor": "Anthropic",
+    "tagline": "Real-time kernel sandboxing and PreToolUse defense hooks for Claude Code CLI.",
+    "category": "AI Coding Agents",
+    "threats": [
+      "Agent subshell executing unreviewed `rm -rf`, `curl | bash`, or dropping production databases",
+      "Leaking AWS/Stripe credentials and environment variables through `/proc/self/environ` exfiltration",
+      "Prompt injection poisoning tool call parameters during automated code refactoring"
+    ],
+    "solutions": [
+      "AgentShield OS-level kernel isolation (Linux Landlock, macOS Seatbelt, Windows AppContainer)",
+      "Native PreToolUse lifecycle hooks that intercept bash commands, file writes, and network calls before execution",
+      "Synthetic canary honeytoken injection that replaces real credentials with trackable decoy tokens"
+    ],
+    "quickstart": {
+      "install": "npx @ritualdev-lab/agentshield init --agent claude-code",
+      "config": "// .claude/config.json\n{\n  \"hooks\": {\n    \"PreToolUse\": \"agentshield hook --strict\"\n  }\n}"
+    },
+    "repoUrl": "https://github.com/RitualDev-Lab/claude-code-agentshield-starter"
+  },
+  {
+    "slug": "langgraph",
+    "name": "LangGraph Python",
+    "vendor": "LangChain",
+    "tagline": "Production multi-agent state protection, AST query guardrails, and @shield.protect decorators.",
+    "category": "Agentic Frameworks",
+    "threats": [
+      "Multi-agent message passing propagating poisoned prompts or leaked credentials between nodes",
+      "Autonomous tool nodes executing destructive unindexed database queries or `DROP TABLE` statements",
+      "Excessive tool calling prompt bloat blowing out LLM context windows and increasing API latency"
+    ],
+    "solutions": [
+      "@shield.protect Python decorators that wrap LangGraph tool nodes in isolated sub-millisecond sandboxes",
+      "DBShield wire proxy enforcing 2-phase dry-run mutations and blocking unindexed full-table scans",
+      "SkillPrism JIT schema disclosure cutting multi-agent prompt token bloat by up to 96.7%"
+    ],
+    "quickstart": {
+      "install": "pip install agentshield-defense dbshield-defense",
+      "config": "from agentshield import shield\nfrom langgraph.graph import StateGraph\n\n@shield.protect(air_gapped=True)\ndef execute_agent_tool(state):\n    return state"
+    },
+    "repoUrl": "https://github.com/RitualDev-Lab/langgraph-agentshield-template"
+  },
+  {
+    "slug": "cursor",
+    "name": "Cursor AI",
+    "vendor": "Anysphere",
+    "tagline": "IDE runtime status-bar security posture, mutation approval queue, and secret leak blocking for Cursor.",
+    "category": "AI Code Editors",
+    "threats": [
+      "Composer agent modifying critical configuration files or environment secrets without developer confirmation",
+      "Background terminal commands exfiltrating private codebase artifacts to external IP endpoints",
+      "Silent hallucinated dependencies introducing malicious supply chain packages into package.json"
+    ],
+    "solutions": [
+      "Ritual Agent Defense extension on Open VSX with live IDE status-bar security telemetry",
+      "Interactive human-in-the-loop mutation approval queue for all disk writes and terminal executions",
+      "Sliding-window Shannon entropy analysis (H > 4.5) blocking unredacted credentials from being saved"
+    ],
+    "quickstart": {
+      "install": "code --install-extension ritualdev.agentshield-defense",
+      "config": "// .cursorrules\n{\n  \"security\": {\n    \"enforceAgentShield\": true,\n    \"strictMode\": true\n  }\n}"
+    },
+    "repoUrl": "https://github.com/RitualDev-Lab/ritual-agent-defense"
+  },
+  {
+    "slug": "mcp",
+    "name": "Model Context Protocol (MCP)",
+    "vendor": "Anthropic & Community",
+    "tagline": "Drop-in billing, credit tracking, and paywall middleware for MCP servers with Dodo Payments & Stripe.",
+    "category": "Protocol & Monetization",
+    "threats": [
+      "Unrestricted agent tool calling exhausting expensive external API quotas and racking up vendor bills",
+      "Zero built-in monetization or authorization layer inside standard Model Context Protocol SDKs",
+      "Payment verification latency slowing down multi-agent swarms during tool execution"
+    ],
+    "solutions": [
+      "mcp-monetize middleware enabling pay-per-call, credit balance, and monthly subscription tiers in ~3 lines of code",
+      "Cryptographic PASETO capability tokens verified in < 1ms without roundtrip payment database queries",
+      "Turnkey webhook fulfillment handlers for Dodo Payments and Stripe with automatic rate limiting"
+    ],
+    "quickstart": {
+      "install": "npm install mcp-monetize @modelcontextprotocol/sdk",
+      "config": "import { createMonetizedServer } from 'mcp-monetize';\n\nconst server = createMonetizedServer({\n  name: 'my-paid-mcp-tool',\n  pricePerCallCents: 5,\n  provider: 'dodo'\n});"
+    },
+    "repoUrl": "https://github.com/RitualDev-Lab/mcp-monetize"
+  }
+]

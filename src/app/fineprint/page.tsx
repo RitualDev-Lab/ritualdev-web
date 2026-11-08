@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { 
   FileText, 
@@ -8,24 +8,53 @@ import {
   Scale, 
   CheckCircle2, 
   Copy, 
-  ExternalLink,
-  Cpu,
-  Layers,
-  FileCode,
-  Download,
-  Check,
-  Sparkles,
-  ArrowRight,
-  ShieldCheck,
-  Server,
-  Zap,
-  AlertOctagon,
-  FileSearch,
-  PenTool
+  ExternalLink, 
+  Cpu, 
+  Layers, 
+  FileCode, 
+  Download, 
+  Check, 
+  Sparkles, 
+  ArrowRight, 
+  ShieldCheck, 
+  Server, 
+  Zap, 
+  AlertOctagon, 
+  FileSearch, 
+  PenTool,
+  ShieldAlert
 } from "lucide-react";
 
 export default function FinePrintPage() {
   const [copied, setCopied] = useState<string | null>(null);
+  const [selectedPresetIndex, setSelectedPresetIndex] = useState(0);
+
+  const presets = [
+    {
+      title: "Uncapped Indemnification Trap",
+      clause: "Vendor shall defend, indemnify, and hold harmless Client from and against any and all claims, losses, damages, liabilities, and expenses arising out of or related to any breach of this Agreement without limitation or monetary cap.",
+      grade: "Grade F (High Risk)",
+      rule: "Rule #14: Asymmetric Uncapped Indemnity",
+      rationale: "Exposes vendor to catastrophic unlimited liability for indirect third-party claims.",
+      redline: "Vendor shall defend, indemnify, and hold harmless Client from and against direct claims, losses, and damages arising out of Vendor's gross negligence or willful misconduct, provided that Vendor's aggregate liability under this Section shall not exceed the total fees paid by Client in the preceding twelve (12) months."
+    },
+    {
+      title: "120-Day Evergreen Auto-Renewal",
+      clause: "This Agreement shall automatically renew for successive two (2) year terms unless Client provides written notice of termination at least one hundred twenty (120) days prior to the expiration of the then-current term.",
+      grade: "Grade D (Medium Risk)",
+      rule: "Rule #28: Evergreen Auto-Renewal Trap",
+      rationale: "Unusually long 120-day notice window creates accidental lock-in and budget surprises.",
+      redline: "This Agreement shall renew for successive one (1) year terms only upon mutual written agreement of both parties, or upon thirty (30) days advance written non-renewal notice prior to the end of the term."
+    },
+    {
+      title: "Broad IP Work-for-Hire Trap",
+      clause: "All inventions, improvements, software toolkits, background frameworks, and deliverables created during the term shall be deemed 'work made for hire' and sole property of Client upon inception.",
+      grade: "Grade F (Critical Risk)",
+      rule: "Rule #07: Background Pre-Existing IP Forfeiture",
+      rationale: "Stripping vendor of pre-existing software toolkits and core frameworks violates basic open-source and SaaS operational norms.",
+      redline: "Deliverables specifically custom-built for Client shall be owned by Client upon full payment; provided, however, that Vendor retains all right, title, and interest in and to its pre-existing tools, libraries, and background IP, granting Client a non-exclusive, perpetual license thereto."
+    }
+  ];
 
   const copyText = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -33,38 +62,7 @@ export default function FinePrintPage() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const riskCategories = [
-    {
-      name: "Indemnification",
-      risk: "Uncapped indemnification for third-party IP or breach without reciprocity.",
-      fix: "Mutual indemnity capped at 12 months total fees paid."
-    },
-    {
-      name: "Liability Caps",
-      risk: "Vendor liability capped at $100 while client bears unlimited consequential damages.",
-      fix: "Mutual 1x–2x contract value aggregate liability cap."
-    },
-    {
-      name: "IP Assignment",
-      risk: "Broad work-for-hire provisions transferring client background IP and toolkits.",
-      fix: "Explicit retention of background IP with standard limited license."
-    },
-    {
-      name: "Termination & Renewal",
-      risk: "Sneaky 120-day automatic evergreen renewals with early termination penalties.",
-      fix: "30-day non-renewal notice window and prorated refunds upon termination."
-    },
-    {
-      name: "Non-Compete & Solicitation",
-      risk: "Overbroad worldwide non-compete clauses blocking ordinary engineering hiring.",
-      fix: "Limited non-solicitation restricted to project key personnel only."
-    },
-    {
-      name: "Governing Law & Disputes",
-      risk: "Mandatory litigation in remote offshore jurisdictions (Cayman / BVI).",
-      fix: "Neutral state governing law (New York / Delaware / UK Commercial Court)."
-    }
-  ];
+  const currentPreset = presets[selectedPresetIndex];
 
   const enterpriseFeatures = [
     {
@@ -96,7 +94,7 @@ export default function FinePrintPage() {
       <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
         <Link href="/" className="hover:text-brand-neon">Home</Link>
         <span>/</span>
-        <span className="text-brand-neon">FinePrint AI</span>
+        <span className="text-amber-400">FinePrint AI</span>
       </div>
 
       {/* Hero Header */}
@@ -162,8 +160,8 @@ export default function FinePrintPage() {
         <div className="flex flex-wrap gap-3 pt-4">
           <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300">
             <span className="text-amber-400">$</span>
-            <span>pip install fineprint</span>
-            <button onClick={() => copyText("pip install fineprint", "pip")} className="ml-2 text-slate-400 hover:text-white">
+            <span>pip install fineprint-ai</span>
+            <button onClick={() => copyText("pip install fineprint-ai", "pip")} className="ml-2 text-slate-400 hover:text-white">
               {copied === "pip" ? <CheckCircle2 className="w-3.5 h-3.5 text-amber-400" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
           </div>
@@ -177,36 +175,98 @@ export default function FinePrintPage() {
         </div>
       </div>
 
-      {/* 60+ Legal Risk Categories Grid */}
-      <div className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Key Risk Categories Inspected</h2>
-          <p className="text-sm text-slate-400 mt-1">FinePrint AI evaluates clauses across 6 non-negotiable legal categories to generate executive scorecards and line-by-line redlines.</p>
+      {/* Interactive Simulation / Live Sandbox */}
+      <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800 space-y-6">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+              <Scale className="w-5 h-5 text-amber-400" />
+              <span>Interactive In-Memory Clause Auditor &amp; Redline Simulator</span>
+            </h2>
+            <p className="text-sm text-slate-400 mt-1">
+              Select a toxic contract clause below to inspect the detected rule hazard and attorney-grade redline amendment.
+            </p>
+          </div>
+          <button
+            onClick={() => copyText(currentPreset.redline, "redline-copy")}
+            className="px-3.5 py-2 rounded-xl bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 font-mono text-xs border border-amber-500/30 flex items-center gap-1.5 transition"
+          >
+            {copied === "redline-copy" ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            <span>{copied === "redline-copy" ? "Copied Redline" : "Copy Redline Amendment"}</span>
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {riskCategories.map((rc, idx) => (
-            <div key={idx} className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-white font-bold">{rc.name}</span>
-                <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-mono">
-                  Inspected
-                </span>
-              </div>
-              <div className="space-y-1.5 text-xs">
-                <p className="text-red-400"><strong className="text-red-300">Common Trap:</strong> {rc.risk}</p>
-                <p className="text-brand-neon"><strong className="text-emerald-300">FinePrint Redline:</strong> {rc.fix}</p>
+        {/* Preset Clause Buttons */}
+        <div className="flex items-center gap-2 flex-wrap border-b border-slate-800 pb-3">
+          {presets.map((p, idx) => (
+            <button
+              key={p.title}
+              onClick={() => setSelectedPresetIndex(idx)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition ${
+                selectedPresetIndex === idx
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold'
+                  : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
+              }`}
+            >
+              {p.title}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-slate-400">Incoming Vendor Clause</span>
+              <span className="text-red-400 font-bold px-2 py-0.5 rounded bg-red-950/60 border border-red-900">
+                {currentPreset.grade}
+              </span>
+            </div>
+            <div className="rounded-xl bg-slate-950 border border-slate-800 p-4 font-mono text-xs text-red-300/90 overflow-y-auto h-[160px] leading-relaxed">
+              <p>{currentPreset.clause}</p>
+              <div className="mt-3 pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+                <span className="text-amber-400 font-semibold">{currentPreset.rule}:</span> {currentPreset.rationale}
               </div>
             </div>
-          ))}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-slate-400">FinePrint AI Synthesized Redline Amendment</span>
+              <span className="text-brand-neon font-bold px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-900">
+                Grade A (Standard Protected)
+              </span>
+            </div>
+            <div className="rounded-xl bg-slate-900 border border-slate-800 p-4 font-mono text-xs text-brand-neon overflow-y-auto h-[160px] leading-relaxed">
+              <p>{currentPreset.redline}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2 text-xs font-mono text-slate-400">
+          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+            <span>Scan Latency</span>
+            <span className="text-amber-400 font-bold">&lt; 1.2 sec</span>
+          </div>
+          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+            <span>Memory Mode</span>
+            <span className="text-amber-400 font-bold">100% Ephemeral In-Memory</span>
+          </div>
+          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+            <span>Cloud Retention</span>
+            <span className="text-white font-bold">$0.00 / Zero Storage</span>
+          </div>
+          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+            <span>Audited Signatures</span>
+            <span className="text-brand-neon font-bold">60+ Legal Risk Rules</span>
+          </div>
         </div>
       </div>
 
       {/* Enterprise Capabilities */}
       <div className="space-y-6">
         <div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Enterprise Legal Tech &amp; Contract Ops</h2>
-          <p className="text-sm text-slate-400 mt-1">Empower in-house general counsel and procurement teams to accelerate deal velocity without missing high-risk liabilities.</p>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Enterprise Legal Operations &amp; Playbooks</h2>
+          <p className="text-sm text-slate-400 mt-1">Institutional contract intelligence for high-volume corporate procurement.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -229,9 +289,9 @@ export default function FinePrintPage() {
 
       {/* CTA Box */}
       <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 border border-amber-500/30 text-center space-y-6">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Never Sign an Unaudited Contract Again</h2>
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Protect Your Company from Asymmetric Contracts</h2>
         <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Scan any PDF, DOCX, or markdown lease or agreement in seconds. Export clean redlines ready to send back to counterparty counsel.
+          Never sign an agreement without running FinePrint AI. Scan contracts locally or automate review via DocuSign webhooks.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a
@@ -244,7 +304,7 @@ export default function FinePrintPage() {
             href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dfineprint"
             className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition"
           >
-            Purchase Corporate Playbook Pro ($79/mo)
+            Deploy Corporate Playbook Pro ($79/mo)
           </a>
         </div>
       </div>
