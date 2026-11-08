@@ -32,7 +32,8 @@
         "No Card Required"
       ],
       "type": "ai",
-      "section": "AI Agents & Local LLMs"
+      "section": "AI Agents & Local LLMs",
+      "pypi": "https://pypi.org/project/promptshield-defense/"
     },
     {
       "name": "AgentShield",
@@ -50,7 +51,8 @@
         "No Card Required"
       ],
       "type": "ai",
-      "section": "AI Agents & Local LLMs"
+      "section": "AI Agents & Local LLMs",
+      "pypi": "https://pypi.org/project/agentshield-defense/"
     },
     {
       "name": "mcp-monetize",
@@ -65,7 +67,8 @@
         "Featured"
       ],
       "type": "ai",
-      "section": "AI Agents & Local LLMs"
+      "section": "AI Agents & Local LLMs",
+      "pypi": "https://pypi.org/project/mcp-monetize/"
     },
     {
       "name": "HOL Guard",
@@ -1568,7 +1571,8 @@
       "license": "MIT",
       "featured": true,
       "type": "ai",
-      "section": "AI Agents & Local LLMs"
+      "section": "AI Agents & Local LLMs",
+      "pypi": "https://pypi.org/project/dbshield-defense/"
     },
     {
       "name": "Pydantic AI",
