@@ -20,7 +20,7 @@ Autonomous coding agents (Claude Code, Cursor, Windsurf, Devin, Antigravity) exe
 
 ## 2. Developer Catalog, Frameworks & APIs
 
-- [DevShelf Directory](https://ritualdev.in/devshelf): 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.
+- [DevShelf Directory](https://devshelf.ritualdev.in): 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.
 - [MCP-Monetize](https://github.com/RitualDev-Lab/mcp-monetize): Drop-in Stripe & Dodo Payments billing middleware for MCP servers.
 - [Claude Code Starter Kit](https://github.com/RitualDev-Lab/claude-code-agentshield-starter): Turnkey Claude Code CLI repo with PreToolUse defense hooks.
 - [LangGraph AgentShield Template](https://github.com/RitualDev-Lab/langgraph-agentshield-template): Production Python LangGraph boilerplate with `@shield.protect` sandboxing.
