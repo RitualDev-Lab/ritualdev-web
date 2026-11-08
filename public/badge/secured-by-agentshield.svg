@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="186" height="28" viewBox="0 0 186 28" role="img" aria-label="secured by: AgentShield">
+  <title>secured by: AgentShield</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#fff" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <linearGradient id="emerald" x1="0" y1="0" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#059669"/>
+    <stop offset="100%" stop-color="#10b981"/>
+  </linearGradient>
+  <clipPath id="r">
+    <rect width="186" height="28" rx="5" fill="#fff"/>
+  </clipPath>
+  <g clip-path="url(#r)">
+    <rect width="96" height="28" fill="#1e293b"/>
+    <rect x="96" width="90" height="28" fill="url(#emerald)"/>
+    <rect width="186" height="28" fill="url(#s)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif" text-rendering="geometricPrecision" font-size="12">
+    <!-- Shield Icon -->
+    <path d="M12 7.5L18 5L24 7.5V13C24 17.5 21 21.5 18 23C15 21.5 12 17.5 12 13V7.5Z" fill="none" stroke="#10b981" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M15.5 13L17.5 15L20.5 11" fill="none" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="60" y="18" fill="#cbd5e1" font-weight="500">secured by</text>
+    <text x="140" y="18" font-weight="700">AgentShield</text>
+  </g>
+</svg>

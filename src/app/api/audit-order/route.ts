@@ -43,9 +43,15 @@ export async function POST(req: Request) {
       repoUrl: repoUrl || "",
       contactEmail: contactEmail.trim().toLowerCase(),
       launchDate: launchDate || "ASAP",
-      packageTier: packageTier || "starter_199",
+      packageTier: packageTier || "rapid_1500",
       notes: notes || "",
       status: "pending_payment",
+      deliverySla:
+        packageTier === "rapid_1500"
+          ? "2 Hours (Rapid Automated Audit)"
+          : packageTier === "comprehensive_7500"
+          ? "48 Hours (Full Architecture Review)"
+          : "Dedicated Team (Custom Scope)",
     };
 
     console.log(`[AUDIT_ORDER_RECEIVED]`, JSON.stringify(orderRecord, null, 2));
@@ -72,15 +78,21 @@ export async function POST(req: Request) {
     }
 
     // Determine checkout redirect URL based on tier
-    const checkoutUrl =
-      packageTier === "pro_399"
-        ? `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}`)}`
-        : `https://checkout.dodopayments.com/buy/pdt_0NrFWnRHHEI72iaB8AC9r?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}`)}`;
+    let checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnRHHEI72iaB8AC9r?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}&tier=rapid_1500`)}`;
+
+    if (packageTier === "comprehensive_7500") {
+      checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}&tier=comprehensive_7500`)}`;
+    } else if (packageTier === "enterprise_15000") {
+      checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=2&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}&tier=enterprise_15000`)}`;
+    } else if (packageTier === "pro_399") {
+      checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}`)}`;
+    }
 
     return NextResponse.json({
       success: true,
       orderId,
       checkoutUrl,
+      deliverySla: orderRecord.deliverySla,
       message: "Audit order registered. Proceeding to secure checkout.",
     });
   } catch (err: any) {
