@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/generate-sitemap.js",
+    "build": "node scripts/generate-registry-json.js && next build && node scripts/generate-sitemap.js",
     "sync-devshelf": "node scripts/sync-devshelf.js",
     "auto-categorize": "node scripts/auto-categorize.js",
     "start": "next start",
