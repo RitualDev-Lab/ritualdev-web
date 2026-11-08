@@ -286,6 +286,13 @@ export default function Navbar() {
             </Link>
 
             <Link 
+              href="/integrations" 
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+            >
+              Integrations
+            </Link>
+
+            <Link 
               href="/trust" 
               className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
             >
@@ -440,6 +447,13 @@ export default function Navbar() {
               className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
             >
               Documentation & Quickstarts
+            </Link>
+            <Link
+              href="/integrations"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
+            >
+              Integrations (Claude, LangGraph, Cursor)
             </Link>
             <Link
               href="/trust"

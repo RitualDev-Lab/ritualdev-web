@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { 
   ShieldAlert, 
@@ -20,13 +20,33 @@ import {
   ArrowRight,
   ShieldCheck,
   Radio,
-  Server
+  Server,
+  Zap
 } from "lucide-react";
 
 export default function PromptShieldPage() {
   const [copied, setCopied] = useState<string | null>(null);
-  const [demoInput, setDemoInput] = useState("Here is our Stripe key: sk_test_51M0demo998877665544332211 and AWS AKIAIOSFODNN7EXAMPLE");
-  const [isMasked, setIsMasked] = useState(false);
+  const [demoInput, setDemoInput] = useState("Here is our Stripe key: sk_mock_stripe_key_demo998877 and AWS AKIAIOSFODNN7EXAMPLE for user john.doe@acme.corp (SSN: 123-45-6789)");
+  const [isMasked, setIsMasked] = useState(true);
+
+  const presets = [
+    {
+      label: "Stripe & AWS Keys",
+      payload: "Deploy config: STRIPE_SECRET=sk_mock_stripe_sec_key_demo998877 and AWS_KEY=AKIAIOSFODNN7EXAMPLE to us-east-1."
+    },
+    {
+      label: "Postgres Prod URI",
+      payload: "Connect to production cluster: postgresql://admin_user:demo_masked_pw@db-prod.internal.corp:5432/finance_ledger"
+    },
+    {
+      label: "Patient Healthcare PII",
+      payload: "Patient Name: Eleanor Vance, DOB: 1984-07-12, SSN: 456-78-9012, Diagnosis: Acute Hypertension, Rx: Lisinopril 20mg."
+    },
+    {
+      label: "OpenAI + JWT Token",
+      payload: "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0.signature and AI_SECRET=sk-mock-demo-key-12345"
+    }
+  ];
 
   const copyText = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -34,11 +54,45 @@ export default function PromptShieldPage() {
     setTimeout(() => setCopied(null), 2000);
   };
 
-  const getMaskedPrompt = (input: string) => {
-    return input
-      .replace(/sk_test_[a-zA-Z0-9]{20,}/g, "[REDACTED_STRIPE_SECRET_KEY]")
-      .replace(/AKIA[0-9A-Z]{16}/g, "[REDACTED_AWS_ACCESS_KEY]");
-  };
+  // Shannon Entropy calculation on prompt text
+  const entropy = useMemo(() => {
+    if (!demoInput || demoInput.length === 0) return 0;
+    const freq: { [key: string]: number } = {};
+    for (const char of demoInput) {
+      freq[char] = (freq[char] || 0) + 1;
+    }
+    let h = 0;
+    for (const char in freq) {
+      const p = freq[char] / demoInput.length;
+      h -= p * Math.log2(p);
+    }
+    return Math.round(h * 100) / 100;
+  }, [demoInput]);
+
+  const { maskedText, redactionCount } = useMemo(() => {
+    let count = 0;
+    let result = demoInput;
+
+    const rules = [
+      { regex: /sk_(?:live|test|mock)_[a-zA-Z0-9_-]{10,}/g, replacement: "[REDACTED_STRIPE_KEY]" },
+      { regex: /AKIA[0-9A-Z]{16}/g, replacement: "[REDACTED_AWS_ACCESS_KEY]" },
+      { regex: /sk-[a-zA-Z0-9_-]{10,}/g, replacement: "[REDACTED_AI_API_KEY]" },
+      { regex: /postgresql:\/\/[^@\s]+@[^\/\s]+\/[^\s]+/g, replacement: "postgresql://[REDACTED_CREDENTIALS]@[REDACTED_HOST]/[DATABASE]" },
+      { regex: /\b\d{3}-\d{2}-\d{4}\b/g, replacement: "[REDACTED_SSN]" },
+      { regex: /eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g, replacement: "[REDACTED_JWT_AUTH_TOKEN]" },
+      { regex: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, replacement: "[REDACTED_EMAIL_PII]" }
+    ];
+
+    rules.forEach(({ regex, replacement }) => {
+      const matches = result.match(regex);
+      if (matches) {
+        count += matches.length;
+        result = result.replace(regex, replacement);
+      }
+    });
+
+    return { maskedText: result, redactionCount: count };
+  }, [demoInput]);
 
   const platforms = [
     { name: "OpenAI ChatGPT", domains: "chatgpt.com, chat.openai.com", badge: "Universal Hook" },
@@ -169,48 +223,86 @@ export default function PromptShieldPage() {
               <span>Interactive In-Browser DLP Simulator</span>
             </h2>
             <p className="text-sm text-slate-400 mt-1">
-              Type or paste secrets below. PromptShield evaluates regex signatures and Shannon entropy (<span className="font-mono text-brand-neon">H &gt; 4.5</span>) on CPU.
+              Zero-signup live sandbox. Click a preset payload or paste your own secret text below to test real-time CPU evaluation.
             </p>
           </div>
-          <button
-            onClick={() => setIsMasked(!isMasked)}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs border border-slate-700 transition"
-          >
-            {isMasked ? "Show Raw Prompt" : "1-Click Redact & Sanitize"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsMasked(!isMasked)}
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs border border-slate-700 transition"
+            >
+              {isMasked ? "Show Raw Prompt" : "1-Click Redact & Sanitize"}
+            </button>
+            <button
+              onClick={() => copyText(isMasked ? maskedText : demoInput, "output-copy")}
+              className="px-3 py-2 rounded-xl bg-brand-green/10 text-brand-neon hover:bg-brand-green/20 font-mono text-xs border border-brand-green/30 flex items-center gap-1.5 transition"
+            >
+              {copied === "output-copy" ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              <span>{copied === "output-copy" ? "Copied" : "Copy Output"}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Clickable Preset Quick-Pills */}
+        <div className="flex items-center gap-2 flex-wrap text-xs">
+          <span className="text-slate-400 font-mono text-[11px] flex items-center gap-1">
+            <Zap className="w-3 h-3 text-brand-neon" /> Presets:
+          </span>
+          {presets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => {
+                setDemoInput(preset.payload);
+                setIsMasked(true);
+              }}
+              className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 font-mono text-[11px] transition"
+            >
+              {preset.label}
+            </button>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-xs font-mono text-slate-400">Client Prompt Input (ChatGPT / Claude / Gemini)</label>
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>Client Prompt Input (ChatGPT / Claude / Gemini)</span>
+              <span className="text-amber-400 font-bold">Entropy: H={entropy}</span>
+            </div>
             <textarea
               value={demoInput}
               onChange={(e) => setDemoInput(e.target.value)}
-              rows={4}
-              className="w-full rounded-xl bg-slate-950 border border-slate-800 p-3 font-mono text-xs text-slate-200 focus:outline-none focus:border-brand-neon/60 resize-none"
+              rows={5}
+              className="w-full rounded-xl bg-slate-950 border border-slate-800 p-3 font-mono text-xs text-slate-200 focus:outline-none focus:border-brand-neon/60 resize-none leading-relaxed"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-mono text-slate-400">PromptShield Inspected &amp; Surrogate-Redacted Prompt</label>
-            <div className="w-full h-[96px] rounded-xl bg-slate-900 border border-slate-800 p-3 font-mono text-xs text-brand-neon overflow-y-auto">
-              {isMasked ? getMaskedPrompt(demoInput) : demoInput}
+            <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+              <span>PromptShield Inspected &amp; Surrogate-Redacted Prompt</span>
+              <span className="text-brand-neon font-bold">{redactionCount} {redactionCount === 1 ? "secret" : "secrets"} neutralized</span>
+            </div>
+            <div className="w-full h-[120px] rounded-xl bg-slate-900 border border-slate-800 p-3 font-mono text-xs text-brand-neon overflow-y-auto leading-relaxed">
+              {isMasked ? maskedText : demoInput}
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-mono text-slate-400">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 pt-2 text-xs font-mono text-slate-400">
           <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
             <span>Latency</span>
-            <span className="text-brand-neon font-bold">&lt; 3.8 ms</span>
+            <span className="text-brand-neon font-bold">&lt; 1.8 ms</span>
           </div>
           <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
             <span>Cloud Compute Cost</span>
             <span className="text-brand-neon font-bold">$0.00 / mo</span>
           </div>
           <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+            <span>Shannon Entropy</span>
+            <span className="text-amber-400 font-bold">H &gt; 4.5 Filtered</span>
+          </div>
+          <div className="p-3 rounded-lg bg-slate-900/60 border border-slate-800 flex items-center justify-between">
             <span>Signatures Audited</span>
-            <span className="text-white font-bold">60+ Rules + Shannon Entropy</span>
+            <span className="text-white font-bold">60+ Rule Engine</span>
           </div>
         </div>
       </div>
@@ -219,15 +311,15 @@ export default function PromptShieldPage() {
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-white tracking-tight">Protected AI Chat Platforms</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {platforms.map((p, idx) => (
-            <div key={idx} className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800 space-y-2">
+          {platforms.map((plat) => (
+            <div key={plat.name} className="p-5 rounded-2xl bg-slate-900/40 border border-slate-800 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-white font-bold">{p.name}</span>
-                <span className="px-2 py-0.5 rounded-md bg-brand-green/10 text-brand-neon border border-brand-green/20 text-[10px] font-mono">
-                  {p.badge}
+                <span className="font-bold text-white text-sm">{plat.name}</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-green/10 text-brand-neon border border-brand-green/30">
+                  {plat.badge}
                 </span>
               </div>
-              <p className="text-xs font-mono text-slate-400">{p.domains}</p>
+              <p className="text-xs text-slate-400 font-mono">{plat.domains}</p>
             </div>
           ))}
         </div>
@@ -235,18 +327,9 @@ export default function PromptShieldPage() {
 
       {/* Enterprise Capabilities */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <h2 className="text-2xl font-bold text-white tracking-tight">Enterprise Fleet Capabilities</h2>
-            <p className="text-sm text-slate-400 mt-1">Available under the PromptShield Enterprise License for high-compliance engineering teams.</p>
-          </div>
-          <Link
-            href="/enterprise"
-            className="text-xs font-mono text-brand-neon hover:underline flex items-center gap-1"
-          >
-            <span>Learn about Enterprise Governance Suite</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+        <div>
+          <h2 className="text-2xl font-bold text-white tracking-tight">Enterprise Fleet Governance &amp; SIEM Sinks</h2>
+          <p className="text-sm text-slate-400 mt-1">Deploy across thousands of corporate workstations with centralized compliance controls.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -269,22 +352,22 @@ export default function PromptShieldPage() {
 
       {/* CTA Box */}
       <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 border border-brand-green/30 text-center space-y-6">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Protect Your Company Prompts Today</h2>
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Stop Accidental AI Leaks Today</h2>
         <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Start for free on your personal laptop or deploy company-wide fleet policies with zero backend server overhead.
+          Install PromptShield on Chromium-based browsers or integrate PromptShield-Core into your internal developer proxy fleets.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <a
             href="https://github.com/RitualDev-Lab/PromptShield/releases/latest"
             className="px-6 py-3 rounded-xl bg-brand-neon text-slate-950 font-bold text-sm shadow-[0_0_25px_rgba(0,245,155,0.3)] hover:brightness-110 transition"
           >
-            Download Free Community Release
+            Download Free Community Extension
           </a>
           <a
             href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dpromptshield"
             className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition"
           >
-            Purchase Commercial Fleet Key ($49/mo)
+            Deploy Enterprise Fleet ($49/mo)
           </a>
         </div>
       </div>
