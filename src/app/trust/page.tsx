@@ -391,6 +391,22 @@ Security Operations Desk (security@ritualdev.in)
               <Download className="w-3 h-3 text-slate-400" />
             </a>
             <a
+              href="/trust/compliance-pack-2026.json"
+              download="RitualDev_Compliance_Evidence_Pack_2026.json"
+              className="px-3 py-1.5 rounded-lg bg-emerald-950/40 hover:bg-emerald-900/40 text-emerald-300 hover:text-white border border-emerald-700/50 flex items-center gap-1.5 transition-colors"
+            >
+              <span>Compliance Pack (.json)</span>
+              <Download className="w-3 h-3 text-emerald-400" />
+            </a>
+            <a
+              href="/trust/compliance-pack-2026.sarif"
+              download="RitualDev_Compliance_Report.sarif"
+              className="px-3 py-1.5 rounded-lg bg-blue-950/40 hover:bg-blue-900/40 text-blue-300 hover:text-white border border-blue-700/50 flex items-center gap-1.5 transition-colors"
+            >
+              <span>SARIF v2.1 (.sarif)</span>
+              <Download className="w-3 h-3 text-blue-400" />
+            </a>
+            <a
               href="/trust/enterprise-sla.md"
               download="RitualDev_Enterprise_SLA.md"
               className="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 flex items-center gap-1.5 transition-colors"

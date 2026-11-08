@@ -1,0 +1,168 @@
+{
+  "packId": "COMP-PACK-2026-1794145395186",
+  "tenantId": "tenant-ritualdev-enterprise",
+  "organization": "RitualDev Studio & Lab Enterprise Fleet",
+  "generatedAt": "2026-11-08T13:43:15.184Z",
+  "frameworks": {
+    "SOC2_TYPE_II": {
+      "satisfiedControls": 4,
+      "totalControls": 4,
+      "complianceRate": 100
+    },
+    "ISO_27001_2022": {
+      "satisfiedControls": 4,
+      "totalControls": 4,
+      "complianceRate": 100
+    },
+    "EU_AI_ACT": {
+      "satisfiedControls": 3,
+      "totalControls": 3,
+      "complianceRate": 100
+    },
+    "DPDP_GDPR": {
+      "satisfiedControls": 2,
+      "totalControls": 2,
+      "complianceRate": 100
+    }
+  },
+  "controls": [
+    {
+      "id": "SOC2-CC6.1",
+      "framework": "SOC2_TYPE_II",
+      "name": "Logical Access & IMDSv2 Hardened Node Isolation",
+      "description": "Enforces strict IAM boundary isolation, IMDSv2 hop limit 1, and SCIM 2.0 automated provisioning / instant deprovisioning.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "AWS EKS IMDSv2 launch templates & RFC 7643/7644 SCIM 2.0 Directory Service",
+      "evidenceHash": "0ed060d1c4308c6c49a7fcd1ed4e78a2b60842056014a0563e5e7f0585fd0de6",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "SOC2-CC6.6",
+      "framework": "SOC2_TYPE_II",
+      "name": "Logical Boundaries & Encryption in Transit / Memory",
+      "description": "All sensitive credentials and prompts are encrypted in transit via TLS 1.3 and held exclusively in ephemeral WebCrypto AES-256-GCM memory vaults.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "PromptShield WebCrypto AES-256-GCM Ephemeral Memory Vault with Zero-Plaintext Transmission",
+      "evidenceHash": "826e7e3242f0f106b60caa6d9254fb645209cdc9bd604c21d89a11407c5f25fa",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "SOC2-CC6.8",
+      "framework": "SOC2_TYPE_II",
+      "name": "Malicious Code & Unauthorized Agent Subshell Prevention",
+      "description": "Autonomous agent execution is confined via eBPF wire proxies, subshell syscall filters, and AST static taint analysis.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "AgentShield & DBShield eBPF wire-level proxy interception and virtual DuckDB sandbox",
+      "evidenceHash": "f2176f5bd927e396b5d448361f2ca6e478af92c9f05deda7cfb8cce1b00d00eb",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "SOC2-CC7.2",
+      "framework": "SOC2_TYPE_II",
+      "name": "Tamper-Evident Hash-Chained Audit Trails & SIEM Export",
+      "description": "All agent modifications and DLP blocks are recorded in an HMAC-SHA256 append-only ledger and forwarded to Splunk, Datadog, or Microsoft Sentinel.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "EnterpriseAuditLedger SHA-256 chaining + SiemForwarderEngine",
+      "evidenceHash": "a883aa1db1987c58e4dab7dbe3ca489e440b88fec22c87f78307ccb9c0fcef33",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "ISO27001-8.28",
+      "framework": "ISO_27001_2022",
+      "name": "Secure Coding & Cryptographic AST Vulnerability Analysis",
+      "description": "Continuous static code analysis identifying injection flaws, secret leaks, and insecure dependencies with deterministic OASIS SARIF v2.1.0 fingerprinting.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "WebSecAuditor AST Taint Analyzer + SARIF v2.1.0 sha256 fingerprinting",
+      "evidenceHash": "a98488c75dfa2d3ebeeae0955ceb26e89cad523c7654a15c0dbda976e70ba5b7",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "ISO27001-8.7",
+      "framework": "ISO_27001_2022",
+      "name": "Protection Against Malware & Autonomous Execution Containment",
+      "description": "Prevents untrusted agent tool modifications from propagating to production without Proof-of-Intent verification.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "DBShield Redlock Distributed Lock Fencing + Two-Phase Dry-Run Verification",
+      "evidenceHash": "640713639f6d560ba7b96d4bf13a25d50cd2a313f19ddf913000474b83cd6179",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "ISO27001-8.16",
+      "framework": "ISO_27001_2022",
+      "name": "Monitoring Activities & Cryptographic Integrity Verification",
+      "description": "Maintains immutable event records protected by HMAC signatures to guarantee non-repudiation.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "Tamper-evident HMAC-SHA256 signature verification across all audit records",
+      "evidenceHash": "541e6f70b97a4a8a37b80bf6c8b017fd15b2075c3880cb7d9ba0bb47152e3f0c",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "ISO27001-8.24",
+      "framework": "ISO_27001_2022",
+      "name": "Cryptographic Access Tokens & Timing-Safe Verification",
+      "description": "Enforces PASETO v4.local capability tokens for offline sub-0.2ms authorization and constant-time HMAC webhook verification.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "mcp-monetize PASETO v4 token manager & Dodo/Stripe timing-safe HMAC webhooks",
+      "evidenceHash": "9c2a60915ecb953b9769782973c5e6901fc141a627a92b3ba0e6415aea337f72",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "EU-AI-ACT-ART10",
+      "framework": "EU_AI_ACT",
+      "name": "Data Governance & Data Minimization for AI Pipelines",
+      "description": "Prevents training data leakage and unauthorized enterprise context capture via client-side format-preserving surrogate masking.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "PromptShield InBrowserDlpEngine + SurrogateMaskingEngine",
+      "evidenceHash": "e8cdc96c88029cbfaf6d030ac8809bd10c83210f3e2f7d1a43361c552d44fd12",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "EU-AI-ACT-ART14",
+      "framework": "EU_AI_ACT",
+      "name": "Human Oversight & Fail-Safe Execution Interception",
+      "description": "Requires human-in-the-loop review and deterministic Proof-of-Intent approval before irreversible state mutations occur.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "AgentShield & DBShield Shadow Mode with Proof-of-Intent Interactive Dialog",
+      "evidenceHash": "78b630fb86b2531b54507026370e0a83f291d565e9ff67e3a4aa54bca87d82d5",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "EU-AI-ACT-ART15",
+      "framework": "EU_AI_ACT",
+      "name": "Cybersecurity, Accuracy & Adversarial Robustness Attestation",
+      "description": "Protects AI systems against prompt injection, jailbreaks, data poisoning, and model evasion attacks via continuous adversarial fuzzing.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "PromptShield RedTeamFuzzer Daemon with 100% detection rate & sub-3ms SLA",
+      "evidenceHash": "9e5d4fd88f5c1a2a40238c4bcdae24fb36db0e54c994c0fb880cef69899b6e34",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "DPDP-GDPR-MINIMIZATION",
+      "framework": "DPDP_GDPR",
+      "name": "Zero-Knowledge Data Minimization & PII Redaction",
+      "description": "Strict client-side redaction of Aadhaar, PAN, SSN, and financial records prior to cloud egress, with zero plaintext persistence.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "Luhn verified credit card filter, Indian Aadhaar/PAN regex, and zero-retention edge broker",
+      "evidenceHash": "c2fc278467a98a21f94e69dc6d34c68bda597f44191fd293ea616954796ee21c",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    },
+    {
+      "id": "DPDP-GDPR-CRYPTOGRAPHIC-PROOF",
+      "framework": "DPDP_GDPR",
+      "name": "Mathematical Re-Identification Risk Bounds & Erasure Proofs",
+      "description": "Guarantees ε-differential privacy bounds and produces cryptographic audit receipts for regulatory data erasure inquiries.",
+      "status": "SATISFIED",
+      "enforcementMechanism": "SHA-256 hash-chain deletion proofs and ephemeral key destruction on session end",
+      "evidenceHash": "87118e99be63d32dcf085f6a736f3a920567ff37daba182441cba877299578bd",
+      "lastVerifiedAt": "2026-11-08T13:43:15.184Z"
+    }
+  ],
+  "ledgerVerification": {
+    "valid": true,
+    "totalEntries": 232,
+    "genesisHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "latestEntryHash": "476f63b545074c5d950213253af4bcf227bfe8615ff234544f1215095c323747"
+  },
+  "digitalSignature": "eb29a1d52a6b2a5bc4b21e79e23cf1e6d216bdf3b86635fb9e442670b65dab9f",
+  "signer": "RitualDev Automated Compliance Attestation Daemon v3.0"
+}

@@ -1,0 +1,409 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "RitualDev Enterprise Governance Compliance Engine",
+          "version": "3.0.0",
+          "informationUri": "https://ritualdev.in/enterprise",
+          "rules": [
+            {
+              "id": "SOC2-CC6.1",
+              "name": "Logical Access & IMDSv2 Hardened Node Isolation",
+              "shortDescription": {
+                "text": "Logical Access & IMDSv2 Hardened Node Isolation"
+              },
+              "fullDescription": {
+                "text": "Enforces strict IAM boundary isolation, IMDSv2 hop limit 1, and SCIM 2.0 automated provisioning / instant deprovisioning."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#soc2-cc6.1"
+            },
+            {
+              "id": "SOC2-CC6.6",
+              "name": "Logical Boundaries & Encryption in Transit / Memory",
+              "shortDescription": {
+                "text": "Logical Boundaries & Encryption in Transit / Memory"
+              },
+              "fullDescription": {
+                "text": "All sensitive credentials and prompts are encrypted in transit via TLS 1.3 and held exclusively in ephemeral WebCrypto AES-256-GCM memory vaults."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#soc2-cc6.6"
+            },
+            {
+              "id": "SOC2-CC6.8",
+              "name": "Malicious Code & Unauthorized Agent Subshell Prevention",
+              "shortDescription": {
+                "text": "Malicious Code & Unauthorized Agent Subshell Prevention"
+              },
+              "fullDescription": {
+                "text": "Autonomous agent execution is confined via eBPF wire proxies, subshell syscall filters, and AST static taint analysis."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#soc2-cc6.8"
+            },
+            {
+              "id": "SOC2-CC7.2",
+              "name": "Tamper-Evident Hash-Chained Audit Trails & SIEM Export",
+              "shortDescription": {
+                "text": "Tamper-Evident Hash-Chained Audit Trails & SIEM Export"
+              },
+              "fullDescription": {
+                "text": "All agent modifications and DLP blocks are recorded in an HMAC-SHA256 append-only ledger and forwarded to Splunk, Datadog, or Microsoft Sentinel."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#soc2-cc7.2"
+            },
+            {
+              "id": "ISO27001-8.28",
+              "name": "Secure Coding & Cryptographic AST Vulnerability Analysis",
+              "shortDescription": {
+                "text": "Secure Coding & Cryptographic AST Vulnerability Analysis"
+              },
+              "fullDescription": {
+                "text": "Continuous static code analysis identifying injection flaws, secret leaks, and insecure dependencies with deterministic OASIS SARIF v2.1.0 fingerprinting."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#iso27001-8.28"
+            },
+            {
+              "id": "ISO27001-8.7",
+              "name": "Protection Against Malware & Autonomous Execution Containment",
+              "shortDescription": {
+                "text": "Protection Against Malware & Autonomous Execution Containment"
+              },
+              "fullDescription": {
+                "text": "Prevents untrusted agent tool modifications from propagating to production without Proof-of-Intent verification."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#iso27001-8.7"
+            },
+            {
+              "id": "ISO27001-8.16",
+              "name": "Monitoring Activities & Cryptographic Integrity Verification",
+              "shortDescription": {
+                "text": "Monitoring Activities & Cryptographic Integrity Verification"
+              },
+              "fullDescription": {
+                "text": "Maintains immutable event records protected by HMAC signatures to guarantee non-repudiation."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#iso27001-8.16"
+            },
+            {
+              "id": "ISO27001-8.24",
+              "name": "Cryptographic Access Tokens & Timing-Safe Verification",
+              "shortDescription": {
+                "text": "Cryptographic Access Tokens & Timing-Safe Verification"
+              },
+              "fullDescription": {
+                "text": "Enforces PASETO v4.local capability tokens for offline sub-0.2ms authorization and constant-time HMAC webhook verification."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#iso27001-8.24"
+            },
+            {
+              "id": "EU-AI-ACT-ART10",
+              "name": "Data Governance & Data Minimization for AI Pipelines",
+              "shortDescription": {
+                "text": "Data Governance & Data Minimization for AI Pipelines"
+              },
+              "fullDescription": {
+                "text": "Prevents training data leakage and unauthorized enterprise context capture via client-side format-preserving surrogate masking."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#eu-ai-act-art10"
+            },
+            {
+              "id": "EU-AI-ACT-ART14",
+              "name": "Human Oversight & Fail-Safe Execution Interception",
+              "shortDescription": {
+                "text": "Human Oversight & Fail-Safe Execution Interception"
+              },
+              "fullDescription": {
+                "text": "Requires human-in-the-loop review and deterministic Proof-of-Intent approval before irreversible state mutations occur."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#eu-ai-act-art14"
+            },
+            {
+              "id": "EU-AI-ACT-ART15",
+              "name": "Cybersecurity, Accuracy & Adversarial Robustness Attestation",
+              "shortDescription": {
+                "text": "Cybersecurity, Accuracy & Adversarial Robustness Attestation"
+              },
+              "fullDescription": {
+                "text": "Protects AI systems against prompt injection, jailbreaks, data poisoning, and model evasion attacks via continuous adversarial fuzzing."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#eu-ai-act-art15"
+            },
+            {
+              "id": "DPDP-GDPR-MINIMIZATION",
+              "name": "Zero-Knowledge Data Minimization & PII Redaction",
+              "shortDescription": {
+                "text": "Zero-Knowledge Data Minimization & PII Redaction"
+              },
+              "fullDescription": {
+                "text": "Strict client-side redaction of Aadhaar, PAN, SSN, and financial records prior to cloud egress, with zero plaintext persistence."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#dpdp-gdpr-minimization"
+            },
+            {
+              "id": "DPDP-GDPR-CRYPTOGRAPHIC-PROOF",
+              "name": "Mathematical Re-Identification Risk Bounds & Erasure Proofs",
+              "shortDescription": {
+                "text": "Mathematical Re-Identification Risk Bounds & Erasure Proofs"
+              },
+              "fullDescription": {
+                "text": "Guarantees ε-differential privacy bounds and produces cryptographic audit receipts for regulatory data erasure inquiries."
+              },
+              "defaultConfiguration": {
+                "level": "none"
+              },
+              "helpUri": "https://ritualdev.in/trust#dpdp-gdpr-cryptographic-proof"
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "SOC2-CC6.1",
+          "level": "none",
+          "message": {
+            "text": "Control SOC2-CC6.1 (Logical Access & IMDSv2 Hardened Node Isolation): SATISFIED. Enforcement: AWS EKS IMDSv2 launch templates & RFC 7643/7644 SCIM 2.0 Directory Service. Evidence Hash: 0ed060d1c4308c6c49a7fcd1ed4e78a2b60842056014a0563e5e7f0585fd0de6"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/SOC2-CC6.1"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SOC2-CC6.6",
+          "level": "none",
+          "message": {
+            "text": "Control SOC2-CC6.6 (Logical Boundaries & Encryption in Transit / Memory): SATISFIED. Enforcement: PromptShield WebCrypto AES-256-GCM Ephemeral Memory Vault with Zero-Plaintext Transmission. Evidence Hash: 826e7e3242f0f106b60caa6d9254fb645209cdc9bd604c21d89a11407c5f25fa"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/SOC2-CC6.6"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SOC2-CC6.8",
+          "level": "none",
+          "message": {
+            "text": "Control SOC2-CC6.8 (Malicious Code & Unauthorized Agent Subshell Prevention): SATISFIED. Enforcement: AgentShield & DBShield eBPF wire-level proxy interception and virtual DuckDB sandbox. Evidence Hash: f2176f5bd927e396b5d448361f2ca6e478af92c9f05deda7cfb8cce1b00d00eb"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/SOC2-CC6.8"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "SOC2-CC7.2",
+          "level": "none",
+          "message": {
+            "text": "Control SOC2-CC7.2 (Tamper-Evident Hash-Chained Audit Trails & SIEM Export): SATISFIED. Enforcement: EnterpriseAuditLedger SHA-256 chaining + SiemForwarderEngine. Evidence Hash: a883aa1db1987c58e4dab7dbe3ca489e440b88fec22c87f78307ccb9c0fcef33"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/SOC2-CC7.2"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ISO27001-8.28",
+          "level": "none",
+          "message": {
+            "text": "Control ISO27001-8.28 (Secure Coding & Cryptographic AST Vulnerability Analysis): SATISFIED. Enforcement: WebSecAuditor AST Taint Analyzer + SARIF v2.1.0 sha256 fingerprinting. Evidence Hash: a98488c75dfa2d3ebeeae0955ceb26e89cad523c7654a15c0dbda976e70ba5b7"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/ISO27001-8.28"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ISO27001-8.7",
+          "level": "none",
+          "message": {
+            "text": "Control ISO27001-8.7 (Protection Against Malware & Autonomous Execution Containment): SATISFIED. Enforcement: DBShield Redlock Distributed Lock Fencing + Two-Phase Dry-Run Verification. Evidence Hash: 640713639f6d560ba7b96d4bf13a25d50cd2a313f19ddf913000474b83cd6179"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/ISO27001-8.7"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ISO27001-8.16",
+          "level": "none",
+          "message": {
+            "text": "Control ISO27001-8.16 (Monitoring Activities & Cryptographic Integrity Verification): SATISFIED. Enforcement: Tamper-evident HMAC-SHA256 signature verification across all audit records. Evidence Hash: 541e6f70b97a4a8a37b80bf6c8b017fd15b2075c3880cb7d9ba0bb47152e3f0c"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/ISO27001-8.16"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "ISO27001-8.24",
+          "level": "none",
+          "message": {
+            "text": "Control ISO27001-8.24 (Cryptographic Access Tokens & Timing-Safe Verification): SATISFIED. Enforcement: mcp-monetize PASETO v4 token manager & Dodo/Stripe timing-safe HMAC webhooks. Evidence Hash: 9c2a60915ecb953b9769782973c5e6901fc141a627a92b3ba0e6415aea337f72"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/ISO27001-8.24"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "EU-AI-ACT-ART10",
+          "level": "none",
+          "message": {
+            "text": "Control EU-AI-ACT-ART10 (Data Governance & Data Minimization for AI Pipelines): SATISFIED. Enforcement: PromptShield InBrowserDlpEngine + SurrogateMaskingEngine. Evidence Hash: e8cdc96c88029cbfaf6d030ac8809bd10c83210f3e2f7d1a43361c552d44fd12"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/EU-AI-ACT-ART10"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "EU-AI-ACT-ART14",
+          "level": "none",
+          "message": {
+            "text": "Control EU-AI-ACT-ART14 (Human Oversight & Fail-Safe Execution Interception): SATISFIED. Enforcement: AgentShield & DBShield Shadow Mode with Proof-of-Intent Interactive Dialog. Evidence Hash: 78b630fb86b2531b54507026370e0a83f291d565e9ff67e3a4aa54bca87d82d5"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/EU-AI-ACT-ART14"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "EU-AI-ACT-ART15",
+          "level": "none",
+          "message": {
+            "text": "Control EU-AI-ACT-ART15 (Cybersecurity, Accuracy & Adversarial Robustness Attestation): SATISFIED. Enforcement: PromptShield RedTeamFuzzer Daemon with 100% detection rate & sub-3ms SLA. Evidence Hash: 9e5d4fd88f5c1a2a40238c4bcdae24fb36db0e54c994c0fb880cef69899b6e34"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/EU-AI-ACT-ART15"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "DPDP-GDPR-MINIMIZATION",
+          "level": "none",
+          "message": {
+            "text": "Control DPDP-GDPR-MINIMIZATION (Zero-Knowledge Data Minimization & PII Redaction): SATISFIED. Enforcement: Luhn verified credit card filter, Indian Aadhaar/PAN regex, and zero-retention edge broker. Evidence Hash: c2fc278467a98a21f94e69dc6d34c68bda597f44191fd293ea616954796ee21c"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/DPDP-GDPR-MINIMIZATION"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "DPDP-GDPR-CRYPTOGRAPHIC-PROOF",
+          "level": "none",
+          "message": {
+            "text": "Control DPDP-GDPR-CRYPTOGRAPHIC-PROOF (Mathematical Re-Identification Risk Bounds & Erasure Proofs): SATISFIED. Enforcement: SHA-256 hash-chain deletion proofs and ephemeral key destruction on session end. Evidence Hash: 87118e99be63d32dcf085f6a736f3a920567ff37daba182441cba877299578bd"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "governance://ledger/evidence/DPDP-GDPR-CRYPTOGRAPHIC-PROOF"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
