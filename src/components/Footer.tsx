@@ -144,8 +144,19 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/devshelf" className="hover:text-brand-cyan transition-colors">
-                  DevShelf (567+ Tools &amp; MCPs)
+                  DevShelf (575+ Tools &amp; MCPs)
                 </Link>
+              </li>
+              <li>
+                <a
+                  href="https://devshelf.ritualdev.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-purple-400 transition-colors flex items-center gap-1.5"
+                >
+                  <span>DevShelf Standalone Web</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-purple-950/60 text-purple-300 border border-purple-800/40 rounded">Portal ↗</span>
+                </a>
               </li>
               <li>
                 <Link href="/partners" className="hover:text-sky-400 transition-colors flex items-center gap-1.5">
