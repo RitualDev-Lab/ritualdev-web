@@ -64,6 +64,22 @@ export async function POST(req: Request) {
       console.warn("Could not write enterprise lead to file:", fsErr);
     }
 
+    // Optional webhook notification (Slack, Discord, Microsoft Teams, or Zapier)
+    const webhookUrl = process.env.ENTERPRISE_WEBHOOK_URL || process.env.SLACK_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            text: `🏛️ *Enterprise Defense SLA Inquiry [${submissionId}]*\n*Company:* ${companyName || "N/A"}\n*Contact:* ${fullName || "N/A"} (${workEmail})\n*Fleet Size:* ${fleetSize || "Not specified"}\n*Target Infra:* ${infraEnvironment || "AWS Private VPC"}\n*Selected Needs:* ${leadRecord.selectedNeeds.join(", ") || "None selected"}\n*Notes:* ${notes || "None provided"}`,
+          }),
+        });
+      } catch (webhookErr) {
+        console.warn("Could not dispatch enterprise inquiry webhook:", webhookErr);
+      }
+    }
+
     return NextResponse.json({
       success: true,
       submissionId,
