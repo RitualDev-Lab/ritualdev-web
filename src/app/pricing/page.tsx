@@ -535,23 +535,23 @@ export default function PricingPage() {
               </div>
               <h3 className="text-sm font-bold text-white font-sans">PromptShield, MockForge &amp; FinePrint</h3>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                Commercial Pro license for browser DLP firewall, production DB masking &amp; legal contract redlines.
+                Commercial Pro license + private core repo access (`PromptShield-Core`, `MockForge-Core`, `FinePrintAI-Core`).
               </p>
             </div>
             <div className="space-y-2">
               <a
-                href={buildTeamProductCheckoutUrl({ tier: "ritual_pro_15", customerEmail: workEmail, githubUsername })}
+                href={buildTeamProductCheckoutUrl({ tier: "promptshield_pro_49", customerEmail: workEmail, githubUsername })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-bold flex items-center justify-center gap-1.5 transition"
               >
-                <span>Ritual Pro License ($15/mo)</span>
+                <span>Pro Core Access ($49/mo)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
               <div className="text-center text-[11px] text-slate-400">
-                <Link href="/promptshield/" className="hover:text-white">PromptShield</Link> &middot;{" "}
-                <Link href="/mockforge/" className="hover:text-white">MockForge</Link> &middot;{" "}
-                <Link href="/fineprint/" className="hover:text-white">FinePrint</Link>
+                <Link href="/promptshield/" className="hover:text-white">PromptShield ($49)</Link> &middot;{" "}
+                <Link href="/mockforge/" className="hover:text-white">MockForge ($49)</Link> &middot;{" "}
+                <Link href="/fineprint/" className="hover:text-white">FinePrint ($79)</Link>
               </div>
             </div>
           </div>

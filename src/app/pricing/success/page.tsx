@@ -11,7 +11,12 @@ function PricingSuccessContent() {
   const paymentId = searchParams.get("payment_id") || searchParams.get("id") || "PENDING_WEBHOOK";
   const product = (searchParams.get("product") || "team_relay_29").toLowerCase();
 
-  const isPrivateKit = product.includes("private") || product.includes("compliance");
+  const isPrivateKit =
+    product.includes("private") ||
+    product.includes("compliance") ||
+    product.includes("promptshield") ||
+    product.includes("mockforge") ||
+    product.includes("fineprint");
   const isMcpPack = product.includes("mcp_pack");
   const matchedCfg = TEAM_PRODUCT_CONFIG[product];
   const isTeamHub = product.includes("hub") || product.includes("99");

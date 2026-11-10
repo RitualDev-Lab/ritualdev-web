@@ -24,6 +24,7 @@ import {
   PenTool,
   ShieldAlert
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 export default function FinePrintPage() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -136,9 +137,7 @@ export default function FinePrintPage() {
           </a>
 
           <a
-            href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dfineprint"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#fineprint-pro"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-amber-500/40 hover:border-amber-400 text-amber-400 font-bold text-sm transition"
           >
             <span>Upgrade to Corporate Playbook Pro ($79/mo)</span>
@@ -287,26 +286,47 @@ export default function FinePrintPage() {
         </div>
       </div>
 
-      {/* CTA Box */}
-      <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 border border-amber-500/30 text-center space-y-6">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Protect Your Company from Asymmetric Contracts</h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Never sign an agreement without running FinePrint AI. Scan contracts locally or automate review via DocuSign webhooks.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href="https://github.com/RitualDev-Lab/FinePrintAI/releases/latest"
-            className="px-6 py-3 rounded-xl bg-amber-400 text-slate-950 font-bold text-sm shadow-[0_0_25px_rgba(245,158,11,0.3)] hover:brightness-110 transition"
-          >
-            Download Free Community CLI
-          </a>
-          <a
-            href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dfineprint"
-            className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition"
-          >
-            Deploy Corporate Playbook Pro ($79/mo)
-          </a>
-        </div>
+      <div id="fineprint-pro">
+        <TeamCheckoutBanner
+          eyebrow="FinePrintAI-Core Private Engine &amp; Playbooks"
+          heading="Unlock FinePrintAI-Core &amp; Corporate Playbook Pro"
+          subheading="Enter your GitHub username below to unlock automatic webhook collaborator access to RitualDev-Lab/FinePrintAI-Core and custom legal playbooks."
+          secondaryHref="https://github.com/RitualDev-Lab/FinePrintAI/releases/latest"
+          secondaryLabel="Download Free Community CLI"
+          plans={[
+            {
+              tierKey: "ritual_pro_15",
+              name: "Ritual Pro Individual Suite",
+              price: "$15",
+              period: "/ month",
+              badge: "Solo Pro",
+              accent: "emerald",
+              description: "Commercial solo license with cloud audit log sync across RitualDev tools.",
+              features: [
+                "Individual Commercial Usage License",
+                "Managed Policy & Audit Log Sync",
+                "Verified Pro Patron Support",
+              ],
+              ctaLabel: "Subscribe Ritual Pro ($15/mo)",
+            },
+            {
+              tierKey: "fineprint_pro_79",
+              name: "Corporate Playbook Pro + Core Repo",
+              price: "$79",
+              period: "/ month",
+              badge: "Private Core Repo",
+              featured: true,
+              accent: "amber",
+              description: "Automated GitHub invite to RitualDev-Lab/FinePrintAI-Core + custom NDA/MSA playbook redlining engine.",
+              features: [
+                "Webhook-Gated GitHub Invite to FinePrintAI-Core",
+                "60+ Commercial & SaaS Redline Playbook Rules",
+                "DocuSign / CRM Automated Webhook Pipeline",
+              ],
+              ctaLabel: "Unlock FinePrintAI-Core ($79/mo)",
+            },
+          ]}
+        />
       </div>
 
     </div>
