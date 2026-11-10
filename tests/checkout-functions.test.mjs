@@ -6,6 +6,7 @@ import { onRequestPost as mcpOrderPost } from "../functions/api/mcp-order.js";
 import { onRequestPost as auditOrderPost } from "../functions/api/audit-order.js";
 import { onRequestPost as enterprisePost } from "../functions/api/enterprise.js";
 import { onRequestPost as partnerOrderPost } from "../functions/api/partner-order.js";
+import { onRequest as middlewareRequest } from "../functions/_middleware.js";
 import affiliatesData from "../src/data/affiliates.json" with { type: "json" };
 
 function makeContext(body, env = {}) {
@@ -288,5 +289,31 @@ describe("Storefront Checkout URL Builders & Cloudflare Pages Functions", () => 
     } finally {
       globalThis.fetch = origFetch;
     }
+  });
+
+  it("redirects donation.ritualdev.in and www.ritualdev.in to canonical ritualdev.in routes", async () => {
+    const donRes = await middlewareRequest({
+      request: new Request("https://donation.ritualdev.in/?src=qr"),
+      next: () => new Response("ok"),
+    });
+    assert.equal(donRes.status, 302);
+    assert.equal(donRes.headers.get("location"), "https://ritualdev.in/donate/?src=qr");
+
+    const wwwRes = await middlewareRequest({
+      request: new Request("https://www.ritualdev.in/partners?x=1"),
+      next: () => new Response("ok"),
+    });
+    assert.equal(wwwRes.status, 301);
+    assert.equal(wwwRes.headers.get("location"), "https://ritualdev.in/partners?x=1");
+
+    let calledNext = false;
+    await middlewareRequest({
+      request: new Request("https://ritualdev.in/donate/"),
+      next: () => {
+        calledNext = true;
+        return new Response("ok");
+      },
+    });
+    assert.equal(calledNext, true);
   });
 });
