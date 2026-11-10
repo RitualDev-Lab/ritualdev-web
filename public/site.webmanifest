@@ -1,0 +1,33 @@
+{
+  "name": "RitualDev Lab — Autonomous AI Agent Defense & DevShelf",
+  "short_name": "RitualDev",
+  "description": "Enterprise runtime secret defense, kernel sandboxing, database wire proxy, token compaction, and 570+ verified free developer tools.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080d19",
+  "theme_color": "#080d19",
+  "icons": [
+    {
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

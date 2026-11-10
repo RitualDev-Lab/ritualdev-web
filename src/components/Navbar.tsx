@@ -111,13 +111,14 @@ export default function Navbar() {
           
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-9 h-9 rounded-xl bg-slate-900 border border-brand-green/40 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:border-brand-neon group-hover:shadow-[0_0_15px_rgba(0,245,155,0.3)]">
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-green/20 via-transparent to-brand-cyan/20 opacity-60"></div>
-              {/* Android-inspired logo mark */}
-              <div className="relative flex flex-col items-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-neon mb-0.5 animate-pulse"></span>
-                <span className="text-[13px] font-bold tracking-tighter text-white">RD</span>
-              </div>
+            <div className="relative w-9 h-9 rounded-xl bg-white border border-brand-green/40 flex items-center justify-center overflow-hidden transition-all duration-300 group-hover:border-brand-neon group-hover:shadow-[0_0_15px_rgba(0,245,155,0.3)] p-0.5 shrink-0">
+              <img
+                src="/favicon-96x96.png"
+                alt="RitualDev Lab logo"
+                width={36}
+                height={36}
+                className="w-full h-full object-contain rounded-lg"
+              />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-1.5">
