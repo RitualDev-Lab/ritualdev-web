@@ -376,5 +376,53 @@ describe("Storefront Checkout URL Builders & Cloudflare Pages Functions", () => 
     });
     assert.equal(res.ok, true);
     assert.ok(res.fulfillmentNote.includes("Provision Hosted Team Relay / Governance tenant"));
+
+    // Verify Private Core Repo routing for PromptShield-Core, MockForge-Core, FinePrintAI-Core
+    const ps49 = buildTeamProductCheckoutUrl({ tier: "promptshield_pro_49", githubUsername: "@alice" });
+    assert.ok(ps49.includes("paymentAmount=49"));
+    assert.ok(ps49.includes("PromptShield-Core"));
+    assert.ok(ps49.includes("metadata_github_username=alice"));
+
+    const mf49 = buildTeamProductCheckoutUrl({ tier: "mockforge_pro_49" });
+    assert.ok(mf49.includes("paymentAmount=49"));
+    assert.ok(mf49.includes("MockForge-Core"));
+
+    const fp79 = buildTeamProductCheckoutUrl({ tier: "fineprint_pro_79" });
+    assert.ok(fp79.includes("paymentAmount=79"));
+    assert.ok(fp79.includes("FinePrintAI-Core"));
+
+    const coreBody = JSON.stringify({
+      type: "payment.succeeded",
+      data: {
+        payment_id: "pay_fp_79",
+        total_amount: 7900,
+        currency: "USD",
+        customer: { email: "counsel@acme.io" },
+        metadata: { tier: "fineprint_pro_79", github_username: "legalops" },
+      },
+    });
+    const coreSig = crypto.createHmac("sha256", rawSecret).update(`${webhookId}.${ts}.${coreBody}`).digest("base64");
+    const origFetch2 = globalThis.fetch;
+    let inviteUrl = "";
+    globalThis.fetch = async (url) => {
+      inviteUrl = String(url);
+      return new Response(null, { status: 201 });
+    };
+    try {
+      const coreRes = await handleDodoWebhookEvent({
+        rawBody: coreBody,
+        headers: new Headers({
+          "webhook-id": webhookId,
+          "webhook-timestamp": ts,
+          "webhook-signature": `v1,${coreSig}`,
+        }),
+        env: { DODO_WEBHOOK_SECRET: secretB64, GITHUB_PAT: "ghp_testtoken" },
+      });
+      assert.equal(coreRes.ok, true);
+      assert.ok(inviteUrl.includes("/repos/RitualDev-Lab/FinePrintAI-Core/collaborators/legalops"));
+      assert.ok(coreRes.fulfillmentNote.includes("FinePrintAI-Core"));
+    } finally {
+      globalThis.fetch = origFetch2;
+    }
   });
 });

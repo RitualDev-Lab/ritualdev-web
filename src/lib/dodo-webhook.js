@@ -71,6 +71,23 @@ export async function verifyDodoWebhookSignature({
   return false;
 }
 
+export function resolvePrivateRepoForOrder({ tier = "", metadata = {}, env = {} }) {
+  const explicit = String(metadata?.coreRepo || metadata?.repo || "").trim().toLowerCase();
+  const t = String(tier || "").toLowerCase();
+  const combined = `${t} ${explicit}`;
+
+  if (combined.includes("promptshield")) {
+    return env?.PRIVATE_PROMPTSHIELD_REPO || "RitualDev-Lab/PromptShield-Core";
+  }
+  if (combined.includes("mockforge")) {
+    return env?.PRIVATE_MOCKFORGE_REPO || "RitualDev-Lab/MockForge-Core";
+  }
+  if (combined.includes("fineprint")) {
+    return env?.PRIVATE_FINEPRINT_REPO || "RitualDev-Lab/FinePrintAI-Core";
+  }
+  return env?.PRIVATE_COMPLIANCE_REPO || "";
+}
+
 export async function inviteGitHubCollaborator({ repoSlug, username, githubPat }) {
   if (!repoSlug || !username || !githubPat) {
     return { invited: false, reason: "Missing GITHUB_PAT, repoSlug, or github_username" };
@@ -252,6 +269,7 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
     const toolUrl = metadata?.toolUrl || metadata?.tool_url || metadata?.url;
     const orderId = metadata?.orderId || "";
     const isSponsorPayment = SPONSOR_TIER_MAP.has(tier) || orderId.startsWith("SPONSOR-") || Boolean(toolName && toolUrl);
+    const targetPrivateRepo = resolvePrivateRepoForOrder({ tier, metadata, env });
 
     if (isSponsorPayment) {
       const activation = await dispatchDevShelfSponsorActivation({
@@ -268,15 +286,17 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
       fulfillmentNote = activation.dispatched
         ? `Dispatched DevShelf activate-sponsor.yml workflow (tier: ${activation.workflowTier})`
         : `DevShelf workflow dispatch pending manual review: ${activation.reason || `HTTP ${activation.status}`}`;
-    } else if (ghUser && env?.GITHUB_PAT && env?.PRIVATE_COMPLIANCE_REPO) {
+    } else if (targetPrivateRepo && ghUser && env?.GITHUB_PAT) {
       const invite = await inviteGitHubCollaborator({
-        repoSlug: env.PRIVATE_COMPLIANCE_REPO,
+        repoSlug: targetPrivateRepo,
         username: ghUser,
         githubPat: env.GITHUB_PAT,
       });
       fulfillmentNote = invite.invited
-        ? `GitHub collaborator invited (@${invite.username} -> ${env.PRIVATE_COMPLIANCE_REPO})`
-        : `GitHub invite skipped/failed: ${invite.reason || `HTTP ${invite.status}`}`;
+        ? `GitHub collaborator invited (@${invite.username} -> ${targetPrivateRepo})`
+        : `GitHub invite skipped/failed (${targetPrivateRepo}): ${invite.reason || `HTTP ${invite.status}`}`;
+    } else if (targetPrivateRepo) {
+      fulfillmentNote = `Pending GitHub invite to ${targetPrivateRepo} for ${customerEmail} (handle=${ghUser || "missing"}, tier=${tier})`;
     } else if (
       tier.includes("dbshield") ||
       tier.includes("skillprism") ||

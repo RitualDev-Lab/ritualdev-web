@@ -327,6 +327,30 @@ export const TEAM_PRODUCT_CONFIG = {
     label: "Ritual Pro Individual Suite License ($15/mo)",
     redirectUrl: "https://ritualdev.in/pricing/success/?product=ritual_pro_15",
   },
+  promptshield_pro_49: {
+    id: "promptshield_pro_49",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "49",
+    coreRepo: "RitualDev-Lab/PromptShield-Core",
+    label: "PromptShield Enterprise Fleet + PromptShield-Core ($49/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=promptshield_pro_49",
+  },
+  mockforge_pro_49: {
+    id: "mockforge_pro_49",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "49",
+    coreRepo: "RitualDev-Lab/MockForge-Core",
+    label: "MockForge Production Masking Pro + MockForge-Core ($49/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=mockforge_pro_49",
+  },
+  fineprint_pro_79: {
+    id: "fineprint_pro_79",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "79",
+    coreRepo: "RitualDev-Lab/FinePrintAI-Core",
+    label: "FinePrint Corporate Playbook Pro + FinePrintAI-Core ($79/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=fineprint_pro_79",
+  },
   mcp_starter_49: {
     id: "mcp_starter_49",
     productId: DODO_MCP_STARTER_49,
@@ -418,6 +442,9 @@ export function buildTeamProductCheckoutUrl({
   }
   if (githubUsername) {
     params.set("metadata_github_username", githubUsername.trim().replace(/^@/, ""));
+  }
+  if (cfg.coreRepo) {
+    params.set("metadata_coreRepo", cfg.coreRepo);
   }
   params.set("metadata_tier", cfg.id);
   params.set("redirect_url", cfg.redirectUrl);

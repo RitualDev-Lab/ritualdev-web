@@ -23,6 +23,7 @@ import {
   Play,
   FileSpreadsheet
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 export default function MockForgePage() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -192,9 +193,7 @@ CREATE TABLE prescriptions (rx_id INT PRIMARY KEY, encounter_id INT REFERENCES e
           </a>
 
           <a
-            href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dmockforge"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#mockforge-pro"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-cyan-500/40 hover:border-cyan-400 text-cyan-400 font-bold text-sm transition"
           >
             <span>Upgrade to Production Masking Pro ($49/mo)</span>
@@ -344,26 +343,47 @@ CREATE TABLE prescriptions (rx_id INT PRIMARY KEY, encounter_id INT REFERENCES e
         </div>
       </div>
 
-      {/* CTA Box */}
-      <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 border border-cyan-500/30 text-center space-y-6">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Generate Coherent Test Data in Seconds</h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Stop writing brittle manual SQL seed fixtures. Run MockForge locally or integrate into your CI/CD test runners.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href="https://github.com/RitualDev-Lab/MockForge/releases/latest"
-            className="px-6 py-3 rounded-xl bg-cyan-400 text-slate-950 font-bold text-sm shadow-[0_0_25px_rgba(6,182,212,0.3)] hover:brightness-110 transition"
-          >
-            Download Free Community CLI
-          </a>
-          <a
-            href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dmockforge"
-            className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition"
-          >
-            Purchase Production Masking Pro ($49/mo)
-          </a>
-        </div>
+      <div id="mockforge-pro">
+        <TeamCheckoutBanner
+          eyebrow="MockForge-Core Private Engine &amp; PII Masking"
+          heading="Unlock MockForge-Core &amp; Production Masking Pro"
+          subheading="Enter your GitHub username below to unlock automatic webhook collaborator access to RitualDev-Lab/MockForge-Core and CI/CD snapshot masking pipelines."
+          secondaryHref="https://github.com/RitualDev-Lab/MockForge/releases/latest"
+          secondaryLabel="Download Free Community CLI"
+          plans={[
+            {
+              tierKey: "ritual_pro_15",
+              name: "Ritual Pro Individual Suite",
+              price: "$15",
+              period: "/ month",
+              badge: "Solo Pro",
+              accent: "emerald",
+              description: "Commercial solo license with cloud config & schema template sync.",
+              features: [
+                "Individual Commercial Usage License",
+                "Multi-Machine Schema Profile Sync",
+                "Priority Community Issue Support",
+              ],
+              ctaLabel: "Subscribe Ritual Pro ($15/mo)",
+            },
+            {
+              tierKey: "mockforge_pro_49",
+              name: "Production Masking Pro + Core Repo",
+              price: "$49",
+              period: "/ month",
+              badge: "Private Core Repo",
+              featured: true,
+              accent: "cyan",
+              description: "Automated GitHub invite to RitualDev-Lab/MockForge-Core with GDPR/HIPAA production DB anonymization.",
+              features: [
+                "Webhook-Gated GitHub Invite to MockForge-Core",
+                "Deterministic Foreign-Key Preserving PII Scrubbing",
+                "CI/CD Ephemeral Staging Database Pipelines",
+              ],
+              ctaLabel: "Unlock MockForge-Core ($49/mo)",
+            },
+          ]}
+        />
       </div>
 
     </div>

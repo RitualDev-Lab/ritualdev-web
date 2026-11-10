@@ -58,6 +58,9 @@ export type TeamProductTierId =
   | "agentshield_enterprise_49"
   | "websec_team_19"
   | "ritual_pro_15"
+  | "promptshield_pro_49"
+  | "mockforge_pro_49"
+  | "fineprint_pro_79"
   | "mcp_starter_49"
   | "mcp_pack_fintech_39"
   | "mcp_pack_database_49"
@@ -83,7 +86,7 @@ export interface CloudOrPrivateCheckoutInput {
 export const DODO_PRODUCT_IDS: Record<string, string>;
 export const TEAM_PRODUCT_CONFIG: Record<
   string,
-  { id: string; productId: string; flexAmountUsd?: string; extraParams?: Record<string, string>; label: string; redirectUrl: string }
+  { id: string; productId: string; flexAmountUsd?: string; coreRepo?: string; extraParams?: Record<string, string>; label: string; redirectUrl: string }
 >;
 
 export function resolvePartnerTierPricing(

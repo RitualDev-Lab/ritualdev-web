@@ -7,6 +7,12 @@ export function verifyDodoWebhookSignature(params: {
   nowMs?: number;
 }): Promise<boolean>;
 
+export function resolvePrivateRepoForOrder(params: {
+  tier?: string;
+  metadata?: Record<string, unknown>;
+  env?: Record<string, string | undefined>;
+}): string;
+
 export function inviteGitHubCollaborator(params: {
   repoSlug: string;
   username: string;

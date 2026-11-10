@@ -23,6 +23,7 @@ import {
   Server,
   Zap
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 export default function PromptShieldPage() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -175,9 +176,7 @@ export default function PromptShieldPage() {
           </a>
 
           <a
-            href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dpromptshield"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#promptshield-pro"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 border border-brand-green/40 hover:border-brand-neon text-brand-neon font-bold text-sm transition"
           >
             <span>Upgrade to Enterprise Fleet ($49/mo)</span>
@@ -350,26 +349,47 @@ export default function PromptShieldPage() {
         </div>
       </div>
 
-      {/* CTA Box */}
-      <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 border border-brand-green/30 text-center space-y-6">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-white">Stop Accidental AI Leaks Today</h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Install PromptShield on Chromium-based browsers or integrate PromptShield-Core into your internal developer proxy fleets.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
-          <a
-            href="https://github.com/RitualDev-Lab/PromptShield/releases/latest"
-            className="px-6 py-3 rounded-xl bg-brand-neon text-slate-950 font-bold text-sm shadow-[0_0_25px_rgba(0,245,155,0.3)] hover:brightness-110 transition"
-          >
-            Download Free Community Extension
-          </a>
-          <a
-            href="https://checkout.dodopayments.com/buy/pdt_0NrFSkF5XLgBppfQRxgXN?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fpricing%2Fsuccess%3Fproduct%3Dpromptshield"
-            className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-700 transition"
-          >
-            Deploy Enterprise Fleet ($49/mo)
-          </a>
-        </div>
+      <div id="promptshield-pro">
+        <TeamCheckoutBanner
+          eyebrow="PromptShield-Core Private Engine &amp; Fleet DLP"
+          heading="Unlock PromptShield-Core &amp; Enterprise Browser Fleet"
+          subheading="Enter your GitHub username below to unlock automatic webhook collaborator access to RitualDev-Lab/PromptShield-Core and managed browser DLP policies."
+          secondaryHref="https://github.com/RitualDev-Lab/PromptShield/releases/latest"
+          secondaryLabel="Download Free Community Extension"
+          plans={[
+            {
+              tierKey: "ritual_pro_15",
+              name: "Ritual Pro Individual Suite",
+              price: "$15",
+              period: "/ month",
+              badge: "Solo Pro",
+              accent: "cyan",
+              description: "Commercial solo license + synchronized DLP rule profiles.",
+              features: [
+                "Custom Company Secret Regex Profiles",
+                "Cloud Audit Log Sync Across Machines",
+                "Verified Pro User Support",
+              ],
+              ctaLabel: "Subscribe Ritual Pro ($15/mo)",
+            },
+            {
+              tierKey: "promptshield_pro_49",
+              name: "PromptShield Enterprise Fleet + Core Repo",
+              price: "$49",
+              period: "/ month",
+              badge: "Private Core Repo",
+              featured: true,
+              accent: "emerald",
+              description: "Automated GitHub invite to RitualDev-Lab/PromptShield-Core plus Chrome/Edge enterprise fleet MDM policies.",
+              features: [
+                "Webhook-Gated GitHub Invite to PromptShield-Core",
+                "Chrome & Edge Force-Installed MDM Policy Profiles",
+                "Zero-Leak Local Volatile Memory Engine (<4ms)",
+              ],
+              ctaLabel: "Unlock PromptShield-Core ($49/mo)",
+            },
+          ]}
+        />
       </div>
 
     </div>
