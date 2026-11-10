@@ -21,6 +21,20 @@ import rawData from "@/data/devshelf.json";
 import wikidataData from "@/data/wikidata.json";
 import competitorsData from "@/data/competitors.json";
 import BadgeEmbedWidget from "@/components/BadgeEmbedWidget";
+import { findPartnerForTool } from "@/lib/affiliates";
+
+interface CustomFaqItem {
+  question: string;
+  answer: string;
+}
+
+interface SpotlightPromo {
+  badge?: string;
+  headline?: string;
+  summary?: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+}
 
 interface Resource {
   name: string;
@@ -30,6 +44,7 @@ interface Resource {
   language?: string;
   license?: string;
   featured?: boolean;
+  sponsorTier?: string;
   statusTags?: string[];
   type?: string;
   section?: string;
@@ -43,6 +58,51 @@ interface Resource {
   rateLimit?: string;
   goodFirstIssues?: string;
   platform?: string;
+  installCommand?: string;
+  installCommands?: string[];
+  installNote?: string;
+  installDocsUrl?: string;
+  installDocsLabel?: string;
+  customFaqs?: CustomFaqItem[];
+  spotlightPromo?: SpotlightPromo;
+}
+
+function safeExternalHttpUrl(rawUrl?: string): string | null {
+  if (!rawUrl || typeof rawUrl !== "string") return null;
+  try {
+    const parsed = new URL(rawUrl.trim());
+    return parsed.protocol === "http:" || parsed.protocol === "https:" ? parsed.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+function resolveInstallConfig(tool: Resource): {
+  note: string | null;
+  commands: string[];
+  docsUrl: string | null;
+  docsLabel: string;
+  isExplicit: boolean;
+} {
+  const docsUrl = safeExternalHttpUrl(tool.installDocsUrl);
+  const docsLabel = tool.installDocsLabel?.trim() || "Official installation instructions";
+  const note = tool.installNote?.trim() || null;
+
+  if (Array.isArray(tool.installCommands) && tool.installCommands.length > 0) {
+    const commands = tool.installCommands.filter(
+      (cmd): cmd is string => typeof cmd === "string" && cmd.trim().length > 0,
+    );
+    if (commands.length > 0) {
+      return { note, commands, docsUrl, docsLabel, isExplicit: true };
+    }
+  }
+
+  if (tool.installCommand?.trim()) {
+    return { note, commands: [tool.installCommand.trim()], docsUrl, docsLabel, isExplicit: true };
+  }
+
+  const fallback = getInstallCommand(tool);
+  return { note, commands: fallback ? [fallback] : [], docsUrl, docsLabel, isExplicit: false };
 }
 
 function toSlug(name: string): string {
@@ -138,17 +198,33 @@ export default async function ToolDetailPage({
     notFound();
   }
 
-  const installCmd = getInstallCommand(tool);
+  const installConfig = resolveInstallConfig(tool);
+  const isPaidSpotlight = Boolean(tool.featured || tool.sponsorTier);
+  const customFaqs =
+    isPaidSpotlight && Array.isArray(tool.customFaqs)
+      ? tool.customFaqs.filter(
+          (f) =>
+            f &&
+            typeof f.question === "string" &&
+            f.question.trim().length > 0 &&
+            typeof f.answer === "string" &&
+            f.answer.trim().length > 0,
+        )
+      : [];
+  const promoCtaUrl =
+    isPaidSpotlight && tool.spotlightPromo ? safeExternalHttpUrl(tool.spotlightPromo.ctaUrl) : null;
   const accessAnswer = [
     tool.freeTier || tool.freeTierCost || (tool.rateLimit ? null : "Free-tier details are not listed."),
     tool.rateLimit,
     tool.license ? `License: ${tool.license}.` : "License is not listed.",
   ].filter(Boolean).join(" ");
-  const setupAnswer = installCmd
-    ? `You can install or run ${tool.name} using the terminal command: "${installCmd}".`
-    : `See the official setup documentation: ${tool.url || "contact the provider"}.`;
+  const setupAnswer =
+    installConfig.commands.length > 0
+      ? `${installConfig.note ? `${installConfig.note} ` : ""}${installConfig.commands.join(" | ")}${installConfig.docsUrl ? ` — ${installConfig.docsLabel}: ${installConfig.docsUrl}` : ""}`
+      : `See the official setup documentation: ${tool.url || "contact the provider"}.`;
   const repoUrl = tool.repo ? (tool.repo.startsWith("http") ? tool.repo : `https://github.com/${tool.repo}`) : null;
   const pageUrl = `https://ritualdev.in/devshelf/${slug}/`;
+  const partnerOffer = findPartnerForTool(tool);
 
   // Related tools in the same category
   const relatedTools = resources
@@ -262,6 +338,14 @@ export default async function ToolDetailPage({
             },
           ]
         : []),
+      ...customFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
     ],
   };
 
@@ -372,12 +456,12 @@ export default async function ToolDetailPage({
 
               {tool.url && (
                 <Link
-                  href={tool.url}
+                  href={partnerOffer ? `/go/${partnerOffer.slug}/` : tool.url}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel={partnerOffer ? "noopener noreferrer sponsored" : "noopener noreferrer"}
                   className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold transition-colors text-xs font-mono flex items-center gap-2"
                 >
-                  <span>Official Website</span>
+                  <span>{partnerOffer ? (partnerOffer.ctaText || "Claim Partner Offer") : "Official Website"}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </Link>
               )}
@@ -419,6 +503,55 @@ export default async function ToolDetailPage({
             </div>
           )}
 
+          {/* Verified Developer Partner Perk Banner */}
+          {partnerOffer && (
+            <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="text-xs font-mono">
+                <span className="text-emerald-400 font-bold uppercase tracking-wider mr-2">
+                  {partnerOffer.badge || "Verified Partner Perk"}:
+                </span>
+                <span className="text-white font-bold">{partnerOffer.perkTitle}</span>
+                <p className="text-slate-300 mt-1 font-sans">{partnerOffer.perkDescription}</p>
+              </div>
+              <Link
+                href={`/go/${partnerOffer.slug}/`}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs font-mono shrink-0 flex items-center gap-1.5"
+              >
+                <span>{partnerOffer.ctaText || "Claim Offer →"}</span>
+              </Link>
+            </div>
+          )}
+
+          {/* Paid Spotlight Promotional Highlight (Unlocked on Featured / Sponsor Tiers) */}
+          {isPaidSpotlight && tool.spotlightPromo && (
+            <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="text-xs font-mono space-y-1">
+                <span className="text-amber-300 font-bold uppercase tracking-wider block">
+                  {tool.spotlightPromo.badge || "★ Paid Spotlight"}
+                </span>
+                {tool.spotlightPromo.headline && (
+                  <p className="text-white font-bold">{tool.spotlightPromo.headline}</p>
+                )}
+                {tool.spotlightPromo.summary && (
+                  <p className="text-slate-300 font-sans">{tool.spotlightPromo.summary}</p>
+                )}
+              </div>
+              {promoCtaUrl && (
+                <a
+                  href={promoCtaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs font-mono shrink-0 flex items-center gap-1.5"
+                >
+                  <span>{tool.spotlightPromo.ctaLabel || "Explore Offer"}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+          )}
+
           {/* Core Description */}
           <div className="space-y-3">
             <h2 className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1.5">
@@ -454,15 +587,39 @@ export default async function ToolDetailPage({
 
         {/* Quick Install & Run Section */}
         <section className="glass-panel rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-4">
-          <h2 className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1.5">
-            <Terminal className="w-3.5 h-3.5 text-brand-neon" />
-            <span>{installCmd ? "Quick Install & Execution" : "Setup documentation"}</span>
-          </h2>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h2 className="text-xs uppercase font-mono tracking-wider text-slate-400 flex items-center gap-1.5">
+              <Terminal className="w-3.5 h-3.5 text-brand-neon" />
+              <span>{installConfig.commands.length > 0 ? "Quick Install & Execution" : "Setup documentation"}</span>
+            </h2>
+            {installConfig.docsUrl && (
+              <a
+                href={installConfig.docsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-mono text-brand-cyan hover:underline flex items-center gap-1"
+              >
+                <span>{installConfig.docsLabel}</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+          </div>
 
-          {installCmd ? (
-            <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-white flex items-center">
-              <span className="text-brand-neon mr-2">$</span>
-              <span className="flex-1">{installCmd}</span>
+          {installConfig.note && (
+            <p className="text-xs text-slate-300 leading-relaxed">{installConfig.note}</p>
+          )}
+
+          {installConfig.commands.length > 0 ? (
+            <div className="space-y-2.5">
+              {installConfig.commands.map((cmd, idx) => (
+                <div
+                  key={`${idx}-${cmd}`}
+                  className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-white flex items-center overflow-x-auto select-all"
+                >
+                  <span className="text-brand-neon mr-2 shrink-0">$</span>
+                  <span className="flex-1 whitespace-pre">{cmd}</span>
+                </div>
+              ))}
             </div>
           ) : tool.url ? (
             <a href={tool.url} target="_blank" rel="noopener noreferrer" className="text-brand-cyan underline">Open official setup documentation</a>
@@ -470,9 +627,9 @@ export default async function ToolDetailPage({
             <p className="text-slate-400">Setup instructions are not listed.</p>
           )}
 
-          {repoUrl && (
-            <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-slate-300 flex items-center">
-              <span className="text-slate-500 mr-2">$</span>
+          {repoUrl && !installConfig.isExplicit && (
+            <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-slate-300 flex items-center overflow-x-auto">
+              <span className="text-slate-500 mr-2 shrink-0">$</span>
               <span className="flex-1">git clone {repoUrl}.git</span>
             </div>
           )}
@@ -564,6 +721,27 @@ export default async function ToolDetailPage({
                 <p className="text-slate-400 leading-relaxed">
                   {tool.name} is listed as an alternative to {tool.alternativeTo}. Compare its documented features and terms for your use case.
                 </p>
+              </div>
+            )}
+
+            {customFaqs.map((faq, idx) => (
+              <div key={`${idx}-${faq.question}`} className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30 space-y-1.5">
+                <h3 className="font-bold text-amber-200">{faq.question}</h3>
+                <p className="text-slate-300 leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+
+            {!isPaidSpotlight && (
+              <div className="p-4 rounded-2xl bg-slate-950/70 border border-purple-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <p className="text-slate-300 leading-relaxed">
+                  Maintainer of <strong className="text-white">{tool.name}</strong>? Custom promotional FAQs, highlighted CTAs, and #1 category placement unlock on Launch Spotlight ($19) or Category Leader ($49/mo).
+                </p>
+                <Link
+                  href="/partners"
+                  className="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold shrink-0 text-center transition-colors"
+                >
+                  Upgrade Listing →
+                </Link>
               </div>
             )}
           </div>

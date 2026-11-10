@@ -26,6 +26,16 @@ const tools = resources.map((r) => {
     .replace(/(^-|-$)/g, "");
 
   const isAirGap = (r.statusTags || "").includes("Offline") || r.featured;
+  const installCommands = Array.isArray(r.installCommands)
+    ? r.installCommands.filter((cmd) => typeof cmd === "string" && cmd.trim().length > 0)
+    : undefined;
+  const installCommand =
+    r.installCommand ||
+    (installCommands && installCommands.length > 0
+      ? installCommands.join("\n")
+      : r.repo
+        ? `git clone ${r.repo}`
+        : `npx ${slug}`);
 
   return {
     id: slug,
@@ -46,7 +56,10 @@ const tools = resources.map((r) => {
       status: "VERIFIED_SAFE",
       verifiedAt: "2026-11-08T00:00:00Z",
     },
-    installCommand: r.installCommand || (r.repo ? `git clone ${r.repo}` : `npx ${slug}`),
+    installCommand,
+    ...(installCommands && installCommands.length > 0 ? { installCommands } : {}),
+    ...(r.installNote ? { installNote: r.installNote } : {}),
+    ...(r.installDocsUrl ? { installDocsUrl: r.installDocsUrl } : {}),
   };
 });
 

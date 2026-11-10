@@ -2,33 +2,28 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { 
-  ShieldCheck, 
-  AlertTriangle, 
-  Clock, 
-  Terminal, 
-  FileCheck, 
-  Zap, 
-  CheckCircle2, 
-  ArrowRight, 
-  Lock, 
-  Sparkles, 
-  ExternalLink,
+import {
+  ShieldCheck,
+  Clock,
+  Terminal,
+  FileCheck,
+  CheckCircle2,
+  ArrowRight,
+  Lock,
   Code2,
   Bug,
   KeyRound,
-  FileCode2,
   HelpCircle,
-  Building2
 } from "lucide-react";
+import { buildAuditCheckoutUrl } from "../../lib/checkout-urls.js";
 
 export default function AuditPage() {
   const [productName, setProductName] = useState("");
   const [targetUrl, setTargetUrl] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
   const [contactEmail, setContactEmail] = useState("");
-  const [launchDate, setLaunchDate] = useState("Product Hunt Launch This Week");
-  const [packageTier, setPackageTier] = useState<"rapid_1500" | "comprehensive_7500">("rapid_1500");
+  const [launchDate, setLaunchDate] = useState("Product Hunt / Show HN Launch This Week");
+  const [packageTier, setPackageTier] = useState<"starter_199" | "pro_399">("starter_199");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -70,16 +65,17 @@ export default function AuditPage() {
           }
         }
       } catch (_) {
-        // Fallback for static export mode
+        // Fallback if API route unreachable
       }
 
-      // Direct enterprise checkout fallback or advisory scheduling
-      if (packageTier === "comprehensive_7500") {
-        window.location.href = `mailto:security@ritualdev.in?subject=${encodeURIComponent(`Comprehensive Architecture Review Request: ${productName}`)}&body=${encodeURIComponent(`Company: ${productName}\nTarget URL: ${targetUrl}\nRepo: ${repoUrl}\nOrder Reference: ${orderId}\nTimeline: ${launchDate}\nNotes: ${notes}`)}`;
-        return;
-      }
-
-      const checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success/?id=${orderId}`)}`;
+      const checkoutUrl = buildAuditCheckoutUrl({
+        orderId,
+        packageTier,
+        productName,
+        targetUrl,
+        repoUrl,
+        contactEmail,
+      });
       window.location.href = checkoutUrl;
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to process order. Please try again.");
@@ -89,30 +85,29 @@ export default function AuditPage() {
 
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
-      
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-2 text-xs font-mono text-slate-400 border-b border-slate-800/80 pb-4">
         <Link href="/" className="hover:text-brand-cyan transition-colors">Home</Link>
         <span>/</span>
-        <span className="text-brand-cyan font-bold">Pre-Launch Security Audit</span>
+        <span className="text-brand-cyan font-bold">Pre-Launch Security &amp; Secret Audit</span>
       </div>
 
       {/* Hero Header */}
       <div className="space-y-6 text-center max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 text-brand-cyan border border-cyan-500/30 text-xs font-mono font-bold">
           <Clock className="w-3.5 h-3.5 animate-pulse" />
-          <span>Guaranteed 2-Hour SLA Delivery • Enterprise &amp; Launch Readiness</span>
+          <span>24-Hour Turnaround • Product Hunt, Show HN &amp; Vibe-Coded Launch Protection</span>
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight">
-          Pre-Launch AI Security Audit &amp; <br className="hidden sm:inline" />
+          Pre-Launch Security &amp; <br className="hidden sm:inline" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-blue-400 to-indigo-400">
-            Adversarial Penetration Testing
+            Secret Leak Audit
           </span>
         </h1>
 
         <p className="text-slate-300 text-sm sm:text-lg leading-relaxed max-w-3xl mx-auto">
-          Don’t let prompt injections, leaked OpenAI keys, or rogue agent tool execution ruin your public launch or enterprise procurement. Get whole-program Code Property Graph (CPG) verification and the official <b>AgentShield Verified Secure</b> badge before going live.
+          Shipped fast with Cursor, Claude Code, or Lovable? Don&apos;t launch on Show HN or Product Hunt with leaked API keys, missing CORS/CSP headers, unguarded endpoints, or prompt injection flaws. Get concrete Git PR fixes and a verified launch dossier in &lt; 24 hours.
         </p>
 
         <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
@@ -121,13 +116,13 @@ export default function AuditPage() {
             className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan to-blue-500 text-slate-950 font-bold text-xs font-mono flex items-center gap-2 shadow-[0_0_25px_rgba(56,189,248,0.35)] hover:opacity-95 transition-all"
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>Book Rapid Audit ($1,500)</span>
+            <span>Book Indie Launch Audit ($199)</span>
           </a>
           <a
             href="#sample-findings"
             className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 text-xs font-mono font-bold flex items-center gap-2 transition-colors"
           >
-            <span>See Deliverables &amp; CPG Engine</span>
+            <span>See Concrete Deliverables</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -137,13 +132,13 @@ export default function AuditPage() {
       <section className="space-y-8">
         <div className="text-center space-y-2">
           <div className="text-xs font-mono text-brand-cyan uppercase tracking-wider font-bold">
-            Comprehensive Attack Surface Coverage
+            What We Inspect
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-            What Our Automated Security Engines Test
+            4 Launch-Day Killers Found in AI-Built Apps
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 font-mono">
-            Powered by the open-source engines behind AgentShield, WebSecAuditor, and DBShield.
+            Powered by AgentShield, WebSecAuditor, and DBShield + manual security engineering review.
           </p>
         </div>
 
@@ -152,9 +147,9 @@ export default function AuditPage() {
             <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 flex items-center justify-center">
               <Bug className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white">Prompt Injection Traps</h3>
+            <h3 className="text-base font-bold text-white">Prompt Injection</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              We test for indirect prompt injections, system instruction overrides, and untrusted markdown renders that cause agents to hijack control.
+              Indirect prompt injection, system prompt extraction, and untrusted user input paths into LLM tool calls.
             </p>
           </div>
 
@@ -162,9 +157,9 @@ export default function AuditPage() {
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center">
               <Terminal className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white">MCP Tool &amp; Shell Escape</h3>
+            <h3 className="text-base font-bold text-white">Auth &amp; Endpoint Gaps</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              AST parsing and Landlock boundary audits to ensure model-generated bash or Python calls cannot escape sandboxes or access sensitive host files.
+              Unauthenticated Next.js API routes, permissive CORS, missing security headers, and exposed admin paths.
             </p>
           </div>
 
@@ -172,9 +167,9 @@ export default function AuditPage() {
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center">
               <KeyRound className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white">Live Secret Hunting</h3>
+            <h3 className="text-base font-bold text-white">Secret &amp; Env Leaks</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Shannon entropy scanner ($H &gt; 4.5$) audits client bundles, git history, and API responses for leaked OpenAI, Anthropic, Stripe, or cloud provider tokens.
+              Shannon entropy scanning across git history, client JS bundles, and Supabase/Stripe/OpenAI key exposure.
             </p>
           </div>
 
@@ -182,9 +177,9 @@ export default function AuditPage() {
             <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-brand-cyan flex items-center justify-center">
               <Lock className="w-5 h-5" />
             </div>
-            <h3 className="text-base font-bold text-white">Whole-Program CPG SAST</h3>
+            <h3 className="text-base font-bold text-white">OWASP &amp; SQL Taint</h3>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Code Property Graph dataflow taint tracking across microservice boundaries, ORMs (Prisma, TypeORM, Drizzle), and response handlers.
+              Static AST taint tracking across ORM calls (Prisma, Drizzle, SQLAlchemy), unsafe evals, and command sinks.
             </p>
           </div>
         </div>
@@ -198,11 +193,11 @@ export default function AuditPage() {
               Deliverables Package
             </div>
             <h2 className="text-xl sm:text-2xl font-extrabold text-white">
-              What You Receive in Your Inbox
+              What You Receive Within 24 Hours
             </h2>
           </div>
           <span className="px-3 py-1 text-xs font-mono rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold shrink-0">
-            100% Confidential • Delivered via Cryptographic Link
+            100% Confidential • Actionable Patches
           </span>
         </div>
 
@@ -210,42 +205,42 @@ export default function AuditPage() {
           <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
             <div className="text-brand-cyan font-bold flex items-center gap-2 text-sm">
               <FileCheck className="w-4 h-4" />
-              <span>1. Executive HTML &amp; SARIF 2.1.0</span>
+              <span>1. Executive HTML &amp; SARIF Report</span>
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              Self-contained interactive security dashboard with severity scoring, CVSS v3.1 vectors, and machine-readable OASIS SARIF v2.1.0 codeFlow logs.
+              Prioritized findings ranked by real exploitability plus OASIS SARIF v2.1.0 logs ready for GitHub Security.
             </p>
             <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-[10px] text-slate-300">
-              ✓ Overall Score: 98 / 100 (Grade A+)<br />
-              ✓ 0 Critical Vulnerabilities<br />
-              ✓ Cryptographically Signed Hash
+              ✓ Secret &amp; Env Leak Check<br />
+              ✓ CORS / CSP / HSTS Headers<br />
+              ✓ OWASP Top 10 SAST Results
             </div>
           </div>
 
           <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
             <div className="text-purple-400 font-bold flex items-center gap-2 text-sm">
               <Code2 className="w-4 h-4" />
-              <span>2. Signed Git PR Fix Recipes</span>
+              <span>2. Ready-to-Merge Fix Diffs</span>
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              No vague generic security advice. We provide drop-in unified git diff patches and HMAC-signed pull request recipes showing exact code fixes.
+              No vague checklists. Exact code patches &amp; unified git diffs you can merge before launch day.
             </p>
             <div className="p-3 rounded-lg bg-slate-900 border border-slate-800 text-[10px] text-emerald-400 font-mono">
-              + app.use(helmet.contentSecurityPolicy());<br />
-              {"+ agentshield.sandbox({ egress: 'blocked' });"}
+              + &quot;Content-Security-Policy&quot;: ...<br />
+              + requireAuthSession(req);
             </div>
           </div>
 
           <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
             <div className="text-emerald-400 font-bold flex items-center gap-2 text-sm">
               <ShieldCheck className="w-4 h-4" />
-              <span>3. "AgentShield Verified" Badge</span>
+              <span>3. Verified Badge + Free Re-Scan</span>
             </div>
             <p className="text-slate-400 text-[11px] leading-relaxed">
-              Official SVG badge linked to a cryptographic verification record that you can embed on your README, landing page, and enterprise security portal.
+              Once critical findings are patched, we re-run verification free and issue your README/site SVG badge.
             </p>
             <div className="p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-[11px] text-emerald-200 text-center font-bold">
-              🛡️ AgentShield | Verified Secure (2026)
+              🛡️ AgentShield | Verified Secure
             </div>
           </div>
         </div>
@@ -258,118 +253,113 @@ export default function AuditPage() {
             Productized Security Tiers
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-            Choose Your Pre-Launch AI Security Audit Tier
+            Choose Your Pre-Launch Audit Tier
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {/* Rapid Automated Audit */}
-          <div 
-            onClick={() => setPackageTier("rapid_1500")}
+          {/* Starter Indie Audit */}
+          <div
+            onClick={() => setPackageTier("starter_199")}
             className={`cursor-pointer rounded-3xl p-6 sm:p-8 border transition-all ${
-              packageTier === "rapid_1500"
+              packageTier === "starter_199"
                 ? "bg-slate-900/90 border-brand-cyan shadow-[0_0_30px_rgba(56,189,248,0.2)]"
                 : "bg-slate-950 border-slate-800 hover:border-slate-700"
             }`}
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-cyan-500/10 text-brand-cyan border border-cyan-500/30">
-                Rapid Automated Audit
+                Indie Launch Sprint
               </span>
-              <span className="text-xs font-mono text-slate-400">⚡ 2-Hour Delivery SLA</span>
+              <span className="text-xs font-mono text-slate-400">⚡ &lt; 24h Delivery</span>
             </div>
 
             <div className="mt-4 mb-2">
-              <span className="text-4xl font-extrabold text-white">$1,500</span>
-              <span className="text-slate-400 text-xs font-mono ml-2">one-time</span>
+              <span className="text-4xl font-extrabold text-white">$199</span>
+              <span className="text-slate-400 text-xs font-mono ml-2">one-time per repo</span>
             </div>
             <p className="text-xs text-slate-400 mb-6">
-              Automated whole-program CPG SAST, DAST &amp; Shannon secret scan for AI agents, MCP tools, and web applications before public launch.
+              For solo founders &amp; indie SaaS teams shipping on Product Hunt or Show HN who want peace of mind before traffic hits.
             </p>
 
             <ul className="space-y-2.5 text-xs font-mono text-slate-300 border-t border-slate-800 pt-5">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Single Web Application, API, or MCP Server Target</span>
+                <span>1 Web App / SaaS URL + 1 GitHub Repository</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Whole-Program Code Property Graph (AST+CFG+PDG) Taint Scan</span>
+                <span>Secret &amp; Client-Bundle Key Leak Scan (Shannon Entropy)</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Shannon Entropy Secret Hunting ($H &gt; 4.5$) &amp; DAST Scan</span>
+                <span>Static AST Security Scan + Security Headers / CORS Check</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Executive Interactive HTML Dashboard &amp; SARIF 2.1.0</span>
+                <span>Executive HTML Report + SARIF 2.1.0 + PR Fix Snippets</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>AgentShield Verified Secure SVG Badge Embed</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span><b>1 Free Post-Fix Re-Scan</b> (within 14 days)</span>
+                <span><b>1 Free Post-Fix Re-Scan</b> + Verified Badge</span>
               </li>
             </ul>
           </div>
 
-          {/* Comprehensive Architecture Review */}
-          <div 
-            onClick={() => setPackageTier("comprehensive_7500")}
+          {/* Pro Full SaaS + MCP Defense Audit */}
+          <div
+            onClick={() => setPackageTier("pro_399")}
             className={`cursor-pointer rounded-3xl p-6 sm:p-8 border transition-all ${
-              packageTier === "comprehensive_7500"
+              packageTier === "pro_399"
                 ? "bg-slate-900/90 border-indigo-400 shadow-[0_0_30px_rgba(99,102,241,0.25)]"
                 : "bg-slate-950 border-slate-800 hover:border-slate-700"
             }`}
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
-                Comprehensive Architecture Review
+                Full SaaS + MCP Audit
               </span>
-              <span className="text-xs font-mono text-amber-400 font-bold">★ Institutional Grade</span>
+              <span className="text-xs font-mono text-amber-400 font-bold">★ Startup Recommended</span>
             </div>
 
             <div className="mt-4 mb-2">
-              <span className="text-4xl font-extrabold text-white">$7,500 – $15,000</span>
-              <span className="text-slate-400 text-xs font-mono ml-2">contract</span>
+              <span className="text-4xl font-extrabold text-white">$399</span>
+              <span className="text-slate-400 text-xs font-mono ml-2">one-time</span>
             </div>
             <p className="text-xs text-slate-400 mb-6">
-              Adversarial penetration testing, in-kernel sandbox audit, and formal third-party compliance readiness for enterprise AI deployments.
+              Hands-on manual + automated security review for AI startups running LLM agents, MCP servers, and production databases.
             </p>
 
             <ul className="space-y-2.5 text-xs font-mono text-slate-300 border-t border-slate-800 pt-5">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Multi-Target Scope: Web App <b>+</b> Agent Mesh <b>+</b> MCP <b>+</b> DB</span>
+                <span>Everything in Indie Launch Sprint ($199)</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Whole-Program CPG Dataflow Taint Tracking Across Microservices</span>
+                <span>Manual Prompt Injection &amp; Tool-Escape Testing</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>In-Kernel eBPF &amp; Landlock Container Escape Assessment</span>
+                <span>Database / ORM Query Guardrail &amp; Auth Bypass Review</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Manual Adversarial Prompt Injection &amp; Jailbreak Fuzzing</span>
+                <span>Signed Audit Summary + Direct Remediation Walkthrough</span>
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Signed Third-Party SOC 2 / ISO 27001 Readiness Attestation</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Dedicated Slack War-Room with Senior Security Architects</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span><b>3 Free Post-Fix Re-Scans</b> (within 60 days)</span>
+                <span><b>2 Free Post-Fix Re-Scans</b> within 30 days</span>
               </li>
             </ul>
           </div>
+        </div>
+
+        <div className="text-center text-xs font-mono text-slate-400 pt-2">
+          Need multi-service enterprise architecture / SOC 2 VPC assessment ($1,500+)?{" "}
+          <Link href="/enterprise" className="text-brand-cyan hover:underline font-bold">
+            Request an Enterprise Review →
+          </Link>
         </div>
       </section>
 
@@ -377,13 +367,13 @@ export default function AuditPage() {
       <section id="order-form" className="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 max-w-4xl mx-auto space-y-6">
         <div>
           <div className="text-xs font-mono text-brand-cyan uppercase tracking-wider mb-1 font-bold">
-            Step 1 of 2: Register Target &amp; Initiate Review
+            Step 1 of 2: Register Target &amp; Proceed to Checkout
           </div>
           <h2 className="text-2xl font-bold text-white">
-            Initiate Your AI Security Audit
+            Initiate Your Pre-Launch Security Audit
           </h2>
           <p className="text-xs text-slate-400 font-mono mt-1">
-            Rapid audits processed instantly via secure checkout. Architecture reviews routed to senior security architects.
+            Payment handled securely via Dodo Payments (Cards, Apple Pay, Google Pay, UPI). Automatic invoice issued.
           </p>
         </div>
 
@@ -422,7 +412,7 @@ export default function AuditPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-slate-300 font-bold">Live Target Web URL (DAST)</label>
+              <label className="text-slate-300 font-bold">Live Target Web URL</label>
               <input
                 type="url"
                 placeholder="https://app.yourproduct.com"
@@ -433,10 +423,10 @@ export default function AuditPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-slate-300 font-bold">GitHub Repository URL (Whole-Program CPG)</label>
+              <label className="text-slate-300 font-bold">GitHub Repository URL</label>
               <input
                 type="url"
-                placeholder="https://github.com/org/repo (public or invited)"
+                placeholder="https://github.com/org/repo (public or private invite)"
                 value={repoUrl}
                 onChange={(e) => setRepoUrl(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-cyan"
@@ -451,18 +441,18 @@ export default function AuditPage() {
               onChange={(e) => setLaunchDate(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-cyan"
             >
-              <option value="Product Hunt Launch This Week">Product Hunt Launch This Week (Urgent 2-Hour SLA)</option>
-              <option value="Hacker News Show HN Tomorrow">Hacker News Show HN Tomorrow</option>
+              <option value="Product Hunt / Show HN Launch This Week">Product Hunt / Show HN Launch This Week (&lt; 24h SLA)</option>
+              <option value="Already Live / Post-Launch Hardening">Already Live / Post-Launch Hardening</option>
               <option value="Enterprise Customer Pilot Review">Enterprise Customer Pilot Review</option>
               <option value="Routine Pre-Production Hardening">Routine Pre-Production Hardening</option>
             </select>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-slate-300 font-bold">Additional Notes or Secret Keys to Exclude (Optional)</label>
+            <label className="text-slate-300 font-bold">Additional Notes (Optional)</label>
             <textarea
               rows={2}
-              placeholder="Specify custom test credentials, staging headers, or specific MCP tool methods to scrutinize..."
+              placeholder="Specify endpoints, auth flows, or specific MCP tools you want us to focus on..."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-brand-cyan resize-none"
@@ -472,7 +462,7 @@ export default function AuditPage() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-800/80">
             <div className="text-[11px] text-slate-400 font-mono flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-brand-cyan" />
-              <span>Selected Tier: <b>{packageTier === "rapid_1500" ? "$1,500 (Rapid Automated Audit)" : "$7,500 – $15,000 (Comprehensive Review)"}</b></span>
+              <span>Selected Tier: <b>{packageTier === "starter_199" ? "$199 (Indie Launch Sprint)" : "$399 (Full SaaS + MCP Audit)"}</b></span>
             </div>
 
             <button
@@ -480,7 +470,7 @@ export default function AuditPage() {
               disabled={isSubmitting}
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan to-blue-500 hover:opacity-95 text-slate-950 font-bold text-xs font-mono flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(56,189,248,0.3)] disabled:opacity-50"
             >
-              <span>{isSubmitting ? "Initiating Order..." : packageTier === "rapid_1500" ? "Proceed to Secure Checkout ($1,500)" : "Request Comprehensive Review ($7,500+)"}</span>
+              <span>{isSubmitting ? "Initiating Order..." : `Proceed to Secure Checkout (${packageTier === "starter_199" ? "$199" : "$399"})`}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -497,10 +487,10 @@ export default function AuditPage() {
           <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
             <div className="text-white font-bold flex items-center gap-2">
               <HelpCircle className="w-4 h-4 text-brand-cyan" />
-              <span>How does the 2-hour delivery guarantee work?</span>
+              <span>How does the 24-hour delivery guarantee work?</span>
             </div>
             <p className="text-slate-400 leading-relaxed">
-              Once your checkout is verified, our distributed automated runners in WebSecAuditor &amp; AgentShield immediately clone the target repo or initiate non-destructive DAST crawl pings. Our team verifies the finding output, compiles the executive dashboard and SVG badges, and delivers it directly to your email within 120 minutes.
+              Once checkout completes, we run automated SAST, secret entropy scanning, and non-destructive security header/endpoint checks on your target, manually review high-risk sinks, and email your HTML dashboard, SARIF log, and concrete fix diffs within 24 hours.
             </p>
           </div>
 
@@ -510,7 +500,7 @@ export default function AuditPage() {
               <span>Do you need access to private repositories?</span>
             </div>
             <p className="text-slate-400 leading-relaxed">
-              For private GitHub repositories, you simply invite our automated auditor bot account (<code>@RitualDev-Lab-Auditor</code>) as a read-only collaborator. We execute the AST parsing and Shannon entropy scan entirely in ephemeral RAM without storing any proprietary code.
+              For private repos, you can grant temporary read-only access or test exclusively against a staging URL / PR snapshot. Source files are purged immediately after report delivery.
             </p>
           </div>
 
@@ -520,12 +510,11 @@ export default function AuditPage() {
               <span>What happens if critical vulnerabilities are discovered?</span>
             </div>
             <p className="text-slate-400 leading-relaxed">
-              We provide the exact unified git diff patch to fix it. Once you apply the patch, use your <b>Free Re-scan credit</b> and we will re-audit your target within 1 hour to certify that your score is upgraded to Grade A+ before your launch goes live.
+              We provide exact patch code to fix each finding. Once you apply the fixes, redeem your free re-scan credit so we can verify remediation and issue your Verified Secure badge.
             </p>
           </div>
         </div>
       </section>
-
     </div>
   );
 }
