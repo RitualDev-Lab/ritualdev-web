@@ -7,6 +7,26 @@
 const DODO_AUDIT_STARTER_199 = "pdt_0NrFWnRHHEI72iaB8AC9r";
 const DODO_AUDIT_PRO_399 = "pdt_0NrFWnSQHfJhuHs4Y9Xmh";
 const DODO_SERVICE_FLEX = "pdt_0NpjONGugY5QkrFDUaPva";
+const DODO_AGENTSHIELD_TEAM_19 = "pdt_0NpjONLXnMYR9e2SUlYJt";
+const DODO_AGENTSHIELD_ENTERPRISE_49 = "pdt_0NpjONNytUpW7gzjoDlYW";
+const DODO_RITUAL_PRO_15 = "pdt_0NrFSkF5XLgBppfQRxgXN";
+const DODO_RITUAL_TEAM_99 = "pdt_0NrFSmrXT8zU2u5BKGJ7y";
+const DODO_MCP_STARTER_49 = "pdt_0NrFWlIkkreo5fOBIJWxI";
+const DODO_MCP_PACK_FLEX = "pdt_0NpjONEJnu5OcWhncWF68";
+const DODO_TURNKEY_DEPOSIT = "pdt_0NpjOJVkkh7Mryrzm6ro9";
+
+export const DODO_PRODUCT_IDS = {
+  DODO_AUDIT_STARTER_199,
+  DODO_AUDIT_PRO_399,
+  DODO_SERVICE_FLEX,
+  DODO_AGENTSHIELD_TEAM_19,
+  DODO_AGENTSHIELD_ENTERPRISE_49,
+  DODO_RITUAL_PRO_15,
+  DODO_RITUAL_TEAM_99,
+  DODO_MCP_STARTER_49,
+  DODO_MCP_PACK_FLEX,
+  DODO_TURNKEY_DEPOSIT,
+};
 
 export function buildAuditCheckoutUrl({
   orderId,
@@ -244,40 +264,170 @@ export function preparePartnerOrder(body) {
   };
 }
 
-export function buildCloudOrPrivateCheckoutUrl({
+export const TEAM_PRODUCT_CONFIG = {
+  team_relay_29: {
+    id: "team_relay_29",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "29",
+    label: "Hosted Team Relay ($29/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=team_relay_29",
+  },
+  team_hub_99: {
+    id: "team_hub_99",
+    productId: DODO_RITUAL_TEAM_99,
+    label: "Hosted Team Hub + Shared Redis Cache ($99/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=team_hub_99",
+  },
+  private_compliance_kit: {
+    id: "private_compliance_kit",
+    productId: DODO_AUDIT_STARTER_199,
+    label: "Private Compliance Pack ($199 one-time)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=private_compliance_kit",
+  },
+  dbshield_team_29: {
+    id: "dbshield_team_29",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "29",
+    label: "DBShield Team Slack/Teams Approval Relay ($29/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=dbshield_team_29",
+  },
+  dbshield_team_99: {
+    id: "dbshield_team_99",
+    productId: DODO_RITUAL_TEAM_99,
+    label: "DBShield Team + Shared Redis Governance ($99/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=dbshield_team_99",
+  },
+  skillprism_team_99: {
+    id: "skillprism_team_99",
+    productId: DODO_RITUAL_TEAM_99,
+    label: "SkillPrism Hosted Shared Redis VPC Cluster ($99/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=skillprism_team_99",
+  },
+  agentshield_team_19: {
+    id: "agentshield_team_19",
+    productId: DODO_AGENTSHIELD_TEAM_19,
+    label: "AgentShield Team & CI/CD Gate ($19/seat/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=agentshield_team_19",
+  },
+  agentshield_enterprise_49: {
+    id: "agentshield_enterprise_49",
+    productId: DODO_AGENTSHIELD_ENTERPRISE_49,
+    label: "AgentShield Enterprise Fleet ($49/seat/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=agentshield_enterprise_49",
+  },
+  websec_team_19: {
+    id: "websec_team_19",
+    productId: DODO_AGENTSHIELD_TEAM_19,
+    label: "WebSecAuditor Team PR Review Gate ($19/seat/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=websec_team_19",
+  },
+  ritual_pro_15: {
+    id: "ritual_pro_15",
+    productId: DODO_RITUAL_PRO_15,
+    label: "Ritual Pro Individual Suite License ($15/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=ritual_pro_15",
+  },
+  mcp_starter_49: {
+    id: "mcp_starter_49",
+    productId: DODO_MCP_STARTER_49,
+    label: "MCP Monetization Starter Kit ($49 one-time)",
+    redirectUrl: "https://ritualdev.in/mcp-starter-kit/download",
+  },
+  mcp_pack_fintech_39: {
+    id: "mcp_pack_fintech_39",
+    productId: DODO_MCP_PACK_FLEX,
+    extraParams: { pack: "fintech" },
+    label: "Fintech & SaaS Connector MCP Pack ($39)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=mcp_pack_fintech_39",
+  },
+  mcp_pack_database_49: {
+    id: "mcp_pack_database_49",
+    productId: DODO_MCP_PACK_FLEX,
+    extraParams: { pack: "database" },
+    label: "Enterprise Database & Warehouse MCP Pack ($49)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=mcp_pack_database_49",
+  },
+  mcp_pack_devops_49: {
+    id: "mcp_pack_devops_49",
+    productId: DODO_MCP_PACK_FLEX,
+    extraParams: { pack: "devops" },
+    label: "Cloud & Kubernetes DevOps MCP Pack ($49)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=mcp_pack_devops_49",
+  },
+  mcp_pack_all_99: {
+    id: "mcp_pack_all_99",
+    productId: DODO_MCP_PACK_FLEX,
+    extraParams: { pack: "all_access" },
+    label: "All-Access Enterprise MCP Bundle ($99)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=mcp_pack_all_99",
+  },
+  turnkey_starter_250: {
+    id: "turnkey_starter_250",
+    productId: DODO_TURNKEY_DEPOSIT,
+    extraParams: { tier: "starter", deposit: "250" },
+    label: "Starter Turnkey MCP Deposit ($250 / $500 total)",
+    redirectUrl: "https://ritualdev.in/mcp-builder/?success=true&tier=turnkey_starter",
+  },
+  turnkey_pro_750: {
+    id: "turnkey_pro_750",
+    productId: DODO_TURNKEY_DEPOSIT,
+    extraParams: { tier: "pro", deposit: "750" },
+    label: "Pro Multi-API Turnkey MCP Deposit ($750 / $1,500 total)",
+    redirectUrl: "https://ritualdev.in/mcp-builder/?success=true&tier=turnkey_pro",
+  },
+  turnkey_enterprise_1750: {
+    id: "turnkey_enterprise_1750",
+    productId: DODO_TURNKEY_DEPOSIT,
+    extraParams: { tier: "enterprise", deposit: "1750" },
+    label: "Enterprise Custom MCP Deposit ($1,750 / $3,500 total)",
+    redirectUrl: "https://ritualdev.in/mcp-builder/?success=true&tier=turnkey_enterprise",
+  },
+};
+
+export function buildTeamProductCheckoutUrl({
   tier = "team_relay_29",
   customerEmail = "",
   githubUsername = "",
+  companyName = "",
 }) {
-  const amountMap = {
-    team_relay_29: "29",
-    team_hub_99: "99",
-    private_compliance_kit: "199",
-  };
-  const amountUsd = amountMap[tier] || "29";
-  const productId = tier === "private_compliance_kit" ? DODO_AUDIT_STARTER_199 : DODO_SERVICE_FLEX;
+  const cfg = TEAM_PRODUCT_CONFIG[tier] || TEAM_PRODUCT_CONFIG.team_relay_29;
   const params = new URLSearchParams();
   params.set("quantity", "1");
-  if (productId === DODO_SERVICE_FLEX) {
-    params.set("paymentAmount", amountUsd);
-    params.set("amount", amountUsd);
+
+  if (cfg.flexAmountUsd) {
+    params.set("paymentAmount", cfg.flexAmountUsd);
+    params.set("amount", cfg.flexAmountUsd);
     params.set("paymentCurrency", "USD");
     params.set("currency", "USD");
     params.set("singlePage", "true");
     params.set("product_type", "digital");
     params.set("shipping_required", "false");
   }
+  if (cfg.extraParams) {
+    for (const [k, v] of Object.entries(cfg.extraParams)) {
+      params.set(k, v);
+    }
+  }
   if (customerEmail) {
     params.set("email", customerEmail.trim().toLowerCase());
     params.set("customer_email", customerEmail.trim().toLowerCase());
   }
+  if (companyName) {
+    params.set("fullName", companyName.trim().slice(0, 120));
+    params.set("metadata_company", companyName.trim().slice(0, 120));
+  }
   if (githubUsername) {
     params.set("metadata_github_username", githubUsername.trim().replace(/^@/, ""));
   }
-  params.set("metadata_tier", tier);
-  params.set(
-    "redirect_url",
-    `https://ritualdev.in/pricing/success/?product=${encodeURIComponent(tier)}`
-  );
-  return `https://checkout.dodopayments.com/buy/${productId}?${params.toString()}`;
+  params.set("metadata_tier", cfg.id);
+  params.set("redirect_url", cfg.redirectUrl);
+  return `https://checkout.dodopayments.com/buy/${cfg.productId}?${params.toString()}`;
+}
+
+export function buildCloudOrPrivateCheckoutUrl({
+  tier = "team_relay_29",
+  customerEmail = "",
+  githubUsername = "",
+}) {
+  return buildTeamProductCheckoutUrl({ tier, customerEmail, githubUsername });
 }

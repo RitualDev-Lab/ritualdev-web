@@ -21,6 +21,7 @@ import {
   Lock,
   ArrowRight
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 interface Scenario {
   id: string;
@@ -577,6 +578,65 @@ export default function DBShieldPage() {
           </div>
         </div>
       </section>
+
+      <TeamCheckoutBanner
+        eyebrow="DBShield Team & Managed Guardrails"
+        heading="Upgrade Your Team to Hosted Slack Approvals & Shared Governance"
+        subheading="The local PostgreSQL & SQLite proxy CLI stays 100% open source ($0 forever). Pay only when your engineering team wants hosted Slack/MS Teams two-man rule webhooks, shared Redis mutation guardrails, or private compliance infrastructure."
+        secondaryHref="/enterprise/"
+        secondaryLabel="Request Custom VPC SLA"
+        plans={[
+          {
+            tierKey: "dbshield_team_29",
+            name: "DBShield Team Approval Relay",
+            price: "$29",
+            period: "/ month",
+            badge: "Team Relay",
+            accent: "emerald",
+            description: "Route blocked DROP, TRUNCATE & mass-UPDATE approvals straight into your team's #db-approvals Slack or Teams channel.",
+            features: [
+              "Hosted HMAC-SHA256 Interactive Slack & MS Teams Webhook Relay",
+              "Shared Central Policy & Virtual Schema Masking Rules (up to 10 devs)",
+              "30-Day Tamper-Evident Mutation Ledger Retention",
+              "Zero self-hosted OAuth bots or Redis setup needed",
+            ],
+            ctaLabel: "Subscribe DBShield Team Relay ($29/mo)",
+          },
+          {
+            tierKey: "dbshield_team_99",
+            name: "DBShield Team Hub + Redis Governance",
+            price: "$99",
+            period: "/ month",
+            badge: "Most Popular Team Plan",
+            featured: true,
+            accent: "cyan",
+            description: "Full database wire protection paired with our hosted SkillPrism Redis cluster and automated PR security bot.",
+            features: [
+              "Unlimited DBShield Approval Channels & Custom Regex Rules",
+              "Hosted Shared SkillPrism Redis Cluster (96.7% Token Reduction)",
+              "Automated WebSecAuditor PR Review Security Bot Included",
+              "1-Year Cloud Audit Retention + Splunk / Datadog CEF Forwarding",
+            ],
+            ctaLabel: "Launch DBShield Team Hub ($99/mo)",
+          },
+          {
+            tierKey: "private_compliance_kit",
+            name: "Private Compliance & Helm Pack",
+            price: "$199",
+            period: "one-time",
+            badge: "Webhook-Gated Repo",
+            accent: "purple",
+            description: "Immediate GitHub collaborator invite to our private SOC 2, PCI-DSS v4.0 & AWS PrivateLink Terraform repository.",
+            features: [
+              "SOC 2 Type II, ISO 27001 & PCI-DSS Req 10 Evidence Templates",
+              "Hardened Production K8s Helm Charts & PrivateLink Terraform",
+              "Automated GitHub repo invite after verified Dodo webhook",
+              "Vendor Security Questionnaire Ready-to-Paste Responses",
+            ],
+            ctaLabel: "Unlock Private Compliance Pack ($199)",
+          },
+        ]}
+      />
 
     </div>
   );

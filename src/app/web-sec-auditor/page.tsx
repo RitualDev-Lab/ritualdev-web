@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Code2
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 export default function WebSecAuditorPage() {
   return (
@@ -108,6 +109,62 @@ export default function WebSecAuditorPage() {
           </div>
         </div>
       </section>
+
+      <TeamCheckoutBanner
+        eyebrow="WebSecAuditor Team Bot & Audits"
+        heading="Automate PR Taint Reviews or Book a Human-Verified 24h Audit"
+        subheading="Run the AST scanner locally for $0 anytime, or enable the automated GitHub PR Security Bot & full Done-For-You Pre-Launch Security Audit before launch."
+        secondaryHref="/audit/"
+        secondaryLabel="Book 24h DFY Security Audit ($199–$399)"
+        plans={[
+          {
+            tierKey: "websec_team_19",
+            name: "Team PR Review Bot Gate",
+            price: "$19",
+            period: "/ seat / mo",
+            badge: "Private Repo Gate",
+            featured: true,
+            accent: "rose",
+            description: "Inline PR comments with 1-click remediation diffs and merge protection across private repositories.",
+            features: [
+              "Private Repository GitHub Action Security Gate",
+              "Sticky PR Annotations with Suggested Diff Fixes",
+              "Shared Custom Rule Policies Across Your Org",
+            ],
+            ctaLabel: "Activate PR Bot Gate ($19/seat/mo)",
+          },
+          {
+            tierKey: "dbshield_team_99",
+            name: "Full Team Security & Redis Suite",
+            price: "$99",
+            period: "/ month",
+            badge: "All-In Team Hub",
+            accent: "cyan",
+            description: "Includes WebSecAuditor PR Bot, DBShield Slack #db-approvals Relay & SkillPrism Hosted Redis Cache.",
+            features: [
+              "Unlimited Repositories & DBShield Approval Channels",
+              "Shared SkillPrism Redis Cache (-96.7% Token Cost)",
+              "1-Year Audit Ledger + Splunk/Datadog Forwarding",
+            ],
+            ctaLabel: "Subscribe Team Hub ($99/mo)",
+          },
+          {
+            tierKey: "private_compliance_kit",
+            name: "Private Compliance Evidence Pack",
+            price: "$199",
+            period: "one-time",
+            badge: "SOC 2 + SARIF Pack",
+            accent: "purple",
+            description: "Download our SOC 2, ISO 27001, and DPDP evidence kits + hardened CI workflows via private GitHub invite.",
+            features: [
+              "SOC 2, ISO 27001 & EU AI Act SARIF Mappings",
+              "Pre-Built Security Questionnaire Playbook",
+              "Automatic GitHub Repo Invite After Checkout",
+            ],
+            ctaLabel: "Unlock Compliance Pack ($199)",
+          },
+        ]}
+      />
 
     </div>
   );

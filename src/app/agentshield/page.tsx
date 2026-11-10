@@ -16,6 +16,7 @@ import {
   Download,
   Check
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 export default function AgentShieldPage() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -327,23 +328,76 @@ export default function AgentShieldPage() {
         </div>
       </section>
 
-      {/* Pricing Pill */}
-      <div className="pt-14 text-center">
-        <div className="glass-panel rounded-2xl p-8 max-w-2xl mx-auto border border-brand-green/30">
-          <h3 className="text-xl font-bold text-white">Upgrade to AgentShield Pro</h3>
-          <p className="text-xs text-slate-400 mt-2">
-            Includes native macOS/Windows menu-bar GUI, cloud audit log backup, and centralized policy sync.
-          </p>
-          <div className="mt-6 flex justify-center gap-4">
-            <Link
-              href="/pricing"
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-brand-green to-emerald-500 text-slate-950 font-bold text-xs"
-            >
-              View Pricing ($15 / mo)
-            </Link>
-          </div>
-        </div>
-      </div>
+      <TeamCheckoutBanner
+        eyebrow="AgentShield Team, CI/CD & Enterprise Fleet"
+        heading="Keep the Local CLI $0 Forever. Upgrade When Your Team Scales."
+        subheading="Every local sandbox engine, secret redactor, and VS Code/Cursor hook is free Apache-2.0 open source. Choose a paid Dodo tier for private-repo CI gates, hosted Slack/Teams approval relays, SIEM streaming, or private compliance packs."
+        secondaryHref="/audit/"
+        secondaryLabel="Need 24h Pre-Launch Audit ($199+)?"
+        plans={[
+          {
+            tierKey: "agentshield_team_19",
+            name: "AgentShield Team & CI/CD Gate",
+            price: "$19",
+            period: "/ seat / mo",
+            badge: "CI/CD Gate",
+            featured: true,
+            accent: "emerald",
+            description: "Automated secret leak PR gate on private GitHub repos with sticky diff annotations & org policy sync.",
+            features: [
+              "GitHub Action Security Gate on Private Repos",
+              "Automated Sticky PR Review Bot & Inline Annotations",
+              "Remote Team Policy Sync & Organization Tokens",
+            ],
+            ctaLabel: "Subscribe Team Gate ($19/seat/mo)",
+          },
+          {
+            tierKey: "team_relay_29",
+            name: "Hosted Team Approval Relay",
+            price: "$29",
+            period: "/ month",
+            badge: "Flat Team Relay",
+            accent: "cyan",
+            description: "Managed Slack/MS Teams two-man approval webhook relay + centralized policy distribution (up to 10 devs).",
+            features: [
+              "Hosted Slack & MS Teams Approval Relays",
+              "Centralized Organization Policy URL",
+              "30-Day Tamper-Evident Audit Ledger Retention",
+            ],
+            ctaLabel: "Subscribe Hosted Relay ($29/mo)",
+          },
+          {
+            tierKey: "agentshield_enterprise_49",
+            name: "AgentShield Enterprise Fleet",
+            price: "$49",
+            period: "/ seat / mo",
+            badge: "Fleet & SIEM",
+            accent: "purple",
+            description: "Control plane telemetry, Splunk/Datadog CEF streaming, SAML SSO, and custom canary tripwires.",
+            features: [
+              "Splunk / Datadog / Sentinel CEF SIEM Streaming",
+              "Enterprise SAML / OIDC SSO & RBAC Policy Sync",
+              "Custom Honeypot Canary Decoys & SOC 2 Attestation",
+            ],
+            ctaLabel: "Deploy Enterprise Fleet ($49/seat/mo)",
+          },
+          {
+            tierKey: "private_compliance_kit",
+            name: "Private Compliance Pack",
+            price: "$199",
+            period: "one-time",
+            badge: "Webhook-Gated Repo",
+            accent: "amber",
+            description: "SOC 2 Type II, ISO 27001, EU AI Act & AWS PrivateLink Terraform templates via instant GitHub invite.",
+            features: [
+              "Auditor-Ready SOC 2, ISO 27001 & EU AI Act Packs",
+              "AWS PrivateLink Terraform & Hardened K8s Helm Values",
+              "Auto GitHub Repo Invite Upon Dodo Webhook",
+            ],
+            ctaLabel: "Unlock Private Compliance Pack ($199)",
+          },
+        ]}
+      />
 
     </div>
   );
