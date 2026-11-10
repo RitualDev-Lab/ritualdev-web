@@ -25,12 +25,26 @@ export async function dispatchOrderWebhook(env, messageText) {
   }
 }
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
+
+export function corsPreflightResponse() {
+  return new Response(null, {
+    status: 204,
+    headers: CORS_HEADERS,
+  });
+}
+
 export function jsonResponse(payload, status = 200) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
       "Content-Type": "application/json",
       "Cache-Control": "no-store",
+      ...CORS_HEADERS,
     },
   });
 }

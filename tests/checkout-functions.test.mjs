@@ -239,5 +239,54 @@ describe("Storefront Checkout URL Builders & Cloudflare Pages Functions", () => 
     });
     assert.equal(resBad.ok, false);
     assert.equal(resBad.status, 401);
+
+    // Verified sponsor payment dispatches DevShelf activate-sponsor workflow automatically
+    const sponsorBody = JSON.stringify({
+      type: "payment.succeeded",
+      data: {
+        payment_id: "pay_sponsor_79",
+        total_amount: 7900,
+        currency: "USD",
+        customer: { email: "founder@akii.dev" },
+        metadata: {
+          orderId: "SPONSOR-777",
+          tier: "combo_79",
+          toolName: "Akii SEO",
+          toolUrl: "https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer",
+          category: "cli",
+        },
+      },
+    });
+    const sponsorSig = crypto
+      .createHmac("sha256", rawSecret)
+      .update(`${webhookId}.${ts}.${sponsorBody}`)
+      .digest("base64");
+
+    const origFetch = globalThis.fetch;
+    let dispatchedUrl = "";
+    let dispatchedTier = "";
+    globalThis.fetch = async (url, init) => {
+      dispatchedUrl = String(url);
+      const bodyObj = JSON.parse(init?.body || "{}");
+      dispatchedTier = bodyObj?.inputs?.tier || "";
+      return new Response(null, { status: 204 });
+    };
+    try {
+      const sponsorHookRes = await handleDodoWebhookEvent({
+        rawBody: sponsorBody,
+        headers: new Headers({
+          "webhook-id": webhookId,
+          "webhook-timestamp": ts,
+          "webhook-signature": `v1,${sponsorSig}`,
+        }),
+        env: { DODO_WEBHOOK_SECRET: secretB64, GITHUB_PAT: "ghp_testtoken" },
+      });
+      assert.equal(sponsorHookRes.ok, true);
+      assert.ok(dispatchedUrl.includes("activate-sponsor.yml/dispatches"));
+      assert.equal(dispatchedTier, "enterprise");
+      assert.ok(sponsorHookRes.fulfillmentNote.includes("activate-sponsor.yml"));
+    } finally {
+      globalThis.fetch = origFetch;
+    }
   });
 });

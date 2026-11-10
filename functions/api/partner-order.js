@@ -1,5 +1,9 @@
 import { preparePartnerOrder } from "../../src/lib/checkout-urls.js";
-import { dispatchOrderWebhook, jsonResponse } from "../../src/lib/cf-webhook.js";
+import { corsPreflightResponse, dispatchOrderWebhook, jsonResponse } from "../../src/lib/cf-webhook.js";
+
+export async function onRequestOptions() {
+  return corsPreflightResponse();
+}
 
 export async function onRequestPost(context) {
   try {

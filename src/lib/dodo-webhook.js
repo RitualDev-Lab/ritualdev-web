@@ -101,6 +101,102 @@ export async function inviteGitHubCollaborator({ repoSlug, username, githubPat }
   };
 }
 
+const SPONSOR_TIER_MAP = new Set([
+  "starter_9",
+  "spotlight_19",
+  "category_39",
+  "leader_49",
+  "combo_79",
+  "custom",
+  "starter",
+  "mcpPro",
+  "categoryTakeover",
+  "featuredSponsor",
+  "enterprise",
+  "newsletterSpotlight",
+]);
+
+function mapToWorkflowTier(rawTier = "") {
+  const t = String(rawTier || "").toLowerCase();
+  if (t.includes("combo") || t.includes("enterprise") || t.includes("featured") || t === "custom") {
+    return "enterprise";
+  }
+  if (t.includes("leader") || t.includes("category") || t.includes("mcp")) {
+    return "mcpPro";
+  }
+  return "starter";
+}
+
+function mapToWorkflowCategory(rawCat = "") {
+  const c = String(rawCat || "").toLowerCase().trim();
+  if (c === "databases") return "cloud";
+  if (c === "devops") return "cli";
+  const allowed = new Set(["ai", "cli", "apis", "cloud", "testing", "boilerplates", "perks"]);
+  return allowed.has(c) ? c : "cli";
+}
+
+export async function dispatchDevShelfSponsorActivation({
+  toolName,
+  toolUrl,
+  category = "cli",
+  tier = "spotlight_19",
+  amount,
+  githubHandle = "",
+  patronName = "",
+  comment = "",
+  githubPat,
+}) {
+  if (!githubPat) {
+    return { dispatched: false, reason: "Missing GITHUB_PAT" };
+  }
+  if (!toolName || !toolUrl) {
+    return { dispatched: false, reason: "Missing toolName or toolUrl metadata" };
+  }
+
+  const workflowTier = mapToWorkflowTier(tier);
+  const workflowCategory = mapToWorkflowCategory(category);
+  const normalizedUsd =
+    typeof amount === "number"
+      ? String(amount >= 100 && Number.isInteger(amount) ? Math.round(amount / 100) : amount)
+      : amount
+        ? String(amount)
+        : "";
+
+  const res = await fetch(
+    "https://api.github.com/repos/RitualDev-Lab/DevShelf/actions/workflows/activate-sponsor.yml/dispatches",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${githubPat}`,
+        Accept: "application/vnd.github+json",
+        "User-Agent": "RitualDev-Fulfillment/1.0",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ref: "main",
+        inputs: {
+          tool_name: String(toolName).slice(0, 120),
+          tool_url: String(toolUrl).slice(0, 200),
+          category: workflowCategory,
+          tier: workflowTier,
+          pitch: String(comment || `${toolName} — Verified DevShelf Sponsor (${tier})`).slice(0, 160),
+          patron_name: String(patronName || toolName).slice(0, 120),
+          github_handle: String(githubHandle || "").replace(/^@/, "").slice(0, 60),
+          amount: normalizedUsd,
+          comment: String(comment || `Activated tier: ${tier}`).slice(0, 300),
+        },
+      }),
+    }
+  );
+
+  return {
+    dispatched: res.status === 204 || res.status === 200,
+    workflowTier,
+    status: res.status,
+  };
+}
+
 export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
   const secret = env?.DODO_WEBHOOK_SECRET;
   if (!secret) {
@@ -145,10 +241,33 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
 
   let fulfillmentNote = "Recorded verified event.";
   if (isPaid) {
-    const ghUser = metadata?.github_username || metadata?.githubHandle;
-    const tier = metadata?.tier || metadata?.plan || "hosted_relay";
+    const ghUser =
+      metadata?.github_username ||
+      metadata?.githubHandle ||
+      metadata?.sponsorHandle ||
+      metadata?.github;
+    const tier = metadata?.tier || metadata?.package || metadata?.plan || "hosted_relay";
+    const toolName = metadata?.toolName || metadata?.tool_name;
+    const toolUrl = metadata?.toolUrl || metadata?.tool_url || metadata?.url;
+    const orderId = metadata?.orderId || "";
+    const isSponsorPayment = SPONSOR_TIER_MAP.has(tier) || orderId.startsWith("SPONSOR-") || Boolean(toolName && toolUrl);
 
-    if (ghUser && env?.GITHUB_PAT && env?.PRIVATE_COMPLIANCE_REPO) {
+    if (isSponsorPayment) {
+      const activation = await dispatchDevShelfSponsorActivation({
+        toolName: toolName || metadata?.sponsorName || customerEmail,
+        toolUrl: toolUrl || "https://ritualdev.in/partners",
+        category: metadata?.category || metadata?.toolCategory || "cli",
+        tier,
+        amount,
+        githubHandle: ghUser,
+        patronName: metadata?.sponsorName || data?.customer?.name || toolName,
+        comment: metadata?.sponsor_comment || metadata?.comment || metadata?.toolPitch || "",
+        githubPat: env?.GITHUB_PAT,
+      });
+      fulfillmentNote = activation.dispatched
+        ? `Dispatched DevShelf activate-sponsor.yml workflow (tier: ${activation.workflowTier})`
+        : `DevShelf workflow dispatch pending manual review: ${activation.reason || `HTTP ${activation.status}`}`;
+    } else if (ghUser && env?.GITHUB_PAT && env?.PRIVATE_COMPLIANCE_REPO) {
       const invite = await inviteGitHubCollaborator({
         repoSlug: env.PRIVATE_COMPLIANCE_REPO,
         username: ghUser,

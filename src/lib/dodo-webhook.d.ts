@@ -13,6 +13,18 @@ export function inviteGitHubCollaborator(params: {
   githubPat: string;
 }): Promise<{ invited: boolean; status?: number; username?: string; reason?: string }>;
 
+export function dispatchDevShelfSponsorActivation(params: {
+  toolName?: string;
+  toolUrl?: string;
+  category?: string;
+  tier?: string;
+  amount?: string | number;
+  githubHandle?: string;
+  patronName?: string;
+  comment?: string;
+  githubPat?: string;
+}): Promise<{ dispatched: boolean; workflowTier?: string; status?: number; reason?: string }>;
+
 export function handleDodoWebhookEvent(params: {
   rawBody: string;
   headers: Headers;
