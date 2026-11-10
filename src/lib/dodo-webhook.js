@@ -246,7 +246,8 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
       metadata?.githubHandle ||
       metadata?.sponsorHandle ||
       metadata?.github;
-    const tier = metadata?.tier || metadata?.package || metadata?.plan || "hosted_relay";
+    const productId = data?.product_id || data?.product_cart?.[0]?.product_id || "";
+    const tier = metadata?.tier || metadata?.package || metadata?.plan || productId || "hosted_relay";
     const toolName = metadata?.toolName || metadata?.tool_name;
     const toolUrl = metadata?.toolUrl || metadata?.tool_url || metadata?.url;
     const orderId = metadata?.orderId || "";
@@ -276,8 +277,34 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
       fulfillmentNote = invite.invited
         ? `GitHub collaborator invited (@${invite.username} -> ${env.PRIVATE_COMPLIANCE_REPO})`
         : `GitHub invite skipped/failed: ${invite.reason || `HTTP ${invite.status}`}`;
-    } else if (tier.includes("relay") || tier.includes("team")) {
-      fulfillmentNote = `Provision Hosted Cloud Relay for ${customerEmail} (tier: ${tier})`;
+    } else if (
+      tier.includes("dbshield") ||
+      tier.includes("skillprism") ||
+      tier.includes("relay") ||
+      tier.includes("team") ||
+      tier.includes("hub") ||
+      tier.includes("enterprise") ||
+      tier.includes("websec") ||
+      productId === "pdt_0NpjONLXnMYR9e2SUlYJt" ||
+      productId === "pdt_0NpjONNytUpW7gzjoDlYW" ||
+      productId === "pdt_0NrFSmrXT8zU2u5BKGJ7y"
+    ) {
+      fulfillmentNote = `Provision Hosted Team Relay / Governance tenant for ${customerEmail} (tier: ${tier})`;
+    } else if (
+      tier.includes("mcp") ||
+      tier.includes("turnkey") ||
+      productId === "pdt_0NrFWlIkkreo5fOBIJWxI" ||
+      productId === "pdt_0NpjONEJnu5OcWhncWF68" ||
+      productId === "pdt_0NpjOJVkkh7Mryrzm6ro9"
+    ) {
+      fulfillmentNote = `Deliver MCP Kit / Turnkey kickoff for ${customerEmail} (tier: ${tier})`;
+    } else if (
+      tier.includes("audit") ||
+      orderId.startsWith("AUDIT-") ||
+      productId === "pdt_0NrFWnRHHEI72iaB8AC9r" ||
+      productId === "pdt_0NrFWnSQHfJhuHs4Y9Xmh"
+    ) {
+      fulfillmentNote = `Queue Pre-Launch Security Audit for ${customerEmail} (tier: ${tier})`;
     }
 
     await dispatchOrderWebhook(

@@ -14,8 +14,13 @@ import {
   KeyRound,
   CreditCard,
   Wrench,
+  Database,
+  Layers,
+  Heart,
+  Boxes,
+  Zap,
 } from "lucide-react";
-import { buildCloudOrPrivateCheckoutUrl } from "@/lib/checkout-urls.js";
+import { buildCloudOrPrivateCheckoutUrl, buildTeamProductCheckoutUrl } from "@/lib/checkout-urls.js";
 
 export default function PricingPage() {
   const [githubUsername, setGithubUsername] = useState("");
@@ -362,6 +367,233 @@ export default function PricingPage() {
               className="w-full py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs font-mono flex items-center justify-center gap-1.5 transition"
             >
               <span>Request Architecture Review</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Section 3: Complete All-Product Revenue & Billing Directory */}
+      <div className="space-y-6 pt-8 border-t border-slate-800/80">
+        <div>
+          <div className="text-xs font-mono text-purple-400 uppercase tracking-wider mb-1">
+            All RitualDev Lab Earning &amp; Self-Serve Payment Channels
+          </div>
+          <h2 className="text-2xl font-bold text-white tracking-tight">
+            Every Paid Tier &amp; Checkout Across the Suite
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-400">
+            Jump directly to checkout or tool configuration for DevShelf spotlights, DBShield Team, AgentShield Fleet, SkillPrism Redis, WebSecAuditor, MCP Packs, Pro Tools, and Partner Affiliates.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 font-mono text-xs">
+          {/* 1. DevShelf Spotlights */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sky-400">
+                <Layers className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30">$9 &ndash; $79/mo</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">DevShelf Feature Your Tool</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Starter ($9), Launch Spotlight ($19), Category Exclusive ($39/mo), MCP Pro ($49/mo), Category Combo Pack ($79/mo) &amp; Custom Sponsor.
+              </p>
+            </div>
+            <Link
+              href="/partners/"
+              className="w-full py-2.5 px-3 rounded-xl bg-sky-500 text-slate-950 font-bold flex items-center justify-center gap-1.5 hover:bg-sky-400 transition"
+            >
+              <span>Reserve DevShelf Slot</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* 2. DBShield Team */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-brand-cyan">
+                <Database className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30">$29 &ndash; $99/mo</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">DBShield Team Guardrails</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Hosted Slack/MS Teams #db-approvals relay ($29/mo) &amp; DBShield Team Hub + Shared Redis ($99/mo).
+              </p>
+            </div>
+            <div className="space-y-2">
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: "dbshield_team_99", customerEmail: workEmail, githubUsername })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded-xl bg-brand-cyan text-slate-950 font-bold flex items-center justify-center gap-1.5 hover:opacity-95 transition"
+              >
+                <span>DBShield Team ($99/mo)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+              <Link href="/dbshield/" className="block text-center text-[11px] text-slate-400 hover:text-white">
+                Explore DBShield Sandbox &amp; $29/mo Relay &rarr;
+              </Link>
+            </div>
+          </div>
+
+          {/* 3. AgentShield & WebSecAuditor Team/Fleet */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-brand-neon">
+                <Shield className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">$19 &ndash; $49/seat</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">AgentShield &amp; WebSec Team</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Team CI/CD PR Gate on private repos ($19/seat/mo) or Enterprise Fleet with SIEM + SAML SSO ($49/seat/mo).
+              </p>
+            </div>
+            <div className="space-y-2">
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: "agentshield_team_19", customerEmail: workEmail, githubUsername })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded-xl bg-brand-neon text-slate-950 font-bold flex items-center justify-center gap-1.5 hover:opacity-95 transition"
+              >
+                <span>Team CI/CD Gate ($19/seat)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: "agentshield_enterprise_49", customerEmail: workEmail, githubUsername })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center text-[11px] text-purple-300 hover:text-white"
+              >
+                Enterprise Fleet ($49/seat/mo) &rarr;
+              </a>
+            </div>
+          </div>
+
+          {/* 4. SkillPrism Team Redis */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-amber-400">
+                <Zap className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30">$99/mo Hosted</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">SkillPrism Team Redis VPC</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Managed shared Redis token compaction cluster cutting Claude Code &amp; Cursor tool prompt cost by 96.7%.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: "skillprism_team_99", customerEmail: workEmail, githubUsername })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded-xl bg-amber-400 text-slate-950 font-bold flex items-center justify-center gap-1.5 hover:bg-amber-300 transition"
+              >
+                <span>Hosted Redis Hub ($99/mo)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+              <Link href="/skillprism/" className="block text-center text-[11px] text-slate-400 hover:text-white">
+                Calculate Team Token ROI &rarr;
+              </Link>
+            </div>
+          </div>
+
+          {/* 5. MCP Starter Kit & Packs */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-purple-400">
+                <Boxes className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/30">$39 &ndash; $99 Once</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">MCP Kits &amp; Connector Packs</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                MCP Monetization Starter Kit ($49), Fintech ($39), Database ($49), DevOps ($49), All-Access ($99) &amp; Turnkey ($500+).
+              </p>
+            </div>
+            <div className="space-y-2">
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: "mcp_starter_49", customerEmail: workEmail, githubUsername })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded-xl bg-purple-600 text-white font-bold flex items-center justify-center gap-1.5 hover:bg-purple-500 transition"
+              >
+                <span>MCP Starter Kit ($49)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+              <Link href="/mcp-starter-kit/" className="block text-center text-[11px] text-slate-400 hover:text-white">
+                View Connector Packs ($39&ndash;$99) &rarr;
+              </Link>
+            </div>
+          </div>
+
+          {/* 6. Desktop & Browser Pro Suite */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-pink-400">
+                <Server className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 border border-pink-500/30">Pro Suite</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">PromptShield, MockForge &amp; FinePrint</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Commercial Pro license for browser DLP firewall, production DB masking &amp; legal contract redlines.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: "ritual_pro_15", customerEmail: workEmail, githubUsername })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-bold flex items-center justify-center gap-1.5 transition"
+              >
+                <span>Ritual Pro License ($15/mo)</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+              <div className="text-center text-[11px] text-slate-400">
+                <Link href="/promptshield/" className="hover:text-white">PromptShield</Link> &middot;{" "}
+                <Link href="/mockforge/" className="hover:text-white">MockForge</Link> &middot;{" "}
+                <Link href="/fineprint/" className="hover:text-white">FinePrint</Link>
+              </div>
+            </div>
+          </div>
+
+          {/* 7. Affiliates & Partner Perks */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-emerald-400">
+                <Terminal className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">Rev-Share / Bounties</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">Developer Cloud Affiliate Hub</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Tracked <code className="text-slate-300">/go/*</code> links for DigitalOcean ($200 credit), Railway, PostHog, Cloudflare, Hetzner, Neon &amp; Sentry.
+              </p>
+            </div>
+            <Link
+              href="/devshelf/"
+              className="w-full py-2.5 px-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-bold flex items-center justify-center gap-1.5 hover:bg-slate-800 transition"
+            >
+              <span>Browse DevShelf &amp; /go Links</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* 8. Donations & Grants */}
+          <div className="glass-panel rounded-2xl p-5 border border-slate-800 flex flex-col justify-between space-y-4">
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-rose-400">
+                <Heart className="w-4 h-4" />
+                <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/30">$1+ / &#8377;10+</span>
+              </div>
+              <h3 className="text-sm font-bold text-white font-sans">Grants, Bounties &amp; Donations</h3>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Flexible one-time or recurring open-source patronage via Dodo Payments (Cards, Apple Pay &amp; Indian UPI).
+              </p>
+            </div>
+            <Link
+              href="/donate/"
+              className="w-full py-2.5 px-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 font-bold flex items-center justify-center gap-1.5 hover:bg-rose-500/25 transition"
+            >
+              <span>Sponsor / Donate Any Amount</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

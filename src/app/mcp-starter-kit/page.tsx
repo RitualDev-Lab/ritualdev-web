@@ -16,6 +16,7 @@ import {
   Sparkles,
   Lock
 } from "lucide-react";
+import { buildTeamProductCheckoutUrl } from "@/lib/checkout-urls.js";
 
 export default function McpStarterKitPage() {
   const checkoutUrl = "https://checkout.dodopayments.com/buy/pdt_0NrFWlIkkreo5fOBIJWxI?quantity=1&redirect_url=https%3A%2F%2Fritualdev.in%2Fmcp-starter-kit%2Fdownload";
@@ -207,6 +208,85 @@ export default function McpStarterKitPage() {
         <div className="text-[11px] font-mono text-slate-400 flex items-center justify-center gap-1.5 pt-1">
           <Lock className="w-3.5 h-3.5 text-purple-400" />
           <span>Instant code delivery. Global tax and invoice handled via Dodo Payments.</span>
+        </div>
+      </section>
+
+      {/* Enterprise MCP Connector Packs ($39-$99) & DFY Builds */}
+      <section className="space-y-6 pt-8 border-t border-slate-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <div className="text-xs font-mono text-brand-cyan uppercase tracking-wider font-bold mb-1">
+              Pre-Built Production Connector Packs (One-Time Code Delivery)
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Or Grab Vertical MCP Connector Packs ($39 &ndash; $99)
+            </h2>
+          </div>
+          <Link
+            href="/mcp-builder/"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/40 text-xs font-mono font-bold text-emerald-300 hover:bg-emerald-500/20 transition self-start sm:self-auto"
+          >
+            <span>Need Us to Build Your Custom MCP in 48h ($349+)?</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 font-mono">
+          {[
+            {
+              key: "mcp_pack_fintech_39",
+              name: "Fintech & SaaS Pack",
+              price: "$39",
+              desc: "Production MCP tools for Stripe, Dodo Payments, HubSpot CRM & Slack incident webhooks.",
+            },
+            {
+              key: "mcp_pack_database_49",
+              name: "Database & Warehouse Pack",
+              price: "$49",
+              desc: "Read-only sandboxed MCP connectors for Postgres, MongoDB, ClickHouse & Redis.",
+            },
+            {
+              key: "mcp_pack_devops_49",
+              name: "Cloud & DevOps Pack",
+              price: "$49",
+              desc: "IAM-scoped tools for Kubernetes pods/logs, AWS S3/CloudWatch, Docker & GitHub Actions.",
+            },
+            {
+              key: "mcp_pack_all_99",
+              name: "All-Access MCP Bundle",
+              price: "$99",
+              desc: "Includes Fintech, Database & DevOps packs plus lifetime connector updates.",
+              highlight: true,
+            },
+          ].map((pack) => (
+            <div
+              key={pack.key}
+              className={`glass-panel rounded-2xl p-5 border flex flex-col justify-between space-y-4 ${
+                pack.highlight ? "border-brand-cyan/60 bg-cyan-950/15" : "border-slate-800"
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-bold text-white">{pack.name}</span>
+                  <span className="text-lg font-extrabold text-brand-cyan">{pack.price}</span>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">{pack.desc}</p>
+              </div>
+              <a
+                href={buildTeamProductCheckoutUrl({ tier: pack.key })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-full py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition ${
+                  pack.highlight
+                    ? "bg-brand-cyan text-slate-950 hover:opacity-95"
+                    : "bg-slate-900 border border-slate-700 text-white hover:bg-slate-800"
+                }`}
+              >
+                <span>Buy Pack ({pack.price})</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          ))}
         </div>
       </section>
 

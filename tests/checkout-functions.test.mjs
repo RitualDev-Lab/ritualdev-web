@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { buildAuditCheckoutUrl, buildMcpCheckoutUrl, buildPartnerCheckoutUrl, buildCloudOrPrivateCheckoutUrl } from "../src/lib/checkout-urls.js";
+import { buildAuditCheckoutUrl, buildMcpCheckoutUrl, buildPartnerCheckoutUrl, buildCloudOrPrivateCheckoutUrl, buildTeamProductCheckoutUrl } from "../src/lib/checkout-urls.js";
 import { verifyDodoWebhookSignature, handleDodoWebhookEvent } from "../src/lib/dodo-webhook.js";
 import { onRequestPost as mcpOrderPost } from "../functions/api/mcp-order.js";
 import { onRequestPost as auditOrderPost } from "../functions/api/audit-order.js";
@@ -315,5 +315,66 @@ describe("Storefront Checkout URL Builders & Cloudflare Pages Functions", () => 
       },
     });
     assert.equal(calledNext, true);
+  });
+
+  it("builds team and suite checkout URLs for DBShield, AgentShield, SkillPrism, MCP Packs, and Turnkey deposits", async () => {
+    const db29 = buildTeamProductCheckoutUrl({ tier: "dbshield_team_29", customerEmail: "dba@acme.io" });
+    assert.ok(db29.includes("paymentAmount=29"));
+    assert.ok(db29.includes("metadata_tier=dbshield_team_29"));
+
+    const db99 = buildTeamProductCheckoutUrl({ tier: "dbshield_team_99", companyName: "Acme Corp" });
+    assert.ok(db99.includes("pdt_0NrFSmrXT8zU2u5BKGJ7y"));
+    assert.ok(db99.includes("metadata_tier=dbshield_team_99"));
+
+    const sp99 = buildTeamProductCheckoutUrl({ tier: "skillprism_team_99" });
+    assert.ok(sp99.includes("pdt_0NrFSmrXT8zU2u5BKGJ7y"));
+    assert.ok(sp99.includes("skillprism_team_99"));
+
+    const as19 = buildTeamProductCheckoutUrl({ tier: "agentshield_team_19" });
+    assert.ok(as19.includes("pdt_0NpjONLXnMYR9e2SUlYJt"));
+
+    const as49 = buildTeamProductCheckoutUrl({ tier: "agentshield_enterprise_49" });
+    assert.ok(as49.includes("pdt_0NpjONNytUpW7gzjoDlYW"));
+
+    const pack99 = buildTeamProductCheckoutUrl({ tier: "mcp_pack_all_99" });
+    assert.ok(pack99.includes("pdt_0NpjONEJnu5OcWhncWF68"));
+    assert.ok(pack99.includes("pack=all_access"));
+
+    const tk250 = buildTeamProductCheckoutUrl({ tier: "turnkey_starter_250" });
+    assert.ok(tk250.includes("pdt_0NpjOJVkkh7Mryrzm6ro9"));
+    assert.ok(tk250.includes("deposit=250"));
+
+    const pro15 = buildTeamProductCheckoutUrl({ tier: "ritual_pro_15" });
+    assert.ok(pro15.includes("pdt_0NrFSkF5XLgBppfQRxgXN"));
+
+    // Verify webhook recognizes product ID fallback even without explicit tier metadata
+    const crypto = await import("node:crypto");
+    const rawSecret = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+    const secretB64 = `whsec_${Buffer.from(rawSecret).toString("base64")}`;
+    const webhookId = "msg_team_99";
+    const ts = Math.floor(Date.now() / 1000).toString();
+    const rawBody = JSON.stringify({
+      type: "subscription.active",
+      data: {
+        subscription_id: "sub_db_99",
+        product_id: "pdt_0NrFSmrXT8zU2u5BKGJ7y",
+        total_amount: 9900,
+        currency: "USD",
+        customer: { email: "infra@acme.io" },
+        metadata: {},
+      },
+    });
+    const sig = crypto.createHmac("sha256", rawSecret).update(`${webhookId}.${ts}.${rawBody}`).digest("base64");
+    const res = await handleDodoWebhookEvent({
+      rawBody,
+      headers: new Headers({
+        "webhook-id": webhookId,
+        "webhook-timestamp": ts,
+        "webhook-signature": `v1,${sig}`,
+      }),
+      env: { DODO_WEBHOOK_SECRET: secretB64 },
+    });
+    assert.equal(res.ok, true);
+    assert.ok(res.fulfillmentNote.includes("Provision Hosted Team Relay / Governance tenant"));
   });
 });

@@ -13,6 +13,7 @@ import {
   TrendingDown,
   Layers
 } from "lucide-react";
+import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
 
 export default function SkillPrismPage() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -181,6 +182,63 @@ export default function SkillPrismPage() {
           </div>
         </div>
       </section>
+
+      <TeamCheckoutBanner
+        eyebrow="SkillPrism Team Redis VPC & Hosting"
+        heading="Deploy Managed Team Token Caching Without Hosting Redis Yourself"
+        subheading="The SkillPrism local CLI & progressive compactor stay 100% open source ($0 forever). Upgrade to a dedicated managed Redis VPC pool shared across every developer IDE."
+        secondaryHref="/pricing/"
+        secondaryLabel="Compare All Cloud Plans"
+        plans={[
+          {
+            tierKey: "team_relay_29",
+            name: "Policy & Usage Sync Starter",
+            price: "$29",
+            period: "/ month",
+            badge: "Team Starter",
+            accent: "emerald",
+            description: "Centralized skill index distribution & team policy sync for Cursor, Claude Code & Windsurf.",
+            features: [
+              "Hosted Policy & Tool Manifest Sync URL (Up to 10 Devs)",
+              "Paired AgentShield & DBShield Approval Webhook Relay",
+              "30-Day Audit Telemetry & Token Savings Reporting",
+            ],
+            ctaLabel: "Start Team Sync ($29/mo)",
+          },
+          {
+            tierKey: "skillprism_team_99",
+            name: "Hosted Team Redis VPC Cluster",
+            price: "$99",
+            period: "/ month",
+            badge: "Hosted Redis Pool",
+            featured: true,
+            accent: "amber",
+            description: "Skip running Redis HA clusters. Get a managed ultra-low-latency Redis cache shared across your engineering team.",
+            features: [
+              "Dedicated Shared SkillPrism Redis Token Cache Cluster (<14ms P99)",
+              "Includes Unlimited DBShield Approval Channels",
+              "Automated WebSecAuditor PR Security Bot",
+              "Priority Slack Channel with RitualDev Engineers",
+            ],
+            ctaLabel: "Launch Hosted Redis Cluster ($99/mo)",
+          },
+          {
+            tierKey: "private_compliance_kit",
+            name: "Self-Hosted Helm & Compliance Kit",
+            price: "$199",
+            period: "one-time",
+            badge: "Private GitHub Repo",
+            accent: "purple",
+            description: "Production Kubernetes Helm charts, Redis VPC Terraform modules, and SOC 2 evidence unlocked via webhook.",
+            features: [
+              "Hardened K8s Helm Values & AWS PrivateLink Terraform",
+              "SOC 2, ISO 27001 & EU AI Act Compliance Bundle",
+              "Instant GitHub collaborator invite on checkout",
+            ],
+            ctaLabel: "Unlock Private Helm Kit ($199)",
+          },
+        ]}
+      />
 
     </div>
   );

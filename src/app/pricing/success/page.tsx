@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, ShieldCheck, Mail, ArrowRight, Cloud, KeyRound } from "lucide-react";
+import { TEAM_PRODUCT_CONFIG } from "@/lib/checkout-urls.js";
 
 function PricingSuccessContent() {
   const searchParams = useSearchParams();
@@ -11,13 +12,17 @@ function PricingSuccessContent() {
   const product = (searchParams.get("product") || "team_relay_29").toLowerCase();
 
   const isPrivateKit = product.includes("private") || product.includes("compliance");
+  const isMcpPack = product.includes("mcp_pack");
+  const matchedCfg = TEAM_PRODUCT_CONFIG[product];
   const isTeamHub = product.includes("hub") || product.includes("99");
 
-  const title = isPrivateKit
-    ? "Private Enterprise Compliance & Deployment Kit"
-    : isTeamHub
-    ? "Hosted Team Hub + Shared Redis Cache"
-    : "Hosted Team Relay Starter";
+  const title =
+    matchedCfg?.label ||
+    (isPrivateKit
+      ? "Private Enterprise Compliance & Deployment Kit"
+      : isTeamHub
+        ? "Hosted Team Hub + Shared Redis Cache"
+        : "Hosted Team Relay Starter");
 
   return (
     <div className="min-h-screen py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-10">
@@ -62,10 +67,16 @@ function PricingSuccessContent() {
             <li>2. If you included your GitHub username during checkout, a collaborator invitation to the private compliance repository is sent automatically.</li>
             <li>3. Did not add your GitHub username yet? Forward your Dodo receipt ID to <a href="mailto:hello@ritualdev.in" className="text-brand-neon underline">hello@ritualdev.in</a> and we will invite you within 2 hours.</li>
           </ul>
+        ) : isMcpPack ? (
+          <ul className="space-y-2.5 text-slate-300 leading-relaxed">
+            <li>1. Dodo Payments verifies your transaction and emails your PDF GST/VAT receipt.</li>
+            <li>2. Your signed download archive and repository access for the selected MCP Connector Pack are dispatched to your checkout email.</li>
+            <li>3. Need custom API endpoints wrapped too? Forward your receipt to <a href="mailto:hello@ritualdev.in" className="text-brand-neon underline">hello@ritualdev.in</a> or visit <Link href="/mcp-builder/" className="text-brand-cyan underline">/mcp-builder</Link>.</li>
+          </ul>
         ) : (
           <ul className="space-y-2.5 text-slate-300 leading-relaxed">
-            <li>1. Dodo Payments dispatches a signed verification webhook to provision your Hosted Team Relay tenant.</li>
-            <li>2. Your tenant relay URL, Slack/Teams app webhook endpoint, and setup snippet are emailed to your checkout email address.</li>
+            <li>1. Dodo Payments dispatches a signed verification webhook to provision your Hosted Team / Governance tenant.</li>
+            <li>2. Your tenant relay URL, Slack/Teams approval endpoint, policy token, or Redis connection snippet are emailed to your checkout email address.</li>
             <li>3. Meanwhile, install the open-source CLI anywhere without keys: <code className="text-brand-neon">npx @ritualdev-lab/agentshield init-claude</code></li>
           </ul>
         )}
@@ -76,9 +87,9 @@ function PricingSuccessContent() {
           <Mail className="w-4 h-4 text-brand-green shrink-0" />
           <span>Need priority Slack setup? Email <a href="mailto:hello@ritualdev.in" className="text-white underline font-bold">hello@ritualdev.in</a></span>
         </div>
-        <Link href="/agentshield/" className="inline-flex items-center gap-1.5 text-brand-cyan hover:text-white font-bold">
+        <Link href="/pricing/" className="inline-flex items-center gap-1.5 text-brand-cyan hover:text-white font-bold">
           <ShieldCheck className="w-4 h-4" />
-          <span>AgentShield Docs</span>
+          <span>View All Plans &amp; Products</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
