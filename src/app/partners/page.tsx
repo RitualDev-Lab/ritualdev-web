@@ -14,13 +14,30 @@ import {
   Sparkles,
   ExternalLink,
 } from "lucide-react";
-import { buildPartnerCheckoutUrl } from "@/lib/checkout-urls.js";
+import {
+  buildPartnerCheckoutUrl,
+  resolvePartnerTierPricing,
+  type PartnerTierId,
+} from "@/lib/checkout-urls.js";
+
+const CATEGORY_OPTIONS = [
+  { id: "ai", label: "AI Tools, Agents & MCP Servers" },
+  { id: "cli", label: "CLI & Developer Productivity" },
+  { id: "apis", label: "Free Public APIs" },
+  { id: "cloud", label: "Cloud, Hosting & Databases" },
+  { id: "testing", label: "Testing, Analytics & QA" },
+  { id: "boilerplates", label: "Starter Kits & Boilerplates" },
+];
+
+const CUSTOM_AMOUNT_PRESETS = [10, 25, 50, 100, 250];
 
 function PartnerOrderSuccessBanner() {
   const searchParams = useSearchParams();
   const isSuccess = searchParams.get("success") === "true";
   const orderId = searchParams.get("id");
-  const tier = searchParams.get("tier");
+  const tier = searchParams.get("tier") || "spotlight_19";
+  const amount = searchParams.get("amount");
+  const resolved = resolvePartnerTierPricing(tier, amount || undefined);
 
   if (!isSuccess) return null;
 
@@ -32,11 +49,10 @@ function PartnerOrderSuccessBanner() {
           <span>Spotlight Reservation Confirmed • Reference {orderId || "Registered"}</span>
         </div>
         <h2 className="text-lg font-bold text-white">
-          Your DevShelf Launch Placement Is Queued ({tier === "leader_49" ? "Category Leader $49" : tier === "starter_9" ? "Starter $9" : "Launch Spotlight $19"})
+          Your DevShelf Placement Is Queued ({resolved.label})
         </h2>
         <p className="text-xs text-slate-300 font-mono">
-          We run our automated Zero-Paywall check and publish featured cards within 24 hours across{" "}
-          <code className="text-emerald-300">ritualdev.in/devshelf</code> and <code className="text-emerald-300">devshelf.ritualdev.in</code>.
+          Instant activation across 575+ web dossiers &amp; <code className="text-emerald-300">npx devshelf-mcp</code> AI sessions within 24 hours after review.
         </p>
       </div>
     </div>
@@ -44,18 +60,21 @@ function PartnerOrderSuccessBanner() {
 }
 
 export default function PartnersPage() {
-  const [selectedTier, setSelectedTier] = useState<"starter_9" | "spotlight_19" | "leader_49">("spotlight_19");
+  const [selectedTier, setSelectedTier] = useState<PartnerTierId>("spotlight_19");
   const [selectedCategory, setSelectedCategory] = useState<"all" | "databases" | "ai" | "devops">("all");
   const [toolName, setToolName] = useState("");
   const [toolUrl, setToolUrl] = useState("");
   const [category, setCategory] = useState("ai");
+  const [bundleCategories, setBundleCategories] = useState<string[]>(["ai", "cli", "cloud"]);
+  const [customAmountUsd, setCustomAmountUsd] = useState("25");
+  const [sponsorHandle, setSponsorHandle] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [tagline, setTagline] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const partnerTiers: {
-    id: "starter_9" | "spotlight_19" | "leader_49";
+    id: PartnerTierId;
     name: string;
     price: string;
     period: string;
@@ -68,18 +87,18 @@ export default function PartnersPage() {
   }[] = [
     {
       id: "starter_9",
-      name: "Indie Directory Listing",
+      name: "Starter Verified Listing",
       price: "$9",
       period: "one-time",
-      desc: "Permanent verified placement for open-source developer tools, CLIs, APIs, and solo maker projects.",
+      desc: "Permanent verified catalog & CLI discovery for open-source developer tools, CLIs, and public APIs.",
       badge: "Starter • $9",
       color: "border-sky-500/30 text-sky-400",
       features: [
-        "Fast-track editorial listing on DevShelf Web & CLI (npx devshelf)",
+        "Verified dossier across DevShelf Web (575+ tools) & CLI (npx devshelf search)",
         "Do-follow backlink to your homepage or GitHub repository",
-        "Official 'Verified Zero-Paywall' SVG badge for your README",
+        "Official 'Verified Zero-Paywall' green quality badge + README SVG embed",
         "Programmatic indexing in /api/v1/registry/tools.json",
-        "24-hour review & automated link health monitoring",
+        "24-hour editorial review & automated health/rot monitoring",
       ],
       ctaText: "Select Starter ($9)",
       popular: false,
@@ -89,39 +108,100 @@ export default function PartnersPage() {
       name: "Launch Spotlight + Digest",
       price: "$19",
       period: "30-day boost",
-      desc: "Built for Product Hunt, Show HN, and indie SaaS launches wanting featured visibility and a clean developer backlink.",
-      badge: "PH / Show HN Boost",
+      desc: "Built for Product Hunt, Show HN, and indie launches unlocking featured cards, custom FAQs, and digest shoutouts.",
+      badge: "Launch Boost",
       color: "border-emerald-500/30 text-emerald-400",
       features: [
         "30-day Featured card pin in your target DevShelf category",
-        "Custom promotional FAQs & highlighted CTA on your /devshelf/[slug] page",
-        "Dedicated shoutout in RSS/Atom feed (/feed.xml) & Developer Digest",
-        "Indexed in DevShelf programmatic SEO dossier + comparison pages",
-        "Verified Free Tier badge + zero-paywall audit check included",
+        "Custom promotional FAQs (FAQPage JSON-LD) & highlighted Quick Install CTA on /devshelf/[slug]",
+        "Primary header pitch on Developer Digest & syndicated in /feed.xml + /atom.xml",
+        "Included in /alternatives/* comparison dossiers & 140-char developer pitch",
         "Instant self-serve checkout (Cards, Apple Pay, Google Pay, UPI)",
       ],
       ctaText: "Select Launch Spotlight ($19)",
       popular: true,
     },
     {
+      id: "category_39",
+      name: "Category Exclusive Spotlight",
+      price: "$39",
+      period: "per month",
+      desc: "Exclusive sticky banner owning your chosen shelf (AI, CLI, Cloud, or APIs) across dossiers & comparisons.",
+      badge: "Shelf Exclusive",
+      color: "border-cyan-500/30 text-cyan-400",
+      features: [
+        "Exclusive sticky Category Sponsor banner across all dossiers in your shelf",
+        "Featured placement across all /alternatives/* comparison hubs in your category",
+        "Top architectural recommendation in CLI recommend_stack queries",
+        "Developer Digest category spotlight inclusion",
+        "100% full refund guarantee if audit does not pass Zero-Paywall check",
+      ],
+      ctaText: "Select Category Exclusive ($39/mo)",
+      popular: false,
+    },
+    {
       id: "leader_49",
-      name: "Category Leader + MCP Pin",
+      name: "MCP Pro + Category Leader",
       price: "$49",
       period: "per month",
-      desc: "Top-ranked recommendation across DevShelf directory pages and AI coding assistants via npx devshelf-mcp.",
+      desc: "#1 ranked AI agent recommendation across Cursor, Claude Code, Windsurf & Zed via npx devshelf-mcp.",
       badge: "AI Agent Pin",
       color: "border-purple-500/30 text-purple-400",
       features: [
         "#1 pinned slot at the top of your category shelf",
-        "Priority placement inside npx devshelf-mcp & SkillPrism discovery",
+        "Priority boosted placement inside npx devshelf-mcp & SkillPrism sessions",
+        "Transparent '★ Verified Sponsor' badge in agent JSON responses",
         "Custom promotional FAQs, Quick Install spotlight banner & CTA",
         "Verified MCP server schema check & README Security badge",
-        "Featured header highlight card on DevShelf homepage & CLI",
-        "Cancel anytime with zero lock-in",
       ],
-      ctaText: "Select Category Leader ($49/mo)",
+      ctaText: "Select MCP Pro ($49/mo)",
       popular: false,
     },
+    {
+      id: "combo_79",
+      name: "Category Combo Pack",
+      price: "$79",
+      period: "per month",
+      desc: "Full-stack multi-category bundle: Category Exclusive + MCP Pro + Digest + Homepage Headline Spotlight (Save $29+/mo).",
+      badge: "All-In Combo Pack",
+      color: "border-amber-500/40 text-amber-300",
+      features: [
+        "Pin up to 3 Category Shelves simultaneously (e.g., AI + CLI + Cloud)",
+        "Top-of-page Homepage Headline Spotlight on devshelf.ritualdev.in & /devshelf",
+        "Includes MCP Pro AI priority across Claude Code, Cursor, Windsurf & Zed",
+        "Sticky category banners + Developer Digest issue + custom multi-tool FAQs/CTAs",
+        "Do-follow corporate marquee link on Wall of Patrons + priority maintainer channel",
+      ],
+      ctaText: "Select Category Combo Pack ($79/mo)",
+      popular: false,
+    },
+    {
+      id: "custom",
+      name: "Custom Sponsor",
+      price: "Custom",
+      period: "flexible $5+",
+      desc: "Pick any custom USD amount ($5–$5,000+) for Wall of Patrons support, multi-tool bundles, or bespoke sponsorships.",
+      badge: "Pay Any Amount",
+      color: "border-pink-500/30 text-pink-300",
+      features: [
+        "Flexible USD amount ($10, $25, $50, $100, $250, or any custom budget)",
+        "Public Wall of Patrons badge, GitHub/X handle & custom shoutout message",
+        "Supports bespoke multi-month sponsorships, tool bundles, or security grants",
+        "Automated tax-compliant digital invoice (GSTIN / VAT ready, no street address)",
+        "Direct maintainer coordination within 24 hours",
+      ],
+      ctaText: "Configure Custom Sponsor",
+      popular: false,
+    },
+  ];
+
+  const allPaidFeaturesSummary = [
+    "Instant activation across 575+ web dossiers & npx devshelf-mcp AI sessions",
+    "Custom promotional FAQs (FAQPage JSON-LD) & Quick Install Spotlight CTAs",
+    "Category Exclusive sticky shelf banners & /alternatives/* comparison pins",
+    "Category Combo Pack covering up to 3 shelves + Homepage Headline Spotlight",
+    "Developer Digest sponsor banner, W3C RSS (/feed.xml) & Atom (/atom.xml) syndication",
+    "Wall of Patrons backlink, Verified Zero-Paywall SVG badges & Dodo tax invoices",
   ];
 
   const openCategoryPlacements = [
@@ -165,16 +245,39 @@ export default function PartnersPage() {
       ? openCategoryPlacements
       : openCategoryPlacements.filter((p) => p.category === selectedCategory);
 
-  const selectTierAndScroll = (tierId: "starter_9" | "spotlight_19" | "leader_49") => {
+  const selectTierAndScroll = (tierId: PartnerTierId) => {
     setSelectedTier(tierId);
     const el = document.getElementById("reserve-spotlight");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
+  const toggleBundleCategory = (catId: string) => {
+    setBundleCategories((prev) => {
+      if (prev.includes(catId)) {
+        return prev.length > 1 ? prev.filter((c) => c !== catId) : prev;
+      }
+      if (prev.length >= 3) {
+        return [...prev.slice(1), catId];
+      }
+      return [...prev, catId];
+    });
+  };
+
+  const selectedPricing = resolvePartnerTierPricing(selectedTier, customAmountUsd);
+
   const handleSponsorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contactEmail.trim() || !toolName.trim() || !toolUrl.trim()) {
-      setErrorMsg("Please provide your tool name, tool/repo URL, and contact email.");
+    const isCustom = selectedTier === "custom";
+    if (!contactEmail.trim()) {
+      setErrorMsg("Please provide a valid contact email.");
+      return;
+    }
+    if (!isCustom && (!toolName.trim() || !toolUrl.trim())) {
+      setErrorMsg("Please provide your tool name and tool/repo URL.");
+      return;
+    }
+    if (isCustom && !toolName.trim() && !sponsorHandle.trim()) {
+      setErrorMsg("Please enter your name, handle, or tool/company name for custom sponsorship.");
       return;
     }
 
@@ -182,21 +285,25 @@ export default function PartnersPage() {
     setErrorMsg("");
 
     const orderId = `SPONSOR-${Math.floor(10000 + Math.random() * 90000)}`;
+    const payload = {
+      toolName,
+      toolUrl,
+      category,
+      bundleCategories: selectedTier === "combo_79" ? bundleCategories : [],
+      contactEmail,
+      tier: selectedTier,
+      customAmountUsd: isCustom ? customAmountUsd : undefined,
+      sponsorHandle: isCustom ? sponsorHandle : undefined,
+      tagline,
+      orderId,
+    };
 
     try {
       try {
         const res = await fetch("/api/partner-order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            toolName,
-            toolUrl,
-            category,
-            contactEmail,
-            tier: selectedTier,
-            tagline,
-            orderId,
-          }),
+          body: JSON.stringify(payload),
         });
 
         if (res.ok) {
@@ -210,14 +317,7 @@ export default function PartnersPage() {
         // Fallback if API route unreachable
       }
 
-      const checkoutUrl = buildPartnerCheckoutUrl({
-        orderId,
-        tier: selectedTier,
-        toolName,
-        toolUrl,
-        category,
-        contactEmail,
-      });
+      const checkoutUrl = buildPartnerCheckoutUrl(payload);
       window.location.href = checkoutUrl;
     } catch (err: any) {
       setErrorMsg(err.message || "Failed to initiate checkout. Please try again.");
@@ -235,13 +335,16 @@ export default function PartnersPage() {
         {/* Header */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-500/10 text-sky-400 text-xs font-mono uppercase tracking-wider">
-            <Award className="w-3.5 h-3.5" /> DevShelf Indie Spotlights ($9 – $49)
+            <Award className="w-3.5 h-3.5" /> DevShelf Partner Spotlights ($9 – $79/mo &amp; Custom)
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
-            Spotlight Your Tool or Launch on DevShelf
+            Feature Your Developer Tool
           </h1>
-          <p className="text-slate-400 text-lg leading-relaxed">
-            Transparent, indie-maker pricing designed for Product Hunt launches, Show HN projects, open-source maintainers, and MCP tools — no $500/mo agency markups.
+          <p className="text-emerald-300 font-mono text-sm sm:text-base font-bold">
+            Instant activation across 575+ web dossiers &amp; <code className="px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30">npx devshelf-mcp</code> AI sessions.
+          </p>
+          <p className="text-slate-400 text-base leading-relaxed">
+            Every paid DevShelf feature in one place: Starter listings, Launch Spotlights with Custom FAQs, Category Exclusives, MCP Pro AI ranking, Category Combo Packs, and Custom Sponsorships.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link
@@ -333,6 +436,26 @@ export default function PartnersPage() {
           ))}
         </div>
 
+        {/* All Paid Features Included Banner */}
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950/30 via-slate-900 to-emerald-950/30 border border-slate-800 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+            <h2 className="text-sm font-mono font-bold text-white uppercase tracking-wider">
+              Every Paid DevShelf Feature &amp; AI Surface
+            </h2>
+            <span className="text-xs font-mono text-emerald-400">
+              Web Dossiers • CLI • npx devshelf-mcp • RSS Digest
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-xs text-slate-300">
+            {allPaidFeaturesSummary.map((feat) => (
+              <div key={feat} className="flex items-start gap-2 p-3 rounded-xl bg-slate-950/70 border border-slate-800/80">
+                <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                <span>{feat}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Reservation Form */}
         <section id="reserve-spotlight" className="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 max-w-4xl mx-auto space-y-6">
           <div>
@@ -340,10 +463,10 @@ export default function PartnersPage() {
               Fast-Track Placement Reservation
             </div>
             <h2 className="text-2xl font-bold text-white">
-              Submit Your Tool for DevShelf Spotlight
+              Feature Your Developer Tool or Custom Sponsorship
             </h2>
             <p className="text-xs text-slate-400 font-mono mt-1">
-              Must provide a genuine free tier or open-source core (Zero-Paywall rule). Instant refund if your submission doesn&apos;t pass review.
+              Instant activation across 575+ web dossiers &amp; npx devshelf-mcp AI sessions. Must provide a genuine free tier or open-source core (Zero-Paywall rule).
             </p>
           </div>
 
@@ -354,13 +477,36 @@ export default function PartnersPage() {
           )}
 
           <form onSubmit={handleSponsorSubmit} className="space-y-4 text-xs font-mono">
+            <div className="space-y-2">
+              <label className="text-slate-300 font-bold block">Select Package / Plan</label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                {partnerTiers.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setSelectedTier(t.id)}
+                    className={`p-2.5 rounded-xl border text-left transition ${
+                      selectedTier === t.id
+                        ? "bg-emerald-500/15 border-emerald-400 text-white"
+                        : "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700"
+                    }`}
+                  >
+                    <div className="font-bold text-xs">{t.price}</div>
+                    <div className="text-[10px] truncate">{t.name}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-slate-300 font-bold">Tool / Product Name *</label>
+                <label className="text-slate-300 font-bold">
+                  {selectedTier === "custom" ? "Company, Sponsor or Tool Name *" : "Tool / Product Name *"}
+                </label>
                 <input
                   type="text"
-                  required
-                  placeholder="e.g. TracePilot, PostHog, RowSafe"
+                  required={selectedTier !== "custom"}
+                  placeholder={selectedTier === "custom" ? "e.g. Acme Labs / Akii SEO" : "e.g. TracePilot, PostHog, RowSafe"}
                   value={toolName}
                   onChange={(e) => setToolName(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-emerald-400"
@@ -368,10 +514,12 @@ export default function PartnersPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-300 font-bold">Tool Website or GitHub Repo URL *</label>
+                <label className="text-slate-300 font-bold">
+                  {selectedTier === "custom" ? "Website or GitHub URL (Optional)" : "Tool Website or GitHub Repo URL *"}
+                </label>
                 <input
                   type="url"
-                  required
+                  required={selectedTier !== "custom"}
                   placeholder="https://github.com/org/tool or https://mytool.dev"
                   value={toolUrl}
                   onChange={(e) => setToolUrl(e.target.value)}
@@ -394,27 +542,101 @@ export default function PartnersPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-slate-300 font-bold">Target Category Shelf</label>
+                <label className="text-slate-300 font-bold">Primary Category Shelf</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-emerald-400"
                 >
-                  <option value="ai">AI Tools, Agents &amp; MCP Servers</option>
-                  <option value="cli">CLI &amp; Developer Productivity</option>
-                  <option value="apis">Free Public APIs</option>
-                  <option value="cloud">Cloud &amp; Databases</option>
-                  <option value="testing">Testing, Analytics &amp; QA</option>
-                  <option value="boilerplates">Starter Kits &amp; Boilerplates</option>
+                  {CATEGORY_OPTIONS.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
+            {selectedTier === "combo_79" && (
+              <div className="p-4 rounded-2xl bg-amber-950/20 border border-amber-500/30 space-y-2">
+                <label className="text-amber-300 font-bold block">
+                  Category Combo Pack — Pick up to 3 Category Shelves ({bundleCategories.length}/3 selected)
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {CATEGORY_OPTIONS.map((opt) => {
+                    const active = bundleCategories.includes(opt.id);
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => toggleBundleCategory(opt.id)}
+                        className={`px-3 py-2 rounded-lg border text-left text-[11px] transition ${
+                          active
+                            ? "bg-amber-500/20 border-amber-400 text-white font-bold"
+                            : "bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700"
+                        }`}
+                      >
+                        {active ? "✓ " : "+ "}
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {selectedTier === "custom" && (
+              <div className="p-4 rounded-2xl bg-pink-950/20 border border-pink-500/30 space-y-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-pink-300 font-bold block">Custom Amount (USD, min $5) *</label>
+                    <input
+                      type="number"
+                      min={5}
+                      max={5000}
+                      required
+                      value={customAmountUsd}
+                      onChange={(e) => setCustomAmountUsd(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-pink-400"
+                    />
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {CUSTOM_AMOUNT_PRESETS.map((amt) => (
+                        <button
+                          key={amt}
+                          type="button"
+                          onClick={() => setCustomAmountUsd(String(amt))}
+                          className={`px-2.5 py-1 rounded-lg border text-[11px] transition ${
+                            Number(customAmountUsd) === amt
+                              ? "bg-pink-500/20 border-pink-400 text-white font-bold"
+                              : "bg-slate-950 border-slate-800 text-slate-400 hover:text-white"
+                          }`}
+                        >
+                          ${amt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-pink-300 font-bold block">GitHub / X Handle for Wall of Patrons</label>
+                    <input
+                      type="text"
+                      placeholder="@yourhandle"
+                      value={sponsorHandle}
+                      onChange={(e) => setSponsorHandle(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-pink-400"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-1.5">
-              <label className="text-slate-300 font-bold">One-Line Pitch / Free Tier Summary (Optional)</label>
+              <label className="text-slate-300 font-bold">
+                Custom Promotional FAQs, Pitch, CTA or Wall of Patrons Message (Optional)
+              </label>
               <input
                 type="text"
-                placeholder="e.g. Open-source Postman alternative with local Git sync — 100% free forever"
+                placeholder="e.g. Custom FAQ answer, preferred Quick Install CTA link, or Wall of Patrons shoutout"
                 value={tagline}
                 onChange={(e) => setTagline(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-emerald-400"
@@ -425,14 +647,7 @@ export default function PartnersPage() {
               <div className="text-[11px] text-slate-400 font-mono flex items-center gap-1.5">
                 <Lock className="w-3.5 h-3.5 text-emerald-400" />
                 <span>
-                  Selected Tier:{" "}
-                  <b>
-                    {selectedTier === "starter_9"
-                      ? "$9 (Indie Directory Listing)"
-                      : selectedTier === "leader_49"
-                      ? "$49/mo (Category Leader + MCP Pin)"
-                      : "$19 (Launch Spotlight + Digest)"}
-                  </b>
+                  Selected Plan: <b>{selectedPricing.label}</b>
                 </span>
               </div>
 
@@ -444,13 +659,7 @@ export default function PartnersPage() {
                 <span>
                   {isSubmitting
                     ? "Redirecting..."
-                    : `Reserve Placement (${
-                        selectedTier === "starter_9"
-                          ? "$9"
-                          : selectedTier === "leader_49"
-                          ? "$49/mo"
-                          : "$19"
-                      })`}
+                    : `Reserve Placement ($${selectedPricing.amountUsd}${selectedTier === "category_39" || selectedTier === "leader_49" || selectedTier === "combo_79" ? "/mo" : ""})`}
                 </span>
                 <ArrowRight className="w-4 h-4" />
               </button>

@@ -125,6 +125,42 @@ describe("Storefront Checkout URL Builders & Cloudflare Pages Functions", () => 
     const partnerJson = await partnerRes.json();
     assert.ok(partnerJson.checkoutUrl.includes("paymentAmount=9"));
 
+    const comboRes = await partnerOrderPost(
+      makeContext({
+        toolName: "Akii SEO",
+        toolUrl: "https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer",
+        contactEmail: "team@akii.dev",
+        tier: "combo_79",
+        bundleCategories: ["ai", "cli", "cloud"],
+      })
+    );
+    assert.equal(comboRes.status, 200);
+    const comboJson = await comboRes.json();
+    assert.ok(comboJson.checkoutUrl.includes("paymentAmount=79"));
+    assert.ok(comboJson.checkoutUrl.includes("metadata_bundleCategories=ai%2Ccli%2Ccloud"));
+
+    const customRes = await partnerOrderPost(
+      makeContext({
+        sponsorHandle: "@devpatron",
+        contactEmail: "patron@acme.dev",
+        tier: "custom",
+        customAmountUsd: 125,
+      })
+    );
+    assert.equal(customRes.status, 200);
+    const customJson = await customRes.json();
+    assert.ok(customJson.checkoutUrl.includes("paymentAmount=125"));
+    assert.ok(customJson.checkoutUrl.includes("metadata_sponsorHandle=devpatron"));
+
+    const clampedUrl = buildPartnerCheckoutUrl({
+      orderId: "SPONSOR-MIN",
+      tier: "custom",
+      customAmountUsd: 1,
+      sponsorHandle: "smallpatron",
+      contactEmail: "p@acme.dev",
+    });
+    assert.ok(clampedUrl.includes("paymentAmount=5"));
+
     const slugs = affiliatesData.partners.map((p) => p.slug);
     for (const expected of ["digitalocean", "railway", "hetzner", "cloudflare", "posthog", "neon", "vultr", "supabase"]) {
       assert.ok(slugs.includes(expected), `Expected affiliate slug: ${expected}`);
