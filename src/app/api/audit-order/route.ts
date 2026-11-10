@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
+import { buildAuditCheckoutUrl } from "../../../lib/checkout-urls.js";
+import { dispatchOrderWebhook } from "../../../lib/cf-webhook.js";
 
 export const runtime = "nodejs";
 
@@ -12,12 +14,12 @@ export async function POST(req: Request) {
       targetUrl,
       repoUrl,
       contactEmail,
-      launchDate,
-      packageTier,
-      notes,
+      launchDate = "ASAP",
+      packageTier = "starter_199",
+      notes = "",
+      orderId: clientOrderId,
     } = body;
 
-    // Validation
     if (!contactEmail || !contactEmail.includes("@")) {
       return NextResponse.json(
         { error: "A valid contact email is required to deliver your audit report." },
@@ -32,8 +34,13 @@ export async function POST(req: Request) {
       );
     }
 
-    const orderId = `AUDIT-${Math.floor(10000 + Math.random() * 90000)}`;
+    const orderId = clientOrderId || `AUDIT-${Math.floor(10000 + Math.random() * 90000)}`;
     const timestamp = new Date().toISOString();
+
+    const deliverySla =
+      packageTier === "pro_399"
+        ? "24 Hours (Full SaaS + MCP Defense Audit)"
+        : "24 Hours (Indie Pre-Launch Security Audit)";
 
     const orderRecord = {
       orderId,
@@ -42,21 +49,15 @@ export async function POST(req: Request) {
       targetUrl: targetUrl || "",
       repoUrl: repoUrl || "",
       contactEmail: contactEmail.trim().toLowerCase(),
-      launchDate: launchDate || "ASAP",
-      packageTier: packageTier || "rapid_1500",
-      notes: notes || "",
+      launchDate,
+      packageTier,
+      notes,
       status: "pending_payment",
-      deliverySla:
-        packageTier === "rapid_1500"
-          ? "2 Hours (Rapid Automated Audit)"
-          : packageTier === "comprehensive_7500"
-          ? "48 Hours (Full Architecture Review)"
-          : "Dedicated Team (Custom Scope)",
+      deliverySla,
     };
 
     console.log(`[AUDIT_ORDER_RECEIVED]`, JSON.stringify(orderRecord, null, 2));
 
-    // Persist order locally
     try {
       const dataDir = path.join(process.cwd(), "data");
       if (!fs.existsSync(dataDir)) {
@@ -77,22 +78,25 @@ export async function POST(req: Request) {
       console.warn("Could not write audit order to file:", fsErr);
     }
 
-    // Determine checkout redirect URL based on tier
-    let checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnRHHEI72iaB8AC9r?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}&tier=rapid_1500`)}`;
+    const checkoutUrl = buildAuditCheckoutUrl({
+      orderId,
+      packageTier,
+      productName,
+      targetUrl,
+      repoUrl,
+      contactEmail,
+    });
 
-    if (packageTier === "comprehensive_7500") {
-      checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}&tier=comprehensive_7500`)}`;
-    } else if (packageTier === "enterprise_15000") {
-      checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=2&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}&tier=enterprise_15000`)}`;
-    } else if (packageTier === "pro_399") {
-      checkoutUrl = `https://checkout.dodopayments.com/buy/pdt_0NrFWnSQHfJhuHs4Y9Xmh?quantity=1&redirect_url=${encodeURIComponent(`https://ritualdev.in/audit/success?id=${orderId}`)}`;
-    }
+    await dispatchOrderWebhook(
+      process.env,
+      `🛡️ **New Pre-Launch Security Audit Order [${orderId}]**\n• Tier: ${packageTier}\n• Product: ${orderRecord.productName}\n• Email: ${orderRecord.contactEmail}\n• Target URL: ${orderRecord.targetUrl || "N/A"}\n• Repo URL: ${orderRecord.repoUrl || "N/A"}`
+    );
 
     return NextResponse.json({
       success: true,
       orderId,
       checkoutUrl,
-      deliverySla: orderRecord.deliverySla,
+      deliverySla,
       message: "Audit order registered. Proceeding to secure checkout.",
     });
   } catch (err: any) {

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
+import { buildMcpCheckoutUrl } from "../../../lib/checkout-urls.js";
+import { dispatchOrderWebhook } from "../../../lib/cf-webhook.js";
 
 export const runtime = "nodejs";
 
@@ -11,10 +13,11 @@ export async function POST(req: Request) {
       companyName,
       apiDocsUrl,
       contactEmail,
-      tier,
-      preferredTransport,
-      includeMonetization,
-      notes,
+      tier = "standard_349",
+      preferredTransport = "stdio + sse",
+      includeMonetization = true,
+      notes = "",
+      orderId: clientOrderId,
     } = body;
 
     if (!contactEmail || !contactEmail.includes("@")) {
@@ -26,12 +29,12 @@ export async function POST(req: Request) {
 
     if (!apiDocsUrl && !notes) {
       return NextResponse.json(
-        { error: "Please provide your API documentation URL, OpenAPI JSON link, or database details." },
+        { error: "Please provide your API documentation URL, OpenAPI JSON link, or endpoint details." },
         { status: 400 }
       );
     }
 
-    const orderId = `MCP-SVC-${Math.floor(1000 + Math.random() * 9000)}`;
+    const orderId = clientOrderId || `MCP-SVC-${Math.floor(10000 + Math.random() * 90000)}`;
     const timestamp = new Date().toISOString();
 
     const orderRecord = {
@@ -40,16 +43,15 @@ export async function POST(req: Request) {
       companyName: companyName || "Client Project",
       apiDocsUrl: apiDocsUrl || "",
       contactEmail: contactEmail.trim().toLowerCase(),
-      tier: tier || "standard_349",
-      preferredTransport: preferredTransport || "stdio + sse",
+      tier,
+      preferredTransport,
       includeMonetization: Boolean(includeMonetization),
-      notes: notes || "",
+      notes,
       status: "pending_payment",
     };
 
     console.log(`[MCP_SERVICE_ORDER_RECEIVED]`, JSON.stringify(orderRecord, null, 2));
 
-    // Persist order locally
     try {
       const dataDir = path.join(process.cwd(), "data");
       if (!fs.existsSync(dataDir)) {
@@ -70,11 +72,20 @@ export async function POST(req: Request) {
       console.warn("Could not write MCP service order to file:", fsErr);
     }
 
-    // Determine checkout redirect URL based on tier
-    const checkoutUrl =
-      tier === "pro_699"
-        ? `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=3&redirect_url=${encodeURIComponent(`https://ritualdev.in/mcp-builder?success=true&id=${orderId}`)}`
-        : `https://checkout.dodopayments.com/buy/pdt_0NpjONGugY5QkrFDUaPva?quantity=2&redirect_url=${encodeURIComponent(`https://ritualdev.in/mcp-builder?success=true&id=${orderId}`)}`;
+    const checkoutUrl = buildMcpCheckoutUrl({
+      orderId,
+      tier,
+      companyName,
+      apiDocsUrl,
+      contactEmail,
+      preferredTransport,
+      includeMonetization,
+    });
+
+    await dispatchOrderWebhook(
+      process.env,
+      `🚀 **New Custom MCP Server Order [${orderId}]**\n• Tier: ${tier}\n• Company: ${orderRecord.companyName}\n• Email: ${orderRecord.contactEmail}\n• API Docs: ${orderRecord.apiDocsUrl || "See notes"}`
+    );
 
     return NextResponse.json({
       success: true,

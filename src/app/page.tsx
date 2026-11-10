@@ -37,8 +37,8 @@ export default function HomePage() {
   const installCommands = {
     brew: "brew tap ritualdev-lab/tap && brew install agentshield dbshield",
     scoop: "scoop bucket add ritual && scoop install agentshield",
-    npm: "npm install -g @ritualdev-lab/agentshield @ritualdev/promptshield @ritualdev/mockforge @ritualdev/fineprint",
-    pip: "pip install agentshield-defense promptshield mockforge fineprint",
+    npm: "npm install -g @ritualdev-lab/agentshield @ritualdev-lab/dbshield @ritualdev-lab/skillprism @ritualdev-lab/mcp-builder-kit",
+    pip: "pip install agentshield-defense",
     code: "code --install-extension ritualdev.agentshield-defense"
   };
 

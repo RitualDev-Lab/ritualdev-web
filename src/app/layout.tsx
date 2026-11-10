@@ -48,10 +48,16 @@ export const metadata: Metadata = {
     google: "4F91SuqID1yRYtZu5m-RhX-nuwt91lW7g-utrYMc5jY",
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-48x48.png", type: "image/png", sizes: "48x48" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon-192x192.png", type: "image/png", sizes: "192x192" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "RitualDev — Autonomous AI Agent Defense Suite",
     description: "Enterprise runtime zero-leak defense, database guardrail proxy, and 96.7% context compaction for AI coding agents.",
@@ -59,10 +65,10 @@ export const metadata: Metadata = {
     siteName: "RitualDev",
     images: [
       {
-        url: "/favicon.svg",
-        width: 512,
-        height: 512,
-        alt: "RitualDev Shield Mark",
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "RitualDev Lab Official Logo",
       },
     ],
     locale: "en_US",
@@ -72,6 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "RitualDev — Autonomous AI Agent Defense",
     description: "Enterprise zero-leak sandbox and database guardrails for AI coding agents.",
+    images: ["/og-image.png"],
   },
 };
 
@@ -88,7 +95,12 @@ export default function RootLayout({
         "@id": "https://ritualdev.in/#organization",
         "name": "RitualDev",
         "url": "https://ritualdev.in",
-        "logo": "https://ritualdev.in/favicon.svg",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://ritualdev.in/logo.png",
+          "width": 384,
+          "height": 384
+        },
         "sameAs": [
           "https://github.com/RitualDev-Lab",
           "https://open-vsx.org/namespace/ritualdev-lab",

@@ -2,7 +2,7 @@
   "schemaVersion": "2.0.0",
   "registry": "RitualDev Verified Autonomous Tool & Skill Registry",
   "homepage": "https://ritualdev.in/devshelf",
-  "updatedAt": "2026-11-08T15:06:43.294Z",
+  "updatedAt": "2026-11-10T11:54:48.343Z",
   "totalTools": 575,
   "documentation": "https://ritualdev.in/docs/agent-registry",
   "compliance": {
@@ -4904,7 +4904,13 @@
         "status": "VERIFIED_SAFE",
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
-      "installCommand": "git clone https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer"
+      "installCommand": "/plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer\n/plugin install akii-seo-ai-search-optimizer@akii",
+      "installCommands": [
+        "/plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer",
+        "/plugin install akii-seo-ai-search-optimizer@akii"
+      ],
+      "installNote": "To install the plugin, open Claude Code and run these as two separate commands:",
+      "installDocsUrl": "https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer#installation"
     },
     {
       "id": "mockforge-ai",

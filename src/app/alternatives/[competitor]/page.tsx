@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import rawData from "@/data/devshelf.json";
 import competitors from "@/data/competitors.json";
+import { findPartnerForTool, getCloudHostingPartners } from "@/lib/affiliates";
 
 interface Competitor {
   slug: string;
@@ -326,6 +327,7 @@ export default async function CompetitorComparisonPage({
           {matchedTools.map((tool) => {
             const slug = toSlug(tool.name);
             const repoClean = tool.repo ? (tool.repo.startsWith("http") ? tool.repo : `https://github.com/${tool.repo}`) : null;
+            const partnerOffer = findPartnerForTool(tool);
 
             return (
               <div
@@ -359,6 +361,17 @@ export default async function CompetitorComparisonPage({
 
                   {/* Actions */}
                   <div className="flex flex-wrap items-center gap-2 shrink-0">
+                    {partnerOffer && (
+                      <Link
+                        href={`/go/${partnerOffer.slug}/`}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs font-mono flex items-center gap-1.5 transition-colors"
+                      >
+                        <span>{partnerOffer.ctaText || `Claim ${partnerOffer.toolName} Offer`}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </Link>
+                    )}
                     <Link
                       href={`/devshelf/${slug}/`}
                       className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs font-mono transition-colors"
@@ -402,6 +415,56 @@ export default async function CompetitorComparisonPage({
               </div>
             );
           })}
+        </div>
+      </div>
+
+      {/* Self-Host Cloud Infrastructure Bounties */}
+      <div className="glass-panel rounded-3xl p-6 sm:p-8 border border-emerald-500/30 bg-emerald-950/10 space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider font-bold">
+              Developer Infrastructure Partners
+            </div>
+            <h2 className="text-xl font-bold text-white">
+              Deploy Self-Hosted {comp.name} Alternatives With Free Cloud Credits
+            </h2>
+          </div>
+          <span className="text-[11px] font-mono text-slate-400">
+            Supports zero-paywall open-source tooling
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {getCloudHostingPartners().map((partner) => (
+            <Link
+              key={partner.slug}
+              href={`/go/${partner.slug}/`}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 hover:border-emerald-500/50 flex flex-col justify-between gap-3 transition-all group"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <span className="font-bold text-sm text-white group-hover:text-emerald-300 transition-colors">
+                    {partner.toolName}
+                  </span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 shrink-0">
+                    {partner.badge || "Free Credit"}
+                  </span>
+                </div>
+                <p className="text-xs font-mono text-emerald-400 font-bold mb-1">
+                  {partner.perkTitle}
+                </p>
+                <p className="text-[11px] text-slate-400 line-clamp-2">
+                  {partner.perkDescription}
+                </p>
+              </div>
+              <span className="text-xs font-mono text-white font-bold flex items-center gap-1">
+                <span>{partner.ctaText || "Claim Credits"}</span>
+                <ExternalLink className="w-3 h-3 text-emerald-400" />
+              </span>
+            </Link>
+          ))}
         </div>
       </div>
 

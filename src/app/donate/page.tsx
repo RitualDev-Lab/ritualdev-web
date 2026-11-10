@@ -363,12 +363,12 @@ export default function DonatePage() {
                   </button>
 
                   <Link
-                    href={`https://github.com/sponsors/RitualDev-Lab?tier_id=${tier.amountNumUSD}`}
+                    href="https://github.com/RitualDev-Lab/DevShelf"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-2 rounded-xl text-slate-400 hover:text-white text-xs font-mono flex items-center justify-center gap-1 transition-colors"
                   >
-                    <span>Or sponsor via GitHub</span>
+                    <span>Or star on GitHub</span>
                     <ExternalLink className="w-3 h-3" />
                   </Link>
                 </div>

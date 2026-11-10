@@ -10,8 +10,14 @@ export default function Footer() {
           {/* Brand & Studio Mission */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-slate-900 border border-brand-green/40 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-neon"></span>
+              <div className="w-8 h-8 rounded-lg bg-white border border-brand-green/40 flex items-center justify-center overflow-hidden p-0.5 shrink-0">
+                <img
+                  src="/favicon-96x96.png"
+                  alt="RitualDev Lab logo"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain rounded"
+                />
               </div>
               <span className="font-bold text-lg text-white tracking-tight">RitualDev</span>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-green/10 text-brand-neon border border-brand-green/30">

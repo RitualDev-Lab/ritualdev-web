@@ -42,6 +42,7 @@ import {
 } from "@/lib/searchEngine";
 import rawData from "@/data/devshelf.json";
 import { DevShelfSkeletonGrid } from "@/components/Skeleton";
+import { buildPartnerCheckoutUrl, type PartnerTierId } from "@/lib/checkout-urls.js";
 
 function toSlug(name: string): string {
   return name
@@ -74,34 +75,53 @@ function getInstallCommand(tool: Resource): { cmd: string; type: string } | null
   return null;
 }
 
-// Live Dodo Payments Checkout Configuration
-const DODO_PRODUCT_ID = "pdt_0NpjONGugY5QkrFDUaPva";
-const DODO_BASE_URL = `https://checkout.dodopayments.com/buy/${DODO_PRODUCT_ID}`;
-
-const SPONSOR_PACKAGES = [
+const SPONSOR_PACKAGES: {
+  id: Exclude<PartnerTierId, "custom">;
+  name: string;
+  priceUsd: number;
+  priceInr: number;
+  tag: string;
+  desc: string;
+}[] = [
   {
-    id: "featuredSponsor",
-    name: "Featured Tool Sponsor",
-    priceUsd: 99,
-    priceInr: 8300,
-    tag: "Flagship / Pinned #1 Search Spot",
-    desc: "Pinned #1 placement across all 567+ tool search results, gold 'Verified Sponsor' badge, weekly developer newsletter feature, and RSS feed inclusion.",
+    id: "starter_9",
+    name: "Starter Verified Listing",
+    priceUsd: 9,
+    priceInr: 750,
+    tag: "Permanent • $9",
+    desc: "Verified dossier on Web & npx devshelf CLI, do-follow link, SVG README badge, and API indexing.",
   },
   {
-    id: "categoryTakeover",
-    name: "Category Spotlight",
+    id: "spotlight_19",
+    name: "Launch Spotlight + Digest",
+    priceUsd: 19,
+    priceInr: 1590,
+    tag: "Best for Launches",
+    desc: "30-day Featured card pin, custom promotional FAQs & Quick Install CTA, plus RSS & Digest shoutout.",
+  },
+  {
+    id: "category_39",
+    name: "Category Exclusive Spotlight",
+    priceUsd: 39,
+    priceInr: 3290,
+    tag: "Shelf Exclusive",
+    desc: "Sticky Category Sponsor banner across all dossiers & /alternatives/* roundups in your category.",
+  },
+  {
+    id: "leader_49",
+    name: "MCP Pro + Category Leader",
     priceUsd: 49,
     priceInr: 4100,
-    tag: "Category Top",
-    desc: "Pinned top #1 placement in your category + glowing verified star badge across 567+ dossiers.",
+    tag: "AI Agent Pin",
+    desc: "#1 category slot + priority npx devshelf-mcp & SkillPrism recommendation across Cursor & Claude Code.",
   },
   {
-    id: "mcpPro",
-    name: "MCP & AI Agent Recommended",
-    priceUsd: 29,
-    priceInr: 2400,
-    tag: "High Intent",
-    desc: "Priority recommendation inside npx devshelf-mcp AI sessions (Claude Code, Cursor, Windsurf).",
+    id: "combo_79",
+    name: "Category Combo Pack (3 Shelves)",
+    priceUsd: 79,
+    priceInr: 6600,
+    tag: "All-In Combo Pack",
+    desc: "Bundles Category Exclusive + MCP Pro + Digest across up to 3 shelves + Homepage Headline Spotlight.",
   },
 ];
 
@@ -195,8 +215,8 @@ export default function DevShelfPage() {
   const [sponsorToolUrl, setSponsorToolUrl] = useState("");
   const [sponsorName, setSponsorName] = useState("");
   const [sponsorEmail, setSponsorEmail] = useState("");
-  const [sponsorCategory, setSponsorCategory] = useState("Developer Tools");
-  const [selectedPackageId, setSelectedPackageId] = useState("featuredSponsor");
+  const [sponsorCategory, setSponsorCategory] = useState("ai");
+  const [selectedPackageId, setSelectedPackageId] = useState<Exclude<PartnerTierId, "custom">>("spotlight_19");
   const [currency, setCurrency] = useState<"USD" | "INR">("USD");
   const [sponsorError, setSponsorError] = useState("");
 
@@ -359,8 +379,8 @@ export default function DevShelfPage() {
     return Object.entries(groups).sort((a, b) => b[1].length - a[1].length);
   }, [filtered]);
 
-  // Handle Dodo Payments Sponsor Checkout
-  const handleSponsorCheckout = (e: React.FormEvent) => {
+  // Handle Dodo Payments Sponsor Checkout via /api/partner-order + automated webhook fulfillment
+  const handleSponsorCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     setSponsorError("");
 
@@ -372,31 +392,42 @@ export default function DevShelfPage() {
       setSponsorError("Please enter your Tool URL or GitHub Repo.");
       return;
     }
-
-    const pkg = SPONSOR_PACKAGES.find((p) => p.id === selectedPackageId) || SPONSOR_PACKAGES[0];
-    const amount = currency === "INR" ? pkg.priceInr : pkg.priceUsd;
-
-    const dodoParams = new URLSearchParams();
-    dodoParams.set("name", sponsorName || sponsorToolName);
-    dodoParams.set("fullName", sponsorName || sponsorToolName);
-    if (sponsorEmail) {
-      dodoParams.set("email", sponsorEmail);
-      dodoParams.set("customer_email", sponsorEmail);
+    if (!sponsorEmail.trim() || !sponsorEmail.includes("@")) {
+      setSponsorError("Please enter a valid contact email for Dodo receipt & activation notice.");
+      return;
     }
-    dodoParams.set("paymentAmount", String(amount));
-    dodoParams.set("amount", String(amount));
-    dodoParams.set("paymentCurrency", currency);
-    dodoParams.set("currency", currency);
-    dodoParams.set("singlePage", "true");
-    dodoParams.set("product_type", "digital");
-    dodoParams.set("shipping_required", "false");
-    dodoParams.set("redirect_url", `${window.location.origin}/devshelf?sponsor=success`);
-    dodoParams.set("metadata_toolName", sponsorToolName);
-    dodoParams.set("metadata_toolUrl", sponsorToolUrl);
-    dodoParams.set("metadata_package", pkg.id);
-    dodoParams.set("metadata_category", sponsorCategory);
 
-    const checkoutUrl = `${DODO_BASE_URL}?${dodoParams.toString()}`;
+    const orderId = `SPONSOR-${Math.floor(10000 + Math.random() * 90000)}`;
+    const payload = {
+      orderId,
+      tier: selectedPackageId,
+      toolName: sponsorToolName.trim(),
+      toolUrl: sponsorToolUrl.trim(),
+      category: sponsorCategory,
+      contactEmail: sponsorEmail.trim(),
+      tagline: sponsorName.trim() ? `Submitted by ${sponsorName.trim()}` : "",
+    };
+
+    try {
+      const res = await fetch("/api/partner-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.checkoutUrl) {
+          window.open(data.checkoutUrl, "_blank", "noopener,noreferrer");
+          setIsSponsorModalOpen(false);
+          copyToClipboard(data.checkoutUrl, "Dodo Payments checkout URL");
+          return;
+        }
+      }
+    } catch (_) {
+      // Fall back to direct checkout URL construction
+    }
+
+    const checkoutUrl = buildPartnerCheckoutUrl(payload);
     window.open(checkoutUrl, "_blank", "noopener,noreferrer");
     setIsSponsorModalOpen(false);
     copyToClipboard(checkoutUrl, "Dodo Payments checkout URL");
@@ -594,7 +625,7 @@ export default function DevShelfPage() {
           onClick={() => setIsSponsorModalOpen(true)}
           className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-mono font-bold transition-all shrink-0 shadow-lg shadow-purple-600/30 flex items-center gap-2"
         >
-          <span>Feature Your Tool ($99/mo)</span>
+          <span>Feature Your Tool ($9+)</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
@@ -1774,11 +1805,19 @@ export default function DevShelfPage() {
 
             {/* Packages Selector */}
             <div className="space-y-3">
-              <label className="text-xs font-mono uppercase tracking-wider text-slate-400 block">
-                Select Sponsorship Package
-              </label>
+              <div className="flex items-center justify-between gap-2">
+                <label className="text-xs font-mono uppercase tracking-wider text-slate-400">
+                  Select Sponsorship Package
+                </label>
+                <Link
+                  href="/partners#reserve-spotlight"
+                  className="text-[11px] font-mono text-emerald-400 hover:underline font-bold"
+                >
+                  Need Custom Sponsor ($5+) or Multi-Shelf Picker? →
+                </Link>
+              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {SPONSOR_PACKAGES.map((pkg) => {
                   const isSelected = selectedPackageId === pkg.id;
                   const price = currency === "INR" ? `₹${pkg.priceInr}` : `$${pkg.priceUsd}`;
@@ -1787,7 +1826,7 @@ export default function DevShelfPage() {
                     <div
                       key={pkg.id}
                       onClick={() => setSelectedPackageId(pkg.id)}
-                      className={`p-4 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
+                      className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
                         isSelected
                           ? "bg-purple-950/40 border-purple-500 shadow-lg shadow-purple-900/30 ring-1 ring-purple-500"
                           : "bg-slate-900/50 border-slate-800 hover:border-slate-700"
@@ -1808,11 +1847,16 @@ export default function DevShelfPage() {
 
                       <div className="mt-3 pt-2 border-t border-slate-800/80 flex items-center gap-1.5 text-[10px] font-mono text-purple-400">
                         <Check className="w-3 h-3" />
-                        <span>Instant Activation</span>
+                        <span>Automated Webhook Activation</span>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+
+              <div className="p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-[11px] font-mono text-slate-300 space-y-1">
+                <div className="text-emerald-400 font-bold uppercase tracking-wider">What Happens After You Pay?</div>
+                <p>1. Dodo completes payment (Card/Apple Pay/UPI) &amp; emails your PDF GST/VAT receipt. 2. Signed webhook dispatches automated GitHub activation &amp; Discord alert. 3. Tool goes live with ★ Verified Sponsor badge + MCP priority within 24h (100% refund if Zero-Paywall audit fails).</p>
               </div>
             </div>
 
@@ -1863,9 +1907,10 @@ export default function DevShelfPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-slate-400">Email (for Dodo PDF Invoice)</label>
+                  <label className="text-slate-400">Contact Email * (for Receipt &amp; Activation)</label>
                   <input
                     type="email"
+                    required
                     placeholder="alex@example.com"
                     value={sponsorEmail}
                     onChange={(e) => setSponsorEmail(e.target.value)}
@@ -1881,12 +1926,12 @@ export default function DevShelfPage() {
                   onChange={(e) => setSponsorCategory(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white focus:outline-none focus:border-purple-500"
                 >
-                  <option value="AI Agents & Local LLMs">AI Agents &amp; Local LLMs</option>
-                  <option value="Security & Defense">Security &amp; Defense</option>
-                  <option value="Developer Productivity & CLI">Developer Productivity &amp; CLI</option>
-                  <option value="Database & Cloud">Database &amp; Cloud</option>
-                  <option value="Testing & QA Automations">Testing &amp; QA Automations</option>
-                  <option value="Public Free APIs">Public Free APIs</option>
+                  <option value="ai">AI Agents &amp; Local LLMs / MCP</option>
+                  <option value="cli">CLI &amp; Developer Productivity</option>
+                  <option value="apis">Free Public APIs</option>
+                  <option value="cloud">Database &amp; Cloud</option>
+                  <option value="testing">Testing, Analytics &amp; QA</option>
+                  <option value="boilerplates">Starter Kits &amp; Boilerplates</option>
                 </select>
               </div>
 
