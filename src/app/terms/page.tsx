@@ -3,7 +3,10 @@ import { ArrowLeft, FileText, Mail } from "lucide-react";
 
 export const metadata = {
   title: "Terms of Service — RitualDev",
-  description: "Official Terms of Service for RitualDev websites, software, and applications."
+  description: "Official Terms of Service for RitualDev websites, software, and applications.",
+  alternates: {
+    canonical: "https://ritualdev.in/terms/",
+  }
 };
 
 export default function TermsOfServicePage() {

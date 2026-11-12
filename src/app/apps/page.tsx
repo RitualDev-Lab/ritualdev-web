@@ -17,6 +17,9 @@ import {
 export const metadata = {
   title: "Android Applications & Mobile Suite — RitualDev Studio",
   description: "Tactile, 100% offline-first Android applications and Kotlin Multiplatform engines by RitualDev. Decoupled consumer suite.",
+  alternates: {
+    canonical: "https://ritualdev.in/apps/",
+  }
 };
 
 export default function AppsPage() {

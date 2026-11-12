@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, Database, Lock, EyeOff, Terminal, CheckCi
 
 export const metadata = {
   title: "Privacy Policy for DBShield — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for DBShield (CI/CD Database Migration Firewall & Schema Safety Gatekeeper). Zero Query Retention."
+  description: "Official Privacy Policy and Data Safety Disclosures for DBShield (CI/CD Database Migration Firewall & Schema Safety Gatekeeper). Zero Query Retention.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/dbshield/",
+  }
 };
 
 export default function DBShieldPrivacyPage() {

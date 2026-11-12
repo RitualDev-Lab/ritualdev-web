@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, Calculator, Lock, EyeOff, HardDrive, File
 
 export const metadata = {
   title: "Privacy Policy for All-in-One Calculator Plus — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for All-in-One Calculator Plus (Package ID: com.allinone.calculator.plus) on Google Play. 100% Offline, Zero Data Harvesting."
+  description: "Official Privacy Policy and Data Safety Disclosures for All-in-One Calculator Plus (Package ID: com.allinone.calculator.plus) on Google Play. 100% Offline, Zero Data Harvesting.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/all-in-one-calculator/",
+  }
 };
 
 export default function CalculatorPrivacyPage() {

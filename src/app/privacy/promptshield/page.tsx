@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, Lock, EyeOff, Server, Terminal, FileCheck
 
 export const metadata = {
   title: "Privacy Policy for PromptShield Enterprise — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for PromptShield Enterprise (Chrome Web Store ID: 14103720-7a50-4083-a104-3bc47559c09e). 100% Client-Side In-Browser AI DLP."
+  description: "Official Privacy Policy and Data Safety Disclosures for PromptShield Enterprise (Chrome Web Store ID: 14103720-7a50-4083-a104-3bc47559c09e). 100% Client-Side In-Browser AI DLP.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/promptshield/",
+  }
 };
 
 export default function PromptShieldPrivacyPage() {

@@ -3,7 +3,10 @@ import { ArrowLeft, Calculator, ShieldCheck, Download, Smartphone } from "lucide
 
 export const metadata = {
   title: "All-in-One Calculator Plus — RitualDev Studio",
-  description: "170+ high-performance offline calculation and conversion tools for Android."
+  description: "170+ high-performance offline calculation and conversion tools for Android.",
+  alternates: {
+    canonical: "https://ritualdev.in/apps/all-in-one-calculator/",
+  }
 };
 
 export default function CalculatorAppDetailPage() {

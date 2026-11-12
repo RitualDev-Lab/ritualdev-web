@@ -1,10 +1,10 @@
 {
   "schemaVersion": "2.0.0",
   "registry": "RitualDev Verified Autonomous Tool & Skill Registry",
-  "homepage": "https://ritualdev.in/devshelf",
-  "updatedAt": "2026-11-12T10:33:21.621Z",
+  "homepage": "https://ritualdev.in/devshelf/",
+  "updatedAt": "2026-11-12T12:33:04.851Z",
   "totalTools": 575,
-  "documentation": "https://ritualdev.in/docs/agent-registry",
+  "documentation": "https://ritualdev.in/docs/",
   "compliance": {
     "airGappedReady": true,
     "zeroDataRetention": true,

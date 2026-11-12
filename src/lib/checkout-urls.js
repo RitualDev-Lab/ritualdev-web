@@ -355,7 +355,7 @@ export const TEAM_PRODUCT_CONFIG = {
     id: "mcp_starter_49",
     productId: DODO_MCP_STARTER_49,
     label: "MCP Monetization Starter Kit ($49 one-time)",
-    redirectUrl: "https://ritualdev.in/mcp-starter-kit/download",
+    redirectUrl: "https://ritualdev.in/mcp-starter-kit/download/",
   },
   mcp_pack_fintech_39: {
     id: "mcp_pack_fintech_39",

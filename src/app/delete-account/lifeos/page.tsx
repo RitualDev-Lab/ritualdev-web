@@ -3,7 +3,10 @@ import { ArrowLeft, Trash2, Mail } from "lucide-react";
 
 export const metadata = {
   title: "Data & Account Deletion — LifeOS",
-  description: "Google Play compliant data deletion instructions for LifeOS."
+  description: "Google Play compliant data deletion instructions for LifeOS.",
+  alternates: {
+    canonical: "https://ritualdev.in/delete-account/lifeos/",
+  }
 };
 
 export default function LifeOSDeletePage() {

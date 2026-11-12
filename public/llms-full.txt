@@ -3,7 +3,8 @@
 > Canonical Technical Reference for LLM Crawlers, AI Search Engines (Perplexity, ChatGPT, Claude, Gemini), and Autonomous Coding Agents.
 
 RitualDev is an independent systems engineering lab founded by Divyanshu Jethi and Sakshi Sharma.
-- [Web Platform](https://ritualdev.in): Production portal, directory, and client-side utilities.
+- [Web Platform](https://ritualdev.in/): Production portal, directory, and client-side utilities.
+- [About Studio](https://ritualdev.in/about/): Founders, mission, and verified package artifacts.
 - [GitHub Organization](https://github.com/RitualDev-Lab): Open-source repositories and packages.
 - [Open VSX Publisher](https://open-vsx.org/namespace/ritualdev-lab): IDE extension distribution.
 
@@ -11,24 +12,25 @@ RitualDev is an independent systems engineering lab founded by Divyanshu Jethi a
 
 Autonomous coding agents (Claude Code, Cursor, Windsurf, Devin, Antigravity) execute shell commands, read workspace files, and perform database queries. RitualDev provides runtime containment across multiple vectors:
 
-- [AgentShield Kernel Sandboxing](https://ritualdev.in/agentshield): Prevents prompt injection and credential exfiltration by executing agent subprocesses inside OS kernel sandboxes (Bubblewrap on Linux, Landlock, Apple Seatbelt on macOS, AppContainer on Windows) and substituting sensitive credentials with synthetic decoy honeytokens. Available via npm (`npx @ritualdev-lab/agentshield`), PyPI (`pip install agentshield-defense`), Homebrew, Scoop, and VS Code/Cursor extensions.
-- [DBShield Database Wire Proxy](https://ritualdev.in/dbshield): Intercepts PostgreSQL (wire protocol 3.0) and SQLite queries, isolates risky mutations (`DROP`, `DELETE`, `ALTER`) in distributed zero-commit dry-run transactions, and routes interactive approvals to Slack and Microsoft Teams.
-- [SkillPrism Token Compaction](https://ritualdev.in/skillprism): Cuts tool prompt bloat by 96.7% using Just-In-Time progressive schema injection and shared Redis VPC caching.
-- [PromptShield In-Browser DLP](https://ritualdev.in/promptshield): Manifest V3 extension stopping source code secrets and customer PII from leaking into ChatGPT, Claude, and Gemini chats with 100% local regex & entropy inspection.
-- [FinePrintAI Legal Scanner](https://ritualdev.in/fineprint): In-memory legal contract, lease, and NDA scanner evaluating 60+ legal rules with $0 server cost and zero data persistence.
-- [MockForge Synthetic Test DB](https://ritualdev.in/mockforge): In-browser relational mock database powered by Kahn's Topological Sorting DAG and WASM DuckDB.
+- [AgentShield Kernel Sandboxing](https://ritualdev.in/agentshield/): Prevents prompt injection and credential exfiltration by executing agent subprocesses inside OS kernel sandboxes (Bubblewrap on Linux, Landlock, Apple Seatbelt on macOS, AppContainer on Windows) and substituting sensitive credentials with synthetic decoy honeytokens. Available via npm (`npx @ritualdev-lab/agentshield`), PyPI (`pip install agentshield-defense`), Homebrew, Scoop, and VS Code/Cursor extensions.
+- [AgentShield Architecture Comparison](https://ritualdev.in/compare/): Benchmarks local kernel containment against cloud sandboxes, Docker containers, and SaaS AI firewall APIs.
+- [DBShield Database Wire Proxy](https://ritualdev.in/dbshield/): Intercepts PostgreSQL (wire protocol 3.0) and SQLite queries, isolates risky mutations (`DROP`, `DELETE`, `ALTER`) in distributed zero-commit dry-run transactions, and routes interactive approvals to Slack and Microsoft Teams.
+- [SkillPrism Token Compaction](https://ritualdev.in/skillprism/): Cuts tool prompt bloat by 96.7% using Just-In-Time progressive schema injection and shared Redis VPC caching.
+- [PromptShield In-Browser DLP](https://ritualdev.in/promptshield/): Manifest V3 extension stopping source code secrets and customer PII from leaking into ChatGPT, Claude, and Gemini chats with 100% local regex & entropy inspection.
+- [FinePrintAI Legal Scanner](https://ritualdev.in/fineprint/): In-memory legal contract, lease, and NDA scanner evaluating 60+ legal rules with $0 server cost and zero data persistence.
+- [MockForge Synthetic Test DB](https://ritualdev.in/mockforge/): In-browser relational mock database powered by Kahn's Topological Sorting DAG and WASM DuckDB.
 
 ## 2. Developer Catalog, Frameworks & APIs
 
-- [DevShelf Directory](https://devshelf.ritualdev.in): 567+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.
+- [DevShelf Directory](https://devshelf.ritualdev.in/): 575+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.
 - [MCP-Monetize](https://github.com/RitualDev-Lab/mcp-monetize): Drop-in Stripe & Dodo Payments billing middleware for MCP servers.
 - [Claude Code Starter Kit](https://github.com/RitualDev-Lab/claude-code-agentshield-starter): Turnkey Claude Code CLI repo with PreToolUse defense hooks.
 - [LangGraph AgentShield Template](https://github.com/RitualDev-Lab/langgraph-agentshield-template): Production Python LangGraph boilerplate with `@shield.protect` sandboxing.
 - [Awesome AI Agent Security](https://github.com/RitualDev-Lab/awesome-ai-agent-security): Curated taxonomy of agent threat models, attack surfaces, and defenses.
 - [Tools JSON API](https://ritualdev.in/api/v1/tools.json): Real-time machine-readable catalog.
 - [Categories API](https://ritualdev.in/api/v1/categories.json): Machine-readable classification schema.
-- [WebSecAuditor](https://ritualdev.in/web-sec-auditor): Turnkey GitHub PR review bot and static AST taint scanner.
-- [MCPBuilderKit](https://ritualdev.in/mcp-builder): Turnkey OpenAPI REST specification compiler for typed MCP servers.
+- [WebSecAuditor](https://ritualdev.in/web-sec-auditor/): Turnkey GitHub PR review bot and static AST taint scanner.
+- [MCPBuilderKit](https://ritualdev.in/mcp-builder/): Turnkey OpenAPI REST specification compiler for typed MCP servers.
 - [Enterprise Governance Suite](https://github.com/RitualDev-Lab/enterprise-governance-suite): Private VPC Terraform modules and air-gapped Kubernetes umbrella Helm charts.
 
 ## 3. Official Contact Desks
@@ -40,12 +42,11 @@ Autonomous coding agents (Claude Code, Cursor, Windsurf, Devin, Antigravity) exe
 
 ## 4. Commercial Tiers & Deliverables
 
-- [Pricing Matrix](https://ritualdev.in/pricing): Comparison of Community Core ($0), Pro Individual ($15/mo), Team Cluster ($99/mo), and Enterprise VPC ($10k-$50k/yr).
-- [Pro Delivery Portal](https://ritualdev.in/pricing/success): Instant cryptographic license issuance, CLI token activation, and IDE proxy snippets.
+- [Pricing Matrix](https://ritualdev.in/pricing/): Comparison of Community Core ($0), Team CI/CD Gate ($19/seat/mo), Hosted Relay ($29/mo), Enterprise Fleet ($49/seat/mo), Team Hub ($99/mo), and Private Compliance Pack ($199).
 
 ## 5. Statutory Compliance & Legal Disclosures
 
-- [Privacy Policies Center](https://ritualdev.in/privacy): Uncompromising offline-first, local-compute principles.
-- [DPDP Act 2023 Statutory Disclosure](https://ritualdev.in/privacy/dpdp): Indian statutory disclosure under Sections 9, 11–14, and designated Grievance Redressal Officer contact (`security@ritualdev.in`).
-- [Terms of Service & 7-Day Refund Policy](https://ritualdev.in/terms): Commercial licensing terms and instant digital fulfillment.
-- [Account & Data Deletion Portal](https://ritualdev.in/delete-account): Automated self-service data erasure conforming to DPDP Section 12.
+- [Privacy Policies Center](https://ritualdev.in/privacy/): Uncompromising offline-first, local-compute principles.
+- [DPDP Act 2023 Statutory Disclosure](https://ritualdev.in/privacy/dpdp/): Indian statutory disclosure under Sections 9, 11–14, and designated Grievance Redressal Officer contact (`security@ritualdev.in`).
+- [Terms of Service & 7-Day Refund Policy](https://ritualdev.in/terms/): Commercial licensing terms and instant digital fulfillment.
+- [Account & Data Deletion](https://ritualdev.in/delete-account/): Automated self-service data erasure conforming to DPDP Section 12.

@@ -3,7 +3,10 @@ import { ArrowLeft, Trash2, Mail } from "lucide-react";
 
 export const metadata = {
   title: "Data & Account Deletion — All-in-One Calculator",
-  description: "Google Play compliant data deletion instructions for All-in-One Calculator."
+  description: "Google Play compliant data deletion instructions for All-in-One Calculator.",
+  alternates: {
+    canonical: "https://ritualdev.in/delete-account/all-in-one-calculator/",
+  }
 };
 
 export default function CalculatorDeletePage() {

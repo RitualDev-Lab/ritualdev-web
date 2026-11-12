@@ -3,7 +3,10 @@ import { ArrowLeft, Trash2, Mail } from "lucide-react";
 
 export const metadata = {
   title: "Data & Account Deletion — CyberHub",
-  description: "Google Play compliant data deletion instructions for CyberHub."
+  description: "Google Play compliant data deletion instructions for CyberHub.",
+  alternates: {
+    canonical: "https://ritualdev.in/delete-account/cyberhub/",
+  }
 };
 
 export default function CyberHubDeletePage() {

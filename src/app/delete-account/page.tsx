@@ -3,7 +3,10 @@ import { Trash2, ArrowRight, ShieldAlert, Mail } from "lucide-react";
 
 export const metadata = {
   title: "Data & Account Deletion Requests — RitualDev",
-  description: "Official Google Play Data Deletion compliance directory for RitualDev Android applications."
+  description: "Official Google Play Data Deletion compliance directory for RitualDev Android applications.",
+  alternates: {
+    canonical: "https://ritualdev.in/delete-account/",
+  }
 };
 
 export default function DeleteAccountDirectoryPage() {

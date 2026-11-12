@@ -3,7 +3,10 @@ import { ArrowLeft, Mail, MessageSquare, Shield, LifeBuoy, Sparkles, ExternalLin
 
 export const metadata = {
   title: "Official Contact & Support Channels — RitualDev",
-  description: "Get in touch with the RitualDev team across dedicated developer, security, support, and enterprise email desks."
+  description: "Get in touch with the RitualDev team across dedicated developer, security, support, and enterprise email desks.",
+  alternates: {
+    canonical: "https://ritualdev.in/contact/",
+  }
 };
 
 const CONTACT_DESKS = [

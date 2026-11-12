@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, BookOpen, Lock, EyeOff, Globe, CheckCircl
 
 export const metadata = {
   title: "Privacy Policy for DevShelf — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for DevShelf (Open-Source Developer Tools & AI Agent Registry). Zero Tracking, 100% Transparent."
+  description: "Official Privacy Policy and Data Safety Disclosures for DevShelf (Open-Source Developer Tools & AI Agent Registry). Zero Tracking, 100% Transparent.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/devshelf/",
+  }
 };
 
 export default function DevShelfPrivacyPage() {
