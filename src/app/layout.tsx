@@ -46,10 +46,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon-48x48.png", type: "image/png", sizes: "48x48" },
       { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
       { url: "/favicon-192x192.png", type: "image/png", sizes: "192x192" },
+      { url: "/favicon.ico", sizes: "48x48" },
     ],
     shortcut: ["/favicon.ico"],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
@@ -143,9 +144,22 @@ export default function RootLayout({
         "@id": "https://ritualdev.in/#website",
         "url": "https://ritualdev.in",
         "name": "RitualDev",
+        "alternateName": ["RitualDev Lab", "RitualDev.in"],
         "publisher": {
           "@id": "https://ritualdev.in/#organization"
         }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://ritualdev.in/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "RitualDev",
+            "item": "https://ritualdev.in/"
+          }
+        ]
       },
       {
         "@type": "SoftwareApplication",
@@ -235,6 +249,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <link rel="icon" type="image/svg+xml" href="https://ritualdev.in/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="48x48" href="https://ritualdev.in/favicon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="https://ritualdev.in/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="https://ritualdev.in/favicon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="https://ritualdev.in/apple-touch-icon.png" />
+        <link rel="shortcut icon" href="https://ritualdev.in/favicon.ico" />
         <link rel="alternate" type="text/plain" href="https://ritualdev.in/llms.txt" title="LLM Documentation" />
         <link rel="ard" type="application/json" href="https://ritualdev.in/.well-known/ard.json" title="Agentic Resource Discovery" />
         <link rel="alternate" type="application/rss+xml" href="https://ritualdev.in/feed.xml" title="DevShelf RSS Feed" />
