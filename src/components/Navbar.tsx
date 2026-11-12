@@ -23,19 +23,22 @@ import {
 
 export default function Navbar() {
   const [suiteOpen, setSuiteOpen] = useState(false);
+  const [ecosystemOpen, setEcosystemOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLElement>(null);
 
   // Close dropdown on outside click or Escape key
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setSuiteOpen(false);
+        setEcosystemOpen(false);
       }
     }
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setSuiteOpen(false);
+        setEcosystemOpen(false);
         setMobileMenuOpen(false);
       }
     }
@@ -136,27 +139,32 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav ref={dropdownRef} className="hidden md:flex items-center gap-1">
             
             {/* Products Dropdown */}
             <div 
-              ref={dropdownRef}
               className="relative"
-              onMouseEnter={() => setSuiteOpen(true)}
+              onMouseEnter={() => {
+                setSuiteOpen(true);
+                setEcosystemOpen(false);
+              }}
               onMouseLeave={() => setSuiteOpen(false)}
             >
               <button 
                 type="button"
-                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
                   suiteOpen 
                     ? 'text-white bg-slate-800/90' 
                     : 'text-slate-200 hover:text-white hover:bg-slate-800/50'
                 }`}
-                onClick={() => setSuiteOpen(!suiteOpen)}
+                onClick={() => {
+                  setSuiteOpen(!suiteOpen);
+                  setEcosystemOpen(false);
+                }}
                 aria-expanded={suiteOpen}
                 aria-haspopup="true"
               >
-                <span>AI Defense Suite</span>
+                <span>Products</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${suiteOpen ? 'rotate-180 text-brand-neon' : 'text-slate-400'}`} />
               </button>
 
@@ -269,95 +277,139 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link 
-              href="/playground" 
-              className="px-3 py-2 text-sm font-medium text-emerald-300 hover:text-white rounded-lg hover:bg-emerald-950/40 transition-colors flex items-center gap-1.5"
-            >
-              <span>Playground</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 animate-pulse">
-                Live Demo
-              </span>
-            </Link>
-
-            <Link 
-              href="/docs" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
-            >
-              Docs
-            </Link>
-
-            <Link 
-              href="/integrations" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
-            >
-              Integrations
-            </Link>
-
-            <Link 
-              href="/trust" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
-            >
-              Trust
-            </Link>
-
-            <Link 
-              href="/devshelf" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors flex items-center gap-1.5"
-            >
-              <span>DevShelf</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">
-                567+
-              </span>
-            </Link>
-
-            <Link 
-              href="/mcp-starter-kit" 
-              className="px-3 py-2 text-sm font-medium text-purple-300 hover:text-white rounded-lg hover:bg-purple-950/40 transition-colors flex items-center gap-1.5"
-            >
-              <span>MCP Kit</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/40">
-                $49
-              </span>
-            </Link>
-
-            <Link 
-              href="/pricing" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+            <Link
+              href="/pricing"
+              className="px-3 py-2 text-sm font-medium text-brand-neon hover:text-white rounded-lg hover:bg-brand-green/10 transition-colors whitespace-nowrap"
             >
               Pricing
             </Link>
 
-            <Link 
-              href="/partners" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors flex items-center gap-1.5"
+            <Link
+              href="/compare"
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors whitespace-nowrap"
             >
-              <span>Partners</span>
-              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/40">
-                Sponsor
-              </span>
+              Compare
             </Link>
 
-            <Link 
-              href="/enterprise" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+            <Link
+              href="/enterprise"
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors whitespace-nowrap"
             >
               Enterprise
             </Link>
 
-            <Link 
-              href="/apps" 
-              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors"
+            <Link
+              href="/trust"
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors whitespace-nowrap"
             >
-              Android Apps
+              Trust
             </Link>
 
-            <Link 
-              href="/donate" 
-              className="px-3 py-2 text-sm font-medium text-rose-300 hover:text-rose-200 rounded-lg hover:bg-rose-950/30 transition-colors flex items-center gap-1.5"
+            <Link
+              href="/docs"
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors whitespace-nowrap"
             >
-              <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
-              <span>Donate</span>
+              Docs
             </Link>
+
+            <Link
+              href="/about"
+              className="px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors whitespace-nowrap"
+            >
+              About
+            </Link>
+
+            {/* Ecosystem & Resources Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setEcosystemOpen(!ecosystemOpen);
+                  setSuiteOpen(false);
+                }}
+                aria-expanded={ecosystemOpen}
+                aria-haspopup="true"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-200 hover:text-white rounded-lg hover:bg-slate-800/50 transition-colors whitespace-nowrap"
+              >
+                <span>Ecosystem</span>
+                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${ecosystemOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {ecosystemOpen && (
+                <div className="absolute right-0 mt-2 w-72 rounded-2xl bg-[#0c1222] border border-slate-700/80 shadow-2xl p-2 z-50 space-y-1">
+                  <Link
+                    href="/playground"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-emerald-300 hover:text-white transition-colors"
+                  >
+                    <span>Playground Simulator</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40">LIVE</span>
+                  </Link>
+                  <Link
+                    href="/integrations"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="block px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-slate-200 hover:text-white transition-colors"
+                  >
+                    IDE &amp; Framework Integrations
+                  </Link>
+                  <Link
+                    href="/advisories"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-red-300 hover:text-white transition-colors"
+                  >
+                    <span>Security Advisories (CVEs)</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-red-500/20 border border-red-500/40">GHSA</span>
+                  </Link>
+                  <Link
+                    href="/audit"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-slate-200 hover:text-white transition-colors"
+                  >
+                    <span>2h Security Audit Sprint</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">$199</span>
+                  </Link>
+                  <div className="border-t border-slate-800 my-1" />
+                  <Link
+                    href="/devshelf"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-slate-200 hover:text-white transition-colors"
+                  >
+                    <span>DevShelf Directory</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">575+</span>
+                  </Link>
+                  <Link
+                    href="/mcp-starter-kit"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-purple-300 hover:text-white transition-colors"
+                  >
+                    <span>MCP Monetize Kit</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 border border-purple-500/40">$49</span>
+                  </Link>
+                  <Link
+                    href="/partners"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-sky-300 hover:text-white transition-colors"
+                  >
+                    <span>Partner Placements</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 border border-sky-500/40">Sponsor</span>
+                  </Link>
+                  <Link
+                    href="/apps"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="block px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-slate-200 hover:text-white transition-colors"
+                  >
+                    Android Apps Studio
+                  </Link>
+                  <Link
+                    href="/donate"
+                    onClick={() => setEcosystemOpen(false)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-rose-950/30 text-sm text-rose-300 hover:text-rose-200 transition-colors"
+                  >
+                    <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
+                    <span>Sponsor Open Source</span>
+                  </Link>
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Right Action Buttons */}
@@ -485,11 +537,25 @@ export default function Navbar() {
               DevShelf (567+ Directory)
             </Link>
             <Link
-              href="/pricing"
+              href="/compare"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-brand-cyan font-bold hover:text-white rounded-lg hover:bg-slate-800"
+            >
+              Compare AgentShield vs Alternatives
+            </Link>
+            <Link
+              href="/about"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
             >
-              Pricing
+              About RitualDev Studio
+            </Link>
+            <Link
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-sm text-brand-neon font-bold hover:text-white rounded-lg hover:bg-slate-800"
+            >
+              Pricing &amp; Fleet Plans
             </Link>
             <Link
               href="/partners"

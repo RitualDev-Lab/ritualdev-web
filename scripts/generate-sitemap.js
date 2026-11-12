@@ -29,6 +29,7 @@ const staticRoutes = [
   { path: 'devshelf', prio: '0.95', change: 'daily' },
   { path: 'alternatives', prio: '0.95', change: 'daily' },
   { path: 'agentshield', prio: '0.9', change: 'weekly' },
+  { path: 'compare', prio: '0.9', change: 'weekly' },
   { path: 'advisories', prio: '0.95', change: 'weekly' },
   { path: 'playground', prio: '0.9', change: 'weekly' },
   { path: 'playground/mockforge', prio: '0.95', change: 'weekly' },

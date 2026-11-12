@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   Check,
+  CheckCircle2,
   Shield,
   ArrowRight,
   Lock,
@@ -26,13 +27,18 @@ export default function PricingPage() {
   const [githubUsername, setGithubUsername] = useState("");
   const [workEmail, setWorkEmail] = useState("");
 
-  const launchCheckout = (tier: "team_relay_29" | "team_hub_99" | "private_compliance_kit") => {
-    const url = buildCloudOrPrivateCheckoutUrl({
-      tier,
-      customerEmail: workEmail,
-      githubUsername,
-    });
+  const openExternalCheckout = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const launchCheckout = (tier: "team_relay_29" | "team_hub_99" | "private_compliance_kit") => {
+    openExternalCheckout(
+      buildCloudOrPrivateCheckoutUrl({
+        tier,
+        customerEmail: workEmail,
+        githubUsername,
+      })
+    );
   };
 
   return (
@@ -41,21 +47,137 @@ export default function PricingPage() {
       <div className="flex items-center gap-2 text-xs font-mono text-slate-400 border-b border-slate-800 pb-4">
         <Link href="/" className="hover:text-brand-green">Home</Link>
         <span>/</span>
-        <span className="text-brand-green font-bold">Open-Source Core &amp; Hosted Cloud Plans</span>
+        <span className="text-brand-green font-bold">AgentShield &amp; RitualDev Pricing</span>
       </div>
 
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-4">
+      <div className="text-center max-w-4xl mx-auto space-y-4">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-brand-green/30 text-xs font-mono text-brand-neon">
           <CreditCard className="w-3.5 h-3.5" />
-          <span>Zero CLI Paywalls • Pay Only for Hosted Cloud Infra, Private Compliance &amp; Engineering Sprints</span>
+          <span>Transparent Per-Seat &amp; Flat Team Pricing • Zero CLI Paywalls</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Free Local Defense. Paid Managed Relay.
+          AgentShield &amp; AI Defense Suite Pricing
         </h1>
-        <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-          We never lock local CLI features behind a license key. AgentShield, DBShield, and SkillPrism CLIs are 100% open source. Upgrade when your team wants hosted approval relays, managed Redis token caching, webhook-gated compliance kits, or 48-hour Done-For-You delivery.
+        <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Every local runtime CLI (AgentShield, DBShield, SkillPrism) is <strong className="text-white">$0 forever</strong> under open-source licensing. Upgrade seamlessly to Team CI/CD Gates (<strong className="text-brand-neon">$19/seat/mo</strong>), Hosted Team Relay (<strong className="text-cyan-300">$29/mo</strong>), Enterprise Fleet (<strong className="text-purple-300">$49/seat/mo</strong>), or Private Compliance Packs (<strong className="text-amber-300">$199</strong>).
         </p>
+      </div>
+
+      {/* Flagship AgentShield Tier Breakdown Table */}
+      <div className="glass-panel rounded-3xl border border-slate-700/80 overflow-hidden shadow-2xl">
+        <div className="px-6 py-5 bg-slate-950/70 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="text-xs font-mono text-brand-neon uppercase tracking-wider mb-1">
+              Core AgentShield Plans at a Glance
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">
+              From Individual OSS CLI to Enterprise Fleet Control
+            </h2>
+          </div>
+          <Link
+            href="/compare/"
+            className="text-xs font-mono text-brand-cyan hover:text-white transition-colors shrink-0"
+          >
+            Compare AgentShield vs Docker &amp; Cloud Sandboxes &rarr;
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-800">
+          {/* Tier 1: Community OSS */}
+          <div className="p-6 flex flex-col justify-between space-y-5">
+            <div className="space-y-3">
+              <div className="text-xs font-mono text-emerald-400 uppercase tracking-wider">Community OSS</div>
+              <div className="text-3xl font-extrabold text-white">$0 <span className="text-xs font-normal text-slate-400">forever</span></div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Local kernel sandboxing, secret redaction, DBShield proxy &amp; HMAC ledger for solo engineers.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-300 pt-2">
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /><span>Landlock, bwrap, Seatbelt, AppContainer</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /><span>Local secret masking (&lt;1ms)</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" /><span>Apache 2.0 / Air-gapped CLI</span></li>
+              </ul>
+            </div>
+            <Link
+              href="/agentshield/"
+              className="w-full py-2.5 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white text-xs font-mono font-bold text-center transition"
+            >
+              Install Free CLI
+            </Link>
+          </div>
+
+          {/* Tier 2: Team & CI/CD Gate */}
+          <div className="p-6 flex flex-col justify-between space-y-5 bg-emerald-950/10">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono text-brand-neon uppercase tracking-wider">Team &amp; CI/CD Gate</span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-green/15 text-brand-neon border border-brand-green/30">Most Popular</span>
+              </div>
+              <div className="text-3xl font-extrabold text-white">$19 <span className="text-xs font-normal text-slate-400">/ seat / mo</span></div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Enforce organization policies across GitHub Actions PRs and standardize IDE security settings.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-300 pt-2">
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-brand-neon shrink-0" /><span>Everything in Community OSS</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-brand-neon shrink-0" /><span>Org policy sync &amp; PR SARIF gate</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-brand-neon shrink-0" /><span>Centralized team allow/deny rules</span></li>
+              </ul>
+            </div>
+            <button
+              type="button"
+              onClick={() => openExternalCheckout(buildTeamProductCheckoutUrl({ tier: "agentshield_team_19", customerEmail: workEmail, githubUsername }))}
+              className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-brand-green to-emerald-500 text-slate-950 text-xs font-mono font-bold hover:opacity-95 transition"
+            >
+              Subscribe Team ($19/seat)
+            </button>
+          </div>
+
+          {/* Tier 3: Hosted Approval Relay */}
+          <div className="p-6 flex flex-col justify-between space-y-5">
+            <div className="space-y-3">
+              <div className="text-xs font-mono text-brand-cyan uppercase tracking-wider">Hosted Approval Relay</div>
+              <div className="text-3xl font-extrabold text-white">$29 <span className="text-xs font-normal text-slate-400">/ month flat</span></div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Managed Slack &amp; MS Teams two-man approval webhooks for risky agent actions (up to 10 devs).
+              </p>
+              <ul className="space-y-2 text-xs text-slate-300 pt-2">
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" /><span>Slack &amp; MS Teams interactive approvals</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" /><span>Hosted JSON policy endpoint</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" /><span>30-day tamper-evident audit trail</span></li>
+              </ul>
+            </div>
+            <button
+              type="button"
+              onClick={() => launchCheckout("team_relay_29")}
+              className="w-full py-2.5 px-3 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-200 text-xs font-mono font-bold transition"
+            >
+              Subscribe Relay ($29/mo)
+            </button>
+          </div>
+
+          {/* Tier 4: Enterprise Fleet */}
+          <div className="p-6 flex flex-col justify-between space-y-5 bg-purple-950/10">
+            <div className="space-y-3">
+              <div className="text-xs font-mono text-purple-300 uppercase tracking-wider">Enterprise Fleet</div>
+              <div className="text-3xl font-extrabold text-white">$49 <span className="text-xs font-normal text-slate-400">/ seat / mo</span></div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                SIEM log streaming, SAML/OIDC SSO, canary decoys &amp; air-gapped AWS VPC deployment modules.
+              </p>
+              <ul className="space-y-2 text-xs text-slate-300 pt-2">
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-purple-400 shrink-0" /><span>Splunk / Datadog / Sentinel CEF export</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-purple-400 shrink-0" /><span>SAML/OIDC SSO + custom canary decoys</span></li>
+                <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-purple-400 shrink-0" /><span>SOC 2 &amp; ISO 27001 evidence kit</span></li>
+              </ul>
+            </div>
+            <button
+              type="button"
+              onClick={() => openExternalCheckout(buildTeamProductCheckoutUrl({ tier: "agentshield_enterprise_49", customerEmail: workEmail, githubUsername }))}
+              className="w-full py-2.5 px-3 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-200 text-xs font-mono font-bold transition"
+            >
+              Deploy Fleet ($49/seat)
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Free Open-Source Flagship Callout */}
@@ -596,6 +718,51 @@ export default function PricingPage() {
               <span>Sponsor / Donate Any Amount</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Pricing & Procurement FAQ */}
+      <div className="space-y-6">
+        <div>
+          <div className="text-xs font-mono text-brand-cyan uppercase tracking-wider mb-1">
+            Procurement &amp; Billing FAQ
+          </div>
+          <h2 className="text-2xl font-bold text-white">Answers Before You Subscribe</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-2">
+            <h3 className="text-sm sm:text-base font-bold text-white">
+              Do I need a credit card to use AgentShield, DBShield, or SkillPrism?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              No. All local CLI defense, kernel containment, secret masking, and IDE extensions work offline at $0 without creating an account.
+            </p>
+          </div>
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-2">
+            <h3 className="text-sm sm:text-base font-bold text-white">
+              How is Private Compliance Pack &amp; Pro repo access delivered?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Enter your work email and GitHub username above checkout. Our verified Dodo Payments webhook automatically invites your GitHub handle to the corresponding private repository.
+            </p>
+          </div>
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-2">
+            <h3 className="text-sm sm:text-base font-bold text-white">
+              Can we get formal GST / EU VAT invoices and SLA contracts?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Yes. Dodo Payments acts as Merchant of Record and generates automated global VAT and Indian GST invoices for every order. Review full contract terms at <Link href="/sla/" className="text-brand-cyan underline">/sla</Link>.
+            </p>
+          </div>
+          <div className="glass-panel rounded-2xl p-6 border border-slate-800 space-y-2">
+            <h3 className="text-sm sm:text-base font-bold text-white">
+              What is your cancellation &amp; refund policy?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Monthly subscriptions cancel anytime with zero lock-in. See full refund terms at <Link href="/terms/" className="text-brand-cyan underline">/terms</Link> or email <a href="mailto:developer@ritualdev.in" className="text-brand-green underline">developer@ritualdev.in</a>.
+            </p>
           </div>
         </div>
       </div>
