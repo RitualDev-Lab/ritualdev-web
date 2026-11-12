@@ -17,6 +17,7 @@ import {
   Check
 } from "lucide-react";
 import TeamCheckoutBanner from "@/components/TeamCheckoutBanner";
+import AgentShieldComparison from "@/components/AgentShieldComparison";
 
 export default function AgentShieldPage() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -326,6 +327,11 @@ export default function AgentShieldPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Competitive Architecture Comparison & Objections */}
+      <section id="compare" className="mb-14">
+        <AgentShieldComparison />
       </section>
 
       <TeamCheckoutBanner

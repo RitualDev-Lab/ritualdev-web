@@ -218,6 +218,17 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
+                <Link href="/compare" className="hover:text-brand-neon transition-colors flex items-center gap-1.5 text-slate-200">
+                  <span>AgentShield vs Alternatives</span>
+                  <span className="text-[9px] font-mono px-1 py-0.2 bg-brand-green/10 text-brand-neon border border-brand-green/30 rounded">Compare</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="hover:text-brand-cyan transition-colors text-slate-200">
+                  About RitualDev Studio &amp; Founders
+                </Link>
+              </li>
+              <li>
                 <Link href="/trust" className="hover:text-emerald-300 transition-colors flex items-center gap-1.5 text-slate-200">
                   <span>Trust &amp; SOC 2 Portal</span>
                   <span className="text-[9px] font-mono px-1 py-0.2 bg-emerald-950/60 text-emerald-300 border border-emerald-800/40 rounded">Audit Ready</span>

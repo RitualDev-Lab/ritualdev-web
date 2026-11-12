@@ -27,6 +27,7 @@ import {
   ShieldAlert,
   FileText
 } from "lucide-react";
+import AgentShieldComparison from "@/components/AgentShieldComparison";
 
 export default function HomePage() {
   const [activeInstallTab, setActiveInstallTab] = useState<"brew" | "scoop" | "npm" | "pip" | "code">("brew");
@@ -146,22 +147,51 @@ export default function HomePage() {
             href="/agentshield"
             className="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-green to-emerald-500 text-slate-950 font-bold text-sm hover:opacity-95 transition-all shadow-[0_0_20px_rgba(61,220,132,0.3)] flex items-center gap-2"
           >
-            <span>Explore AgentShield</span>
+            <span>Explore AgentShield (Free CLI)</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
-            href="/advisories"
-            className="px-6 py-3 rounded-xl bg-red-950/40 hover:bg-red-950/60 border border-red-800/50 hover:border-red-600 text-red-300 hover:text-white font-medium text-sm transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.15)]"
+            href="/pricing"
+            className="px-6 py-3 rounded-xl bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan hover:text-white font-bold text-sm transition-all flex items-center gap-2"
           >
-            <Shield className="w-4 h-4 text-red-400" />
-            <span>Security Advisories (CVEs)</span>
+            <span>Pricing &amp; Plans ($0 – $49/seat)</span>
           </Link>
           <Link
-            href="/devshelf"
+            href="/compare"
             className="px-6 py-3 rounded-xl glass-panel text-white font-medium text-sm hover:border-brand-cyan/60 transition-all flex items-center gap-2"
           >
-            <Layers className="w-4 h-4 text-brand-cyan" />
-            <span>DevShelf Catalog (567+)</span>
+            <span>Compare vs Cloud &amp; Docker</span>
+          </Link>
+          <Link
+            href="/advisories"
+            className="px-5 py-3 rounded-xl bg-red-950/40 hover:bg-red-950/60 border border-red-800/50 hover:border-red-600 text-red-300 hover:text-white font-medium text-sm transition-all flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.15)]"
+          >
+            <Shield className="w-4 h-4 text-red-400" />
+            <span>CVE Advisories</span>
+          </Link>
+        </div>
+
+        {/* Authentic Verifiable Trust & Engineering Strip */}
+        <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto text-left">
+          <div className="glass-panel rounded-2xl p-4 border border-slate-800/90">
+            <div className="text-[11px] font-mono text-brand-neon uppercase">Runtime Latency</div>
+            <div className="text-lg font-extrabold text-white mt-0.5">&lt;1ms Local Redact</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">Zero bytes leave your workstation</div>
+          </div>
+          <div className="glass-panel rounded-2xl p-4 border border-slate-800/90">
+            <div className="text-[11px] font-mono text-brand-cyan uppercase">Package Registries</div>
+            <div className="text-lg font-extrabold text-white mt-0.5">npm · PyPI · Open VSX</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">SLSA OIDC provenance verified</div>
+          </div>
+          <Link href="/trust" className="glass-panel rounded-2xl p-4 border border-slate-800/90 hover:border-emerald-500/40 transition-colors">
+            <div className="text-[11px] font-mono text-emerald-400 uppercase">Compliance &amp; Audit</div>
+            <div className="text-lg font-extrabold text-white mt-0.5">SOC 2 · ISO · OWASP</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">Inspect SIG answers &rarr;</div>
+          </Link>
+          <Link href="/about" className="glass-panel rounded-2xl p-4 border border-slate-800/90 hover:border-brand-cyan/40 transition-colors">
+            <div className="text-[11px] font-mono text-purple-300 uppercase">Independent Studio</div>
+            <div className="text-lg font-extrabold text-white mt-0.5">Divyanshu &amp; Sakshi</div>
+            <div className="text-[11px] text-slate-400 mt-0.5">Meet founders &amp; artifacts &rarr;</div>
           </Link>
         </div>
 
@@ -787,6 +817,91 @@ export default function HomePage() {
           </div>
         </div>
 
+      </section>
+
+      {/* Transparent AgentShield Pricing Overview & Competitive Matrix */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-slate-800/80 space-y-16">
+        <div className="space-y-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <div className="text-xs font-mono text-brand-neon uppercase tracking-wider mb-2">
+                Pricing Transparency &middot; Zero CLI Paywalls
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+                AgentShield Plans for Solo Devs &amp; Security Fleets
+              </h2>
+              <p className="mt-2 text-slate-400 max-w-2xl text-sm sm:text-base">
+                Start locally at $0 forever. Upgrade only for CI/CD PR gates, hosted Slack/MS Teams relays, SIEM telemetry, or turnkey security audits.
+              </p>
+            </div>
+            <Link
+              href="/pricing"
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-green to-emerald-500 text-slate-950 font-bold text-xs font-mono hover:opacity-95 transition-opacity inline-flex items-center gap-2 shrink-0"
+            >
+              <span>Full Pricing &amp; All 8 Products</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              {
+                name: "Community OSS",
+                price: "$0",
+                unit: "forever (Apache 2.0)",
+                desc: "Local kernel sandbox, secret redactor, DBShield proxy & HMAC ledger.",
+                href: "/agentshield",
+                cta: "Install CLI Free",
+              },
+              {
+                name: "Team & CI/CD Gate",
+                price: "$19",
+                unit: "/ seat / mo",
+                desc: "Org policy URL sync, GitHub PR SARIF blocking & IDE rule enforcement.",
+                href: "/pricing",
+                cta: "View Team Plan",
+              },
+              {
+                name: "Hosted Relay",
+                price: "$29",
+                unit: "/ month flat",
+                desc: "Managed Slack/MS Teams two-man approvals & 30-day audit retention.",
+                href: "/pricing",
+                cta: "View Relay Plan",
+              },
+              {
+                name: "Enterprise Fleet",
+                price: "$49",
+                unit: "/ seat / mo",
+                desc: "Splunk/Datadog SIEM streaming, SAML SSO, canaries & SOC 2 evidence.",
+                href: "/enterprise",
+                cta: "View Fleet & VPC",
+              },
+            ].map((tier) => (
+              <div
+                key={tier.name}
+                className="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between space-y-5"
+              >
+                <div className="space-y-2">
+                  <div className="text-xs font-mono text-brand-cyan uppercase">{tier.name}</div>
+                  <div className="text-3xl font-extrabold text-white">
+                    {tier.price} <span className="text-xs font-normal text-slate-400">{tier.unit}</span>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">{tier.desc}</p>
+                </div>
+                <Link
+                  href={tier.href}
+                  className="text-xs font-mono font-bold text-brand-neon hover:text-white transition-colors inline-flex items-center gap-1.5"
+                >
+                  <span>{tier.cta}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <AgentShieldComparison compact />
       </section>
 
       {/* Enterprise CTA & Founders */}
