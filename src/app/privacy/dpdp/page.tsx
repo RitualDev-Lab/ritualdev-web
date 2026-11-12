@@ -3,7 +3,10 @@ import { Shield, Lock, FileCheck, Mail, ArrowLeft, CheckCircle2, UserCheck, Aler
 
 export const metadata = {
   title: "DPDP Act Compliance & Data Fiduciary Disclosure — RitualDev",
-  description: "Official compliance statement under India's Digital Personal Data Protection Act, 2023 (DPDP Act 2023) and global privacy regulations (GDPR, CCPA)."
+  description: "Official compliance statement under India's Digital Personal Data Protection Act, 2023 (DPDP Act 2023) and global privacy regulations (GDPR, CCPA).",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/dpdp/",
+  }
 };
 
 export default function DpdpCompliancePage() {

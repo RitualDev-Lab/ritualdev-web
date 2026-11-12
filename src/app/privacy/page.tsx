@@ -3,7 +3,10 @@ import { Shield, Smartphone, ArrowRight, Lock, Database, Code2, Scale, Terminal 
 
 export const metadata = {
   title: "Privacy Center & Policies — RitualDev",
-  description: "Official Privacy Center and Application Data Safety Policies for RitualDev products and developer tools."
+  description: "Official Privacy Center and Application Data Safety Policies for RitualDev products and developer tools.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/",
+  }
 };
 
 export default function PrivacyCenterPage() {

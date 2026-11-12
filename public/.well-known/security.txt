@@ -1,7 +1,7 @@
 # RFC 9116 Compliant Security Policy for RitualDev
 # Primary Security Contact
 Contact: mailto:security@ritualdev.in
-Contact: https://ritualdev.in/contact
+Contact: https://ritualdev.in/contact/
 
 # Security Operations Encryption Key (ASCII Armored PGP)
 Encryption: https://ritualdev.in/pgp-key.txt
@@ -10,16 +10,16 @@ Encryption: https://ritualdev.in/pgp-key.txt
 Canonical: https://ritualdev.in/.well-known/security.txt
 
 # Security, Trust & Compliance Center
-Policy: https://ritualdev.in/trust
+Policy: https://ritualdev.in/trust/
 
 # Public Acknowledgments & GitHub Security Advisories
-Acknowledgments: https://ritualdev.in/trust#hall-of-fame
+Acknowledgments: https://ritualdev.in/trust/#hall-of-fame
 
 # Preferred Communication Languages
 Preferred-Languages: en
 
 # Security Career Inquiries
-Hiring: https://ritualdev.in/about
+Hiring: https://ritualdev.in/about/
 
 # Statutory Compliance Protocols
 # Fully compliant with India Digital Personal Data Protection Act, 2023 (DPDP Act)

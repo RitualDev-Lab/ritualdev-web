@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, ShieldAlert, Lock, EyeOff, Terminal, Cpu,
 
 export const metadata = {
   title: "Privacy Policy for CyberHub — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for CyberHub (Package ID: com.cyberhub.offline) on Google Play. Local Android Security Diagnostics."
+  description: "Official Privacy Policy and Data Safety Disclosures for CyberHub (Package ID: com.cyberhub.offline) on Google Play. Local Android Security Diagnostics.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/cyberhub/",
+  }
 };
 
 export default function CyberHubPrivacyPage() {

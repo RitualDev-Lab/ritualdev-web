@@ -274,7 +274,7 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
     if (isSponsorPayment) {
       const activation = await dispatchDevShelfSponsorActivation({
         toolName: toolName || metadata?.sponsorName || customerEmail,
-        toolUrl: toolUrl || "https://ritualdev.in/partners",
+        toolUrl: toolUrl || "https://ritualdev.in/partners/",
         category: metadata?.category || metadata?.toolCategory || "cli",
         tier,
         amount,

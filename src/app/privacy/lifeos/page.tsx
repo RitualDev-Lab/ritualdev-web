@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, Sparkles, Lock, EyeOff, Database, Cpu, Ch
 
 export const metadata = {
   title: "Privacy Policy for LifeOS — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for LifeOS (Package ID: com.lifeos.app.ai) on Google Play. Local-First Gamified Productivity & On-Device AI."
+  description: "Official Privacy Policy and Data Safety Disclosures for LifeOS (Package ID: com.lifeos.app.ai) on Google Play. Local-First Gamified Productivity & On-Device AI.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/lifeos/",
+  }
 };
 
 export default function LifeOSPrivacyPage() {

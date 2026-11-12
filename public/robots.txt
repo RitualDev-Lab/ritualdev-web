@@ -1,5 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /cdn-cgi/
+Disallow: /api/webhooks/
+Disallow: /api/mcp-order
+Disallow: /api/audit-order
+Disallow: /api/enterprise
+Disallow: /api/partner-order
 
 Sitemap: https://ritualdev.in/sitemap.xml
 

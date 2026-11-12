@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, Database, Lock, EyeOff, Terminal, Cpu, Ch
 
 export const metadata = {
   title: "Privacy Policy for MockForge AI — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for MockForge AI (Schema-Guided Synthetic Data Generator & WASM CLI). 100% On-Device, Zero Cloud Exfiltration."
+  description: "Official Privacy Policy and Data Safety Disclosures for MockForge AI (Schema-Guided Synthetic Data Generator & WASM CLI). 100% On-Device, Zero Cloud Exfiltration.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/mockforge/",
+  }
 };
 
 export default function MockForgePrivacyPage() {

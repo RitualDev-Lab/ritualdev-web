@@ -44,7 +44,7 @@ const tools = resources.map((r) => {
     section: r.section,
     description: r.description,
     repository: r.repo || "",
-    url: r.url || r.repo || `https://ritualdev.in/devshelf/${slug}`,
+    url: r.url || r.repo || `https://ritualdev.in/devshelf/${slug}/`,
     license: r.license || "Open-Source / Community",
     language: r.language || "Multi-Platform",
     featured: Boolean(r.featured),
@@ -66,10 +66,10 @@ const tools = resources.map((r) => {
 const registryPayload = {
   schemaVersion: "2.0.0",
   registry: "RitualDev Verified Autonomous Tool & Skill Registry",
-  homepage: "https://ritualdev.in/devshelf",
+  homepage: "https://ritualdev.in/devshelf/",
   updatedAt: new Date().toISOString(),
   totalTools: tools.length,
-  documentation: "https://ritualdev.in/docs/agent-registry",
+  documentation: "https://ritualdev.in/docs/",
   compliance: {
     airGappedReady: true,
     zeroDataRetention: true,

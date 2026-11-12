@@ -8,9 +8,6 @@ export const metadata: Metadata = {
   title: "RitualDev — Autonomous AI Agent Defense, Sandboxing & Zero-Leak Studio",
   description: "Enterprise runtime secret defense, kernel sandboxing (Bubblewrap, Landlock, Seatbelt, AppContainer), database wire proxy, 96.7% token compaction, and 567+ verified developer tools.",
   metadataBase: new URL("https://ritualdev.in"),
-  alternates: {
-    canonical: "/",
-  },
   keywords: [
     "AI agent security",
     "AI agent defense",
@@ -39,8 +36,8 @@ export const metadata: Metadata = {
     "open source alternatives to Postman Datadog Sentry"
   ],
   authors: [
-    { name: "Divyanshu Jethi", url: "https://ritualdev.in/about" },
-    { name: "Sakshi Sharma", url: "https://ritualdev.in/about" }
+    { name: "Divyanshu Jethi", url: "https://ritualdev.in/about/" },
+    { name: "Sakshi Sharma", url: "https://ritualdev.in/about/" }
   ],
   creator: "RitualDev",
   publisher: "RitualDev",

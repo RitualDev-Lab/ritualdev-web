@@ -3,7 +3,10 @@ import { ArrowLeft, ShieldCheck, Mail, FileText, Lock, EyeOff, Terminal, Scale, 
 
 export const metadata = {
   title: "Privacy Policy for FinePrint AI — RitualDev",
-  description: "Official Privacy Policy and Data Safety Disclosures for FinePrint AI (Legal Document & Terms of Service Risk Analyzer). 100% Confidential, Zero Document Retention."
+  description: "Official Privacy Policy and Data Safety Disclosures for FinePrint AI (Legal Document & Terms of Service Risk Analyzer). 100% Confidential, Zero Document Retention.",
+  alternates: {
+    canonical: "https://ritualdev.in/privacy/fineprint/",
+  }
 };
 
 export default function FinePrintPrivacyPage() {

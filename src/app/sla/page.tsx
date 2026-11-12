@@ -16,7 +16,10 @@ import {
 
 export const metadata = {
   title: "Enterprise Service Level Agreement (SLA) — RitualDev",
-  description: "Official Enterprise Service Level Agreement (SLA) contract terms and response time guarantees for AgentShield, DBShield, and RitualDev Studio."
+  description: "Official Enterprise Service Level Agreement (SLA) contract terms and response time guarantees for AgentShield, DBShield, and RitualDev Studio.",
+  alternates: {
+    canonical: "https://ritualdev.in/sla/",
+  }
 };
 
 export default function EnterpriseSlaPage() {
