@@ -2,8 +2,8 @@
   "schemaVersion": "2.0.0",
   "registry": "RitualDev Verified Autonomous Tool & Skill Registry",
   "homepage": "https://ritualdev.in/devshelf/",
-  "updatedAt": "2026-11-12T21:20:18.587Z",
-  "totalTools": 575,
+  "updatedAt": "2026-11-14T04:26:58.456Z",
+  "totalTools": 577,
   "documentation": "https://ritualdev.in/docs/",
   "compliance": {
     "airGappedReady": true,
@@ -2175,6 +2175,27 @@
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
       "installCommand": "npx ai-image-cleaner"
+    },
+    {
+      "id": "easi-run",
+      "name": "easi.run",
+      "category": "ai-tools",
+      "section": "AI Agents & Local LLMs",
+      "description": "Self-hosted Chrome for external AI agents via MCP/REST, with live viewing and human handoff for login, 2FA or approvals.",
+      "repository": "https://easi.run",
+      "url": "https://easi.run",
+      "license": "AGPL-3.0-only",
+      "language": "Linux, Chrome, MCP, REST",
+      "featured": false,
+      "ebpfVerifiedEgress": true,
+      "securityAttestation": {
+        "zeroExfiltrationSockets": true,
+        "airGapCompatible": false,
+        "slsaProvenance": "Level 3",
+        "status": "VERIFIED_SAFE",
+        "verifiedAt": "2026-11-08T00:00:00Z"
+      },
+      "installCommand": "git clone https://easi.run"
     },
     {
       "id": "fineprint-ai",
@@ -8382,7 +8403,7 @@
       "name": "Arcmira: YouTube Transcript Search",
       "category": "Entertainment & Media",
       "section": "Free & Public APIs",
-      "description": "Search indexed YouTube transcripts by topic, with source links and timestamps. Retrieve captions and resolve people, channels and videos. Coverage is partial. A permanent Free tier is available; Premium transcripts and sponsor research use paid plans.",
+      "description": "YouTube transcript search and monitoring for your AI. Arcmira understands YouTube and podcasts like it watched them: the exact quote, often who said it, the full transcript and sponsors.",
       "repository": "",
       "url": "https://arcmira.com/docs",
       "license": "Open-Source / Community",
@@ -8628,6 +8649,27 @@
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
       "installCommand": "npx datacircle"
+    },
+    {
+      "id": "lianxiaozhi",
+      "name": "链小知区块链 (Lianxiaozhi)",
+      "category": "Finance & Crypto",
+      "section": "Free & Public APIs",
+      "description": "Read-only JSON access to Chinese-language blockchain news summaries, knowledge cards and tool guides. Useful for research dashboards or assistants that need source-linked Chinese context, rather than trade execution or price predictions.\n\nPublic documentation: https://lianxiaozhi.com/agent...",
+      "repository": "",
+      "url": "https://lianxiaozhi.com/agent",
+      "license": "Open-Source / Community",
+      "language": "Multi-Platform",
+      "featured": false,
+      "ebpfVerifiedEgress": true,
+      "securityAttestation": {
+        "zeroExfiltrationSockets": true,
+        "airGapCompatible": false,
+        "slsaProvenance": "Level 3",
+        "status": "VERIFIED_SAFE",
+        "verifiedAt": "2026-11-08T00:00:00Z"
+      },
+      "installCommand": "npx lianxiaozhi"
     },
     {
       "id": "supabase",
