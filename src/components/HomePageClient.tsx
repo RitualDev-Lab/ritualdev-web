@@ -151,10 +151,17 @@ export default function HomePage() {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
+            href="/audit"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold text-sm hover:opacity-95 transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] flex items-center gap-2"
+          >
+            <Shield className="w-4 h-4 text-slate-950" />
+            <span>Book Security Audit ($199)</span>
+          </Link>
+          <Link
             href="/pricing"
             className="px-6 py-3 rounded-xl bg-brand-cyan/10 hover:bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan hover:text-white font-bold text-sm transition-all flex items-center gap-2"
           >
-            <span>Pricing &amp; Plans ($0 – $49/seat)</span>
+            <span>Team Relay &amp; Plans ($29/mo)</span>
           </Link>
           <Link
             href="/compare"
