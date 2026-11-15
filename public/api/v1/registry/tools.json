@@ -2,8 +2,8 @@
   "schemaVersion": "2.0.0",
   "registry": "RitualDev Verified Autonomous Tool & Skill Registry",
   "homepage": "https://ritualdev.in/devshelf/",
-  "updatedAt": "2026-11-14T04:26:58.456Z",
-  "totalTools": 577,
+  "updatedAt": "2026-11-15T00:56:19.432Z",
+  "totalTools": 579,
   "documentation": "https://ritualdev.in/docs/",
   "compliance": {
     "airGappedReady": true,
@@ -2196,6 +2196,27 @@
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
       "installCommand": "git clone https://easi.run"
+    },
+    {
+      "id": "npmscan",
+      "name": "npmscan",
+      "category": "AI Agent Security & Defense",
+      "section": "AI Agents & Local LLMs",
+      "description": "Free remote MCP server and agent skills that check npm packages before an AI coding agent installs them: known vulnerabilities, malware, typosquats, maintainer changes, provenance and install scripts. No API key.",
+      "repository": "https://github.com/salemalem/npmscan-mcp-plugin",
+      "url": "https://npmscan.com/api/mcp",
+      "license": "MIT",
+      "language": "TypeScript",
+      "featured": false,
+      "ebpfVerifiedEgress": true,
+      "securityAttestation": {
+        "zeroExfiltrationSockets": true,
+        "airGapCompatible": false,
+        "slsaProvenance": "Level 3",
+        "status": "VERIFIED_SAFE",
+        "verifiedAt": "2026-11-08T00:00:00Z"
+      },
+      "installCommand": "git clone https://github.com/salemalem/npmscan-mcp-plugin"
     },
     {
       "id": "fineprint-ai",
@@ -8670,6 +8691,27 @@
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
       "installCommand": "npx lianxiaozhi"
+    },
+    {
+      "id": "beliefstate-company-coverage-api",
+      "name": "BeliefState Company Coverage API",
+      "category": "Finance & Crypto",
+      "section": "Free & Public APIs",
+      "description": "Public JSON listing the stocks with released BeliefState investor research, including ticker symbols, coverage counts, and observation dates. Developers can check which companies are covered before requesting research. The submitted API is the free coverage endpoint. Detailed research is...",
+      "repository": "",
+      "url": "https://beliefstate.ai/about#investor-thesis-coverage",
+      "license": "Open-Source / Community",
+      "language": "Multi-Platform",
+      "featured": false,
+      "ebpfVerifiedEgress": true,
+      "securityAttestation": {
+        "zeroExfiltrationSockets": true,
+        "airGapCompatible": false,
+        "slsaProvenance": "Level 3",
+        "status": "VERIFIED_SAFE",
+        "verifiedAt": "2026-11-08T00:00:00Z"
+      },
+      "installCommand": "npx beliefstate-company-coverage-api"
     },
     {
       "id": "supabase",
