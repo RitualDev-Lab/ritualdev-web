@@ -24,8 +24,9 @@ import {
 
 interface Advisory {
   id: string;
-  ghsaId: string;
-  cveId: string;
+  advisoryId: string;
+  disclosureType: string;
+  githubAdvisoryUrl: string;
   title: string;
   component: string;
   severity: "CRITICAL" | "HIGH" | "MEDIUM";
@@ -43,16 +44,17 @@ interface Advisory {
 
 const ADVISORIES: Advisory[] = [
   {
-    id: "GHSA-92f2-4677-rmvh",
-    ghsaId: "GHSA-92f2-4677-rmvh",
-    cveId: "CVE-2026-38291",
+    id: "RDSA-2026-001",
+    advisoryId: "RDSA-2026-001",
+    disclosureType: "Internal Pre-Release Advisory",
+    githubAdvisoryUrl: "https://github.com/RitualDev-Lab/AgentShield/security/advisories",
     title: "Environment Secrets Leakage via /proc/self/environ & Process Inspection in AI Coding Agents",
     component: "AgentShield Process Interceptor (Kernel Sandbox)",
     severity: "HIGH",
     cvssScore: 7.8,
     cvssVector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
     publishedDate: "November 3, 2026",
-    patchedVersion: "v0.2.0+",
+    patchedVersion: "v0.2.2+",
     affectedVersions: "< 0.2.0",
     threatVector: "Autonomous AI agents executing bash commands (e.g. via Claude Code, Cursor, Windsurf) can execute 'cat /proc/self/environ', 'cat /proc/$PID/environ', or python process inspection scripts to dump all environment variables passed down from the parent shell. In unshielded environments, AWS_SECRET_ACCESS_KEY, OPENAI_API_KEY, and corporate DB passwords are automatically read into the agent's context window.",
     rootCause: "Default container and subshell environments expose Linux/UNIX virtual pseudo-filesystems (/proc, /sys) with inherited read permissions for host diagnostic parity, failing to treat volatile kernel process descriptors as secret exfiltration vectors.",
@@ -67,16 +69,17 @@ const ADVISORIES: Advisory[] = [
     ]
   },
   {
-    id: "GHSA-p3v4-5qw2-92rg",
-    ghsaId: "GHSA-p3v4-5qw2-92rg",
-    cveId: "CVE-2026-38292",
+    id: "RDSA-2026-002",
+    advisoryId: "RDSA-2026-002",
+    disclosureType: "Internal Pre-Release Advisory",
+    githubAdvisoryUrl: "https://github.com/RitualDev-Lab/AgentShield/security/advisories",
     title: "CI Secret Gate Self-Neutering via Malicious Inverted Glob & Ignore Configuration Bypasses",
     component: "AgentShield CI/CD Audit Gate (GitHub Actions / GitLab CI)",
     severity: "HIGH",
     cvssScore: 7.2,
     cvssVector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:L/A:N",
     publishedDate: "November 4, 2026",
-    patchedVersion: "v0.2.0+",
+    patchedVersion: "v0.2.2+",
     affectedVersions: "< 0.2.0",
     threatVector: "In automated pull request workflows, a malicious contributor or compromised dependency could submit a PR containing a custom .agentshieldignore or .gitignore with inverted glob patterns (e.g. '!secrets/' or '**/.*') designed to silence scanner alerts and self-neuter the CI security gate.",
     rootCause: "Directory-level ignore file parsing evaluated repository-supplied ignore rules with higher precedence than global security constraints, allowing local repository settings to suppress critical secret audits.",
@@ -91,16 +94,17 @@ const ADVISORIES: Advisory[] = [
     ]
   },
   {
-    id: "GHSA-g5mq-fjr3-39qp",
-    ghsaId: "GHSA-g5mq-fjr3-39qp",
-    cveId: "CVE-2026-38293",
+    id: "RDSA-2026-003",
+    advisoryId: "RDSA-2026-003",
+    disclosureType: "Internal Pre-Release Advisory",
+    githubAdvisoryUrl: "https://github.com/RitualDev-Lab/AgentShield/security/advisories",
     title: "Regular Expression Denial of Service (ReDoS) via Catastrophic Backtracking in Entropy Classifier",
     component: "AgentShield Pattern Matcher & Shannon Entropy Scanner",
     severity: "HIGH",
     cvssScore: 7.5,
     cvssVector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
     publishedDate: "November 4, 2026",
-    patchedVersion: "v0.2.0+",
+    patchedVersion: "v0.2.2+",
     affectedVersions: "< 0.2.0",
     threatVector: "Adversarial prompts, obfuscated token sequences, or specially crafted source code files containing deeply nested, repetitive character patterns (e.g. repeated token delimiters) triggered catastrophic backtracking in custom secret regex engines, causing 100% CPU lockups and stalling agent pre-tool evaluation.",
     rootCause: "Use of non-deterministic finite automaton (NFA) regex engines in high-throughput stream scanning where nested quantifiers exhibit worst-case O(2^n) exponential time complexity.",
@@ -123,8 +127,8 @@ export default function AdvisoriesPage() {
 
   const filteredAdvisories = ADVISORIES.filter((advisory) => {
     const matchesQuery = 
-      advisory.ghsaId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      advisory.cveId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      advisory.advisoryId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      advisory.disclosureType.toLowerCase().includes(searchQuery.toLowerCase()) ||
       advisory.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       advisory.component.toLowerCase().includes(searchQuery.toLowerCase());
     
@@ -176,13 +180,17 @@ export default function AdvisoriesPage() {
               </span>
             </div>
             <p className="text-slate-400 text-sm sm:text-base font-mono mt-1">
-              Public Vulnerability Research, Zero-Leak Mitigations &amp; Coordinated CVE Disclosures
+              Internal Pre-Release Hardening Advisories &amp; GitHub Security Disclosures (RDSA)
             </p>
           </div>
         </div>
 
         <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-4xl leading-relaxed">
-          At RitualDev, we treat defensive security with radical transparency. We believe enterprise security leaders deserve complete visibility into attack surfaces, reproduction benchmarks, and mathematical mitigation proofs across our autonomous kernel sandbox and runtime redactors.
+          At RitualDev, we treat defensive security with radical transparency. The entries below document internal pre-release hardening fixes (`RDSA-2026-*`) discovered and resolved before public general availability. All external vulnerability disclosures are coordinated exclusively through{" "}
+          <a href="https://github.com/RitualDev-Lab/AgentShield/security/advisories" target="_blank" rel="noopener noreferrer" className="text-brand-neon underline hover:text-white">
+            GitHub Security Advisories (GHSA)
+          </a>{" "}
+          in accordance with our <Link href="/trust" className="text-brand-neon underline hover:text-white">Trust Center</Link>.
         </p>
 
         {/* SLA & Security Posture Metrics */}
@@ -193,11 +201,11 @@ export default function AdvisoriesPage() {
           </div>
           <div className="glass-panel rounded-xl p-4 border border-slate-800 text-center">
             <div className="text-2xl font-bold font-mono text-brand-neon">&lt; 24 hrs</div>
-            <div className="text-xs text-slate-400 font-mono mt-1">Guaranteed Hotfix SLA</div>
+            <div className="text-xs text-slate-400 font-mono mt-1">Target Hotfix SLA</div>
           </div>
           <div className="glass-panel rounded-xl p-4 border border-slate-800 text-center">
             <div className="text-2xl font-bold font-mono text-emerald-400">100%</div>
-            <div className="text-xs text-slate-400 font-mono mt-1">Patched in v0.2.0+</div>
+            <div className="text-xs text-slate-400 font-mono mt-1">Patched in v0.2.2+</div>
           </div>
           <div className="glass-panel rounded-xl p-4 border border-slate-800 text-center">
             <div className="text-2xl font-bold font-mono text-blue-400">Safe Harbor</div>
@@ -215,7 +223,7 @@ export default function AdvisoriesPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by GHSA, CVE, or keyword..."
+            placeholder="Search by RDSA ID, component, or keyword..."
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 focus:border-brand-neon/60 focus:outline-none text-xs sm:text-sm text-slate-200 font-mono placeholder:text-slate-400 transition-colors"
           />
         </div>
@@ -253,11 +261,17 @@ export default function AdvisoriesPage() {
                     {advisory.severity} &middot; CVSS {advisory.cvssScore}
                   </span>
                   <span className="px-2.5 py-0.5 rounded-md bg-slate-900 text-slate-300 border border-slate-700 font-mono text-xs font-semibold">
-                    {advisory.ghsaId}
+                    {advisory.advisoryId}
                   </span>
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-900 text-slate-400 border border-slate-800 font-mono text-xs">
-                    {advisory.cveId}
-                  </span>
+                  <a
+                    href={advisory.githubAdvisoryUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-0.5 rounded-md bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 font-mono text-xs inline-flex items-center gap-1 transition-colors"
+                  >
+                    <span>{advisory.disclosureType}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                   <span className="px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono text-xs">
                     Fixed in {advisory.patchedVersion}
                   </span>

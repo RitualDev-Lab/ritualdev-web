@@ -154,7 +154,7 @@ const DOC_SECTIONS: DocSection[] = [
     title: "Security Advisories & Zero-Leak CVE Fixes",
     category: "AgentShield",
     description: "Review coordinated vulnerability disclosures and verified mitigations for AI coding agent sandboxes.",
-    codeSnippet: `# Verify mitigation for /proc/self/environ exfiltration (GHSA-92f2-4677-rmvh)\nnpx @ritualdev-lab/agentshield exec -- cat /proc/self/environ\n\n# Audit CI configuration for self-neutering ignore bypasses (GHSA-p3v4-5qw2-92rg)\nnpx @ritualdev-lab/agentshield ci --strict\n\n# Run linear-time ReDoS benchmark (GHSA-g5mq-fjr3-39qp)\nnpx @ritualdev-lab/agentshield test --dos-check`,
+    codeSnippet: `# Verify mitigation for /proc/self/environ exfiltration (RDSA-2026-001)\nnpx @ritualdev-lab/agentshield exec -- cat /proc/self/environ\n\n# Audit CI configuration for self-neutering ignore bypasses (RDSA-2026-002)\nnpx @ritualdev-lab/agentshield ci --strict\n\n# Run linear-time ReDoS benchmark (RDSA-2026-003)\nnpx @ritualdev-lab/agentshield test --dos-check`,
     language: "bash",
     details: [
       "Full public disclosure matrix available at /advisories with CVSS 3.1 vectors.",

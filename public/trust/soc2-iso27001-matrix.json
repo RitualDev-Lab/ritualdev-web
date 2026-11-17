@@ -1,9 +1,9 @@
 {
-  "frameworks": ["AICPA SOC 2 Type II", "ISO/IEC 27001:2022"],
+  "frameworks": ["AICPA SOC 2 (Control Alignment)", "ISO/IEC 27001:2022 (Control Alignment)"],
   "vendor": "RitualDev Studio",
   "domain": "ritualdev.in",
-  "auditReadiness": "Verified",
-  "assessmentDate": "2026-11-06",
+  "auditReadiness": "Self-Assessed Control Alignment (Independent CPA Type I/II on Roadmap)",
+  "assessmentDate": "2026-11-18",
   "controls": [
     {
       "soc2Criteria": "CC1.1",
@@ -19,7 +19,7 @@
       "category": "Communication & Information",
       "title": "Incident Notification & Vulnerability Disclosure SLA",
       "status": "Active SLA",
-      "evidence": "Guaranteed < 1 hour P1 critical response via security@ritualdev.in and GHSA advisories."
+      "evidence": "Target < 1 hour P1 critical response via security@ritualdev.in and GitHub Security Advisories."
     },
     {
       "soc2Criteria": "CC3.2",
@@ -27,15 +27,15 @@
       "category": "Risk Assessment",
       "title": "Continuous SAST & Threat Modeling",
       "status": "Continuous Scan",
-      "evidence": "CodeQL AST inspection active across all 25 repositories with 0 open vulnerabilities."
+      "evidence": "CodeQL AST inspection configured via GitHub Actions on core repositories."
     },
     {
       "soc2Criteria": "CC5.2",
       "isoAnnexA": "A.8.25",
       "category": "Control Activities",
       "title": "Cryptographic Signing & Software Bill of Materials (SBOM)",
-      "status": "SLSA Level 3",
-      "evidence": "Sigstore cosign SLSA 3 provenance and CycloneDX/SPDX SBOMs attached to every release."
+      "status": "Sigstore OIDC Provenance",
+      "evidence": "npm OIDC provenance via GitHub Actions and CycloneDX/SPDX SBOM generation on release."
     },
     {
       "soc2Criteria": "CC6.1",
