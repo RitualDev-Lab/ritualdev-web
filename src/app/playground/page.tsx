@@ -108,7 +108,7 @@ export default function PlaygroundPage() {
     // 1. /proc/ environ check
     if (/(?:^|[\s'"\/\\=:]|HEAD:)\/proc\/(?:self|thread-self|\$\$|\d+|1)\/(?:environ|cmdline|mem)/i.test(text)) {
       verdict = "BLOCKED";
-      rule = "GHSA-92f2-4677-rmvh: Kernel /proc Pseudo-filesystem Sandbox Block";
+      rule = "RDSA-2026-001: Kernel /proc Pseudo-filesystem Sandbox Block";
       severity = "CRITICAL";
       mitre = "AML.T0040: Local Environment Dump";
       owasp = "LLM06: Sensitive Information Disclosure";
@@ -117,7 +117,7 @@ export default function PlaygroundPage() {
     // 2. ReDoS check
     else if (/\([^\(\)]*[\+\*]\)[\+\*]/i.test(text)) {
       verdict = "BLOCKED";
-      rule = "GHSA-g5mq-fjr3-39qp: ReDoS Exponential Backtracking Guard";
+      rule = "RDSA-2026-003: ReDoS Exponential Backtracking Guard";
       severity = "HIGH";
       mitre = "AML.T0029: CI / Agent Denial of Service";
       owasp = "LLM04: Denial of Service";

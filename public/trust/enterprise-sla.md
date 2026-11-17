@@ -32,4 +32,4 @@ If RitualDev fails to meet the guaranteed P1 response or private VPC uptime targ
 ---
 
 ### 4. Enterprise Security & Vulnerability Remediation
-All reported Common Vulnerabilities and Exposures (CVEs) affecting AgentShield, DBShield, or SkillPrism are triaged within 4 hours. Mitigations are published as signed SLSA Level 3 packages accompanied by updated CycloneDX/SPDX SBOMs.
+All reported security vulnerabilities affecting AgentShield, DBShield, or SkillPrism are triaged within 4 hours. Mitigations are published as GitHub Actions OIDC provenance-signed packages accompanied by updated CycloneDX/SPDX SBOMs.

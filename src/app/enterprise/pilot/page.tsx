@@ -134,7 +134,7 @@ export default function EnterprisePilotPage() {
             </li>
             <li className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Full SOC 2 Type II, ISO 27001, and SIG Lite 2026 Trust Kit</span>
+              <span>SOC 2 &amp; ISO 27001 Control Alignment Matrix &amp; SIG Lite 2026 Trust Kit</span>
             </li>
             <li className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -178,7 +178,7 @@ export default function EnterprisePilotPage() {
         <div className="text-center space-y-2">
           <h2 className="text-2xl sm:text-3xl font-black text-white">Request Pilot Agreement &amp; Trust Package</h2>
           <p className="text-slate-400 text-sm">
-            Receive the pre-signed SOW, Mutual NDA, and SOC 2 Type II trust package in your inbox within 15 minutes.
+            Receive the pre-signed SOW, Mutual NDA, and SIG Lite 2026 / SOC 2 Control Alignment package in your inbox within 15 minutes.
           </p>
         </div>
 

@@ -312,27 +312,34 @@ Security Operations Desk (security@ritualdev.in)
             <div className="text-[10px] text-slate-400 uppercase">CodeQL SAST</div>
             <div className="text-sm font-bold text-brand-cyan flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-brand-cyan" />
-              <span>0 Open Alerts</span>
+              <span>CI Enforced</span>
             </div>
-            <div className="text-[10px] text-slate-500">25 repos scanned</div>
+            <div className="text-[10px] text-slate-500">GitHub Actions CodeQL</div>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-purple-500/30 space-y-1">
             <div className="text-[10px] text-slate-400 uppercase">Supply Chain</div>
             <div className="text-sm font-bold text-purple-400 flex items-center gap-1.5">
               <Award className="w-4 h-4 text-purple-400" />
-              <span>SLSA Level 3</span>
+              <span>Sigstore OIDC</span>
             </div>
-            <div className="text-[10px] text-slate-500">Sigstore cosign signed</div>
+            <div className="text-[10px] text-slate-500">Provenance &amp; CycloneDX SBOMs</div>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-amber-500/30 space-y-1">
-            <div className="text-[10px] text-slate-400 uppercase">OpenSSF Score</div>
+            <div className="text-[10px] text-slate-400 uppercase">OpenSSF Scorecard</div>
             <div className="text-sm font-bold text-amber-400 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-amber-400" />
-              <span>10.0 / 10.0</span>
+              <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
+              <a
+                href="https://securityscorecards.dev/viewer/?uri=github.com/RitualDev-Lab/AgentShield"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-amber-300"
+              >
+                Live Scorecard
+              </a>
             </div>
-            <div className="text-[10px] text-slate-500">Branch protection enforced</div>
+            <div className="text-[10px] text-slate-500">Automated ossf/scorecard-action</div>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-950/80 border border-emerald-500/30 space-y-1">
@@ -680,13 +687,13 @@ Security Operations Desk (security@ritualdev.in)
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold">
               <Award className="w-3.5 h-3.5" />
-              <span>AICPA TSC 2017/2022 &amp; ISO/IEC 27001:2022 Certified Architecture</span>
+              <span>AICPA TSC 2017/2022 &amp; ISO/IEC 27001:2022 Control Alignment</span>
             </div>
             <h2 className="text-2xl font-bold text-white tracking-tight">
-              Third-Party SOC 2 Type II &amp; ISO 27001 Certification Architecture
+              SOC 2 &amp; ISO 27001 Architecture Alignment &amp; CPA Audit Roadmap
             </h2>
             <p className="text-xs text-slate-400 leading-relaxed max-w-4xl">
-              How RitualDev&apos;s Zero-Data-Custody model natively satisfies AICPA Trust Services Criteria (Security, Availability, Confidentiality, Processing Integrity, and Privacy) and ISO 27001 controls without SaaS telemetry risks.
+              How RitualDev&apos;s Zero-Data-Custody model is architected to align with AICPA Trust Services Criteria (Security, Availability, Confidentiality, Processing Integrity, and Privacy) and ISO 27001 controls without SaaS telemetry risks. Independent CPA Type I/II attestation is scheduled on our enterprise compliance roadmap.
             </p>
           </div>
 
@@ -695,52 +702,52 @@ Security Operations Desk (security@ritualdev.in)
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-purple-500/20 pb-4">
               <div>
                 <span className="text-[11px] font-bold text-purple-400 uppercase tracking-wider">
-                  Commercial Compliance Model
+                  Transparent Compliance Roadmap
                 </span>
                 <h3 className="text-lg font-bold text-white">
-                  Auditor Certification on Demand (&ldquo;When Revenue Demands It&rdquo;)
+                  Zero-Data-Retention Alignment Today &rarr; Independent CPA Audit Roadmap
                 </h3>
               </div>
               <span className="px-3 py-1 rounded-full bg-brand-green/10 text-brand-neon border border-brand-green/30 text-[11px] font-bold shrink-0">
-                Turnkey Vanta / Drata Continuous Audit
+                SIG Lite 2026 &amp; Control Alignment Ready
               </span>
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed">
-              Because RitualDev operates on a strictly local-first execution model, our codebase and operational controls already satisfy all technical SOC 2 requirements (zero external code retention, AES-256-GCM surrogate secret vaults, Landlock kernel sandboxing, and immutable HMAC-SHA256 ledgers). When an enterprise prospect executes an annual contract (typically $20,000–$50,000+/year) contingent on formal third-party audit reports, we initiate continuous compliance evidence collection via <strong>Vanta</strong> or <strong>Drata</strong> with an accredited AICPA CPA firm.
+              Because RitualDev operates on a strictly local-first execution model, our codebase and operational controls align with technical SOC 2 requirements (zero external code retention, AES-256-GCM surrogate secret vaults, Landlock kernel sandboxing, and tamper-evident audit ledgers). Formal independent CPA Type I/II reports are not yet issued; when an enterprise prospect executes an annual VPC contract contingent on third-party CPA attestation, we initiate formal continuous compliance observation via an accredited AICPA CPA firm.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs pt-2">
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                 <div className="text-brand-cyan font-bold flex items-center gap-1.5">
                   <span className="w-5 h-5 rounded-full bg-brand-cyan/20 flex items-center justify-center text-[10px]">1</span>
-                  <span>Auditor Ingestion</span>
+                  <span>Control Alignment</span>
                 </div>
-                <div className="text-[10px] text-slate-400">Days 1 &ndash; 7</div>
+                <div className="text-[10px] text-slate-400">Available Now</div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Automated sync of GitHub Org, branch protection (enforce_admins: true), OpenSSF Scorecard (10/10), and hardware 2FA.
+                  Zero-data-retention architecture, branch protection, live OpenSSF Scorecard CI, hardware 2FA, and SIG Lite 2026 packet.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                 <div className="text-purple-400 font-bold flex items-center gap-1.5">
                   <span className="w-5 h-5 rounded-full bg-purple-400/20 flex items-center justify-center text-[10px]">2</span>
-                  <span>CPA Firm Review</span>
+                  <span>CPA Scope Review</span>
                 </div>
-                <div className="text-[10px] text-slate-400">Days 8 &ndash; 14</div>
+                <div className="text-[10px] text-slate-400">Roadmap Milestone</div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Accredited CPA auditor evaluates air-gapped test suites (232+ tests), CycloneDX/SPDX SBOMs, and SLSA provenance.
+                  Accredited CPA auditor evaluates air-gapped test suites, CycloneDX/SPDX SBOMs, and Sigstore build provenance.
                 </p>
               </div>
 
               <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
                 <div className="text-brand-neon font-bold flex items-center gap-1.5">
                   <span className="w-5 h-5 rounded-full bg-brand-neon/20 flex items-center justify-center text-[10px]">3</span>
-                  <span>SOC 2 Type I Report</span>
+                  <span>SOC 2 Type I</span>
                 </div>
-                <div className="text-[10px] text-slate-400">Weeks 2 &ndash; 4</div>
+                <div className="text-[10px] text-slate-400">Planned Q3</div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  Point-in-time design effectiveness report delivered to procurement &amp; InfoSec for immediate vendor onboarding sign-off.
+                  Point-in-time design effectiveness examination by an independent AICPA CPA firm for Hosted Control Plane deployments.
                 </p>
               </div>
 
@@ -749,9 +756,9 @@ Security Operations Desk (security@ritualdev.in)
                   <span className="w-5 h-5 rounded-full bg-amber-400/20 flex items-center justify-center text-[10px]">4</span>
                   <span>Type II Observation</span>
                 </div>
-                <div className="text-[10px] text-slate-400">Months 3 &ndash; 6</div>
+                <div className="text-[10px] text-slate-400">Planned Q4</div>
                 <p className="text-[11px] text-slate-300 leading-relaxed">
-                  90-to-180 day continuous telemetry evaluation resulting in full SOC 2 Type II and ISO 27001 accredited certification.
+                  90-to-180 day continuous operating effectiveness observation culminating in full SOC 2 Type II CPA attestation.
                 </p>
               </div>
             </div>

@@ -82,8 +82,8 @@ export default function FinePrintPage() {
       icon: PenTool
     },
     {
-      title: "Zero-Cloud In-Memory Processing",
-      desc: "PDF AST parsing and semantic clause chunking occur in local volatile memory. Non-public legal agreements are never uploaded to persistent cloud storage.",
+      title: "Strict Offline AST Mode & Optional Cloud Inference",
+      desc: "Run with --offline for 100% local in-memory PDF AST parsing and 60+ heuristic rules with zero network egress. Optional Gemini 1.5 Flash deep redlining only transmits extracted text when you explicitly supply a GEMINI_API_KEY.",
       icon: ShieldCheck
     }
   ];
@@ -121,7 +121,7 @@ export default function FinePrintPage() {
         </div>
 
         <p className="text-base sm:text-lg text-slate-300 max-w-4xl leading-relaxed">
-          FinePrint AI scans commercial contracts, leases, NDAs, and SaaS terms to grade risk from <strong>A (Acceptable)</strong> to <strong>F (Unacceptable)</strong> and synthesize attorney-grade redline amendments in seconds. Built with an <strong>in-memory PDF AST parser</strong>, <strong>60+ legal rules</strong>, and <strong>Gemini 1.5 Flash</strong> with zero persistent cloud leakage ($0 VPS).
+          FinePrint AI scans commercial contracts, leases, NDAs, and SaaS terms to grade risk from <strong>A (Acceptable)</strong> to <strong>F (Unacceptable)</strong> and synthesize redline suggestions. Supports <strong>100% local offline execution (`--offline`)</strong> via an in-memory PDF AST parser and 60+ deterministic legal rules, plus <strong>optional Gemini 1.5 Flash cloud API inference</strong> when an API key is explicitly provided.
         </p>
 
         {/* Action Buttons */}

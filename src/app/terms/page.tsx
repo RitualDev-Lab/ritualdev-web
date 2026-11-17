@@ -71,11 +71,12 @@ export default function TermsOfServicePage() {
         <section className="space-y-3">
           <h2 className="text-lg font-bold text-white">5. Refund &amp; Cancellation Policy</h2>
           <p>
-            We stand behind our software and engineering quality. If you are unsatisfied with AgentShield Pro or any paid software tier:
+            We stand behind our software and engineering quality. If you are unsatisfied with a recurring AgentShield, DBShield, or SkillPrism subscription:
           </p>
           <ul className="list-disc pl-5 space-y-1.5 text-slate-400 text-xs">
-            <li><strong className="text-white">7-Day No-Questions-Asked Refund:</strong> You may request a 100% full refund within 7 days of initial subscription purchase by emailing <a href="mailto:support@ritualdev.in" className="text-brand-green hover:underline">support@ritualdev.in</a> with your order reference.</li>
-            <li><strong className="text-white">Self-Service Cancellation:</strong> Subscriptions can be cancelled at any time via the Dodo Payments customer billing portal link included in your confirmation receipt. No further recurring charges will be billed after cancellation.</li>
+            <li><strong className="text-white">7-Day Subscription Refund Window:</strong> For recurring SaaS subscriptions (Team Gate, Hosted Approval Relay, or SkillPrism Redis Hub), you may request a 100% refund within 7 days of initial purchase by emailing <a href="mailto:support@ritualdev.in" className="text-brand-green hover:underline">support@ritualdev.in</a> with your order reference. Upon refund issuance, associated Ed25519 license keys (`RITUAL_LICENSE_KEY`) are immediately revoked.</li>
+            <li><strong className="text-white">Digital Deliverables &amp; One-Time Packs Carve-Out:</strong> Because one-time downloadable Compliance Packs, Helm/Terraform Enterprise Kits, private source-code bundles, and completed Done-For-You (DFY) Security Audits or 48-hour MCP Server Builds provide immediate irreversible access to intellectual property or completed engineering labor, these items are non-refundable once delivered, downloaded, or accessed via repository/license provisioning, except where required by applicable consumer law or in the event of an unresolvable technical defect.</li>
+            <li><strong className="text-white">Self-Service Cancellation:</strong> Recurring subscriptions can be cancelled at any time via the Dodo Payments customer billing portal link included in your confirmation receipt. No further recurring charges will be billed after cancellation.</li>
           </ul>
         </section>
 

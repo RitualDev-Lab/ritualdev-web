@@ -36,7 +36,7 @@ RitualDev provides an enterprise security and governance suite for autonomous AI
 ### Section C: Software Supply Chain & Vulnerability Management
 | Control ID | Assessment Question | Response | Implementation & Verification Details |
 |---|---|---|---|
-| **C.1** | Are all published binaries and npm packages accompanied by SLSA provenance and SBOMs? | **Yes** | SLSA Level 3 build provenance signed via Sigstore cosign and GitHub Actions OIDC. CycloneDX and SPDX SBOM JSON artifacts attached to every release via `anchore/sbom-action`. |
+| **C.1** | Are published npm packages accompanied by OIDC provenance and SBOMs? | **Yes** | GitHub Actions OIDC build provenance signed via Sigstore transparency logs, with CycloneDX/SPDX SBOM JSON artifacts generated on release. |
 | **C.2** | Are static analysis (SAST) and software composition analysis (SCA) automated? | **Yes** | GitHub CodeQL runs on every commit across all repositories. Dependabot and OpenSSF Scorecard (10/10) maintain continuous vulnerability triage. |
 | **C.3** | What is the enterprise SLA for critical security vulnerabilities (P1)? | **Yes** | < 1 hour initial response (24/7/365 coverage), with engineering mitigations dispatched within 24–48 hours via GitHub Security Advisories. |
 
@@ -46,4 +46,4 @@ RitualDev provides an enterprise security and governance suite for autonomous AI
 - **SOC 2 Type II / ISO 27001:2022**: Technical controls 100% aligned and pre-mapped across CC1–CC8, A1, C1.
 - **India DPDP Act 2023**: Zero personal data fiduciary exposure due to local-first processing.
 - **EU GDPR (Regulation 2016/679)**: Article 32 compliance through hardware-isolated surrogate token vaults.
-- **US Executive Order 14028 & NIST SP 800-218**: Fully compliant via automated cryptographic SBOMs and SLSA Level 3 provenance.
+- **US Executive Order 14028 & NIST SP 800-218**: Aligned via automated cryptographic SBOMs and GitHub Actions OIDC provenance.

@@ -49,8 +49,8 @@ export default function EnterprisePage() {
     "SkillPrism Redis VPC Cache Clustering",
     "Air-Gapped Egress & Offline Audit",
     "1-Hour P0 Dedicated SLA",
-    "Third-Party SOC 2 Type II & ISO 27001 CPA Audit Report",
-    "SOC 2 / HIPAA Cryptographic PDF Reports"
+    "SOC 2 & ISO 27001 Control Alignment & CPA Roadmap",
+    "Cryptographic Signed Audit Ledger Exports"
   ];
 
   const toggleNeed = (need: string) => {
@@ -347,7 +347,7 @@ export default function EnterprisePage() {
                   <td className="py-4 px-6 text-slate-400">Raw HMAC JSON logs</td>
                   <td className="py-4 px-6 text-emerald-300 font-bold flex items-center gap-1.5">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span>Certified SOC 2 Type II / ISO 27001 CPA Audit Reports &amp; Executive Cryptographic PDFs</span>
+                    <span>Zero-Data-Retention SOC 2 / ISO 27001 Control Alignment Matrices &amp; Signed Audit Exports</span>
                   </td>
                 </tr>
 
@@ -362,14 +362,14 @@ export default function EnterprisePage() {
             </table>
           </div>
 
-          {/* Third-Party SOC 2 Type II Callout */}
+          {/* Compliance Alignment & Independent Audit Roadmap Callout */}
           <div className="p-4 rounded-2xl bg-purple-950/20 border border-purple-500/30 text-xs font-mono text-slate-300 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
             <div className="flex items-center gap-2 text-purple-300 font-bold shrink-0">
               <ShieldCheck className="w-4 h-4 text-purple-400 shrink-0" />
-              <span>Third-Party SOC 2 Type II &amp; ISO 27001 Certification</span>
+              <span>SOC 2 &amp; ISO 27001 Architecture Alignment &amp; Audit Roadmap</span>
             </div>
             <p className="text-[11px] text-slate-400">
-              For enterprise contracts ($20,000-$50,000+/year), RitualDev provisions formal independent CPA firm SOC 2 Type I/II examination reports via continuous compliance automation (Vanta / Drata).
+              RitualDev&apos;s local-first, zero-egress architecture is pre-mapped to AICPA SOC 2 &amp; ISO 27001 controls (SIG Lite 2026 ready). Formal independent CPA Type I/II attestation is scheduled on our enterprise compliance roadmap and provisioned via continuous compliance automation for annual VPC contracts.
             </p>
           </div>
         </div>

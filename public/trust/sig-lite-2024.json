@@ -55,7 +55,7 @@
           "id": "C.1",
           "prompt": "Are software releases accompanied by cryptographic build provenance and Software Bill of Materials (SBOM)?",
           "response": "Yes",
-          "details": "All npm packages and CLI binaries are published with SLSA Level 3 provenance via GitHub Actions OIDC and Sigstore cosign transparency logs. Automated CycloneDX and SPDX SBOM JSON artifacts accompany every release.",
+          "details": "All npm packages are published with GitHub Actions OIDC provenance via Sigstore transparency logs, accompanied by automated CycloneDX and SPDX SBOM artifacts on release.",
           "evidence": "Automated anchore/sbom-action attached to all GitHub Releases."
         },
         {
