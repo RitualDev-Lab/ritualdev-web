@@ -1,35 +1,19 @@
 {
   "version": "1.1.2",
-  "updatedAt": "2026-11-01T15:10:11.711Z",
+  "updatedAt": "2026-11-17T20:56:09.189Z",
   "slug": "cli",
   "name": "CLI & Developer Productivity",
   "count": 128,
   "items": [
     {
-      "name": "GitWhisper",
-      "repo": "https://github.com/RitualDev-Lab/GitWhisper",
-      "category": "Git & Version Control",
-      "description": "Local-first & privacy-hardened AI Git commit intelligence with Conventional Commits, AST secret redaction, atomic hunk splitting, and 1-click VS Code extension.",
-      "language": "TypeScript",
-      "license": "MIT",
+      "name": "FinePrint AI",
+      "repo": "https://github.com/RitualDev-Lab/FinePrintAI",
+      "category": "Developer Utilities",
+      "description": "In-memory legal contract, lease, and NDA scanner grading risk A-F with automated attorney-grade redline amendments.",
+      "language": "TypeScript / Python",
+      "license": "Proprietary / Community",
       "featured": true,
-      "goodFirstIssues": "https://github.com/RitualDev-Lab/GitWhisper/issues",
-      "statusTags": [
-        "100% Offline-Friendly",
-        "No Card Required"
-      ],
-      "type": "cli",
-      "section": "CLI & Productivity Tools"
-    },
-    {
-      "name": "FlashLane",
-      "repo": "https://github.com/RitualDev-Lab/FlashLane",
-      "category": "OS & Hardware Utilities",
-      "description": "Universal, high-speed bootable ISO/IMG USB writer with Rufus parity for Windows, macOS, and Linux. Streaming 4MB chunks, MBR/GPT, BIOS/UEFI, and simulation mode.",
-      "language": "TypeScript / Electron",
-      "license": "MIT",
-      "featured": true,
-      "goodFirstIssues": "https://github.com/RitualDev-Lab/FlashLane/issues",
+      "goodFirstIssues": "https://github.com/RitualDev-Lab/FinePrintAI/issues",
       "statusTags": [
         "100% Offline-Friendly",
         "No Card Required"
@@ -849,6 +833,7 @@
         "100% Offline-Friendly",
         "No Card Required"
       ],
+      "status": "Needs Maintenance",
       "type": "cli",
       "section": "CLI & Productivity Tools",
       "alternativeTo": "Disk Inventory X / DaisyDisk"
@@ -1818,6 +1803,7 @@
       "language": "Python",
       "license": "MIT",
       "featured": false,
+      "status": "Needs Maintenance",
       "type": "cli",
       "section": "CLI & Productivity Tools"
     },
@@ -1967,6 +1953,24 @@
       "language": "Python / TypeScript",
       "license": "Apache-2.0",
       "featured": false,
+      "type": "cli",
+      "section": "CLI & Productivity Tools"
+    },
+    {
+      "name": "Akii: SEO & AI Search Optimizer",
+      "category": "CLI & Developer Productivity",
+      "description": "A free Claude Code plugin that audits sites, checks links, plans content and creates JSON-LD. It runs in the Claude Code terminal on macOS and Linux.",
+      "repo": "https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer",
+      "language": "Claude Code plugin, Markdown skills and agents, Bash hooks, JSON manifests",
+      "license": "MIT",
+      "featured": false,
+      "installNote": "To install the plugin, open Claude Code and run these as two separate commands:",
+      "installCommands": [
+        "/plugin marketplace add https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer",
+        "/plugin install akii-seo-ai-search-optimizer@akii"
+      ],
+      "installDocsUrl": "https://github.com/akii-technologies-ltd/akii-seo-ai-search-optimizer#installation",
+      "installDocsLabel": "Official installation instructions",
       "type": "cli",
       "section": "CLI & Productivity Tools"
     }

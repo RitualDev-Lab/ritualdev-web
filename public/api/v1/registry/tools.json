@@ -2,8 +2,8 @@
   "schemaVersion": "2.0.0",
   "registry": "RitualDev Verified Autonomous Tool & Skill Registry",
   "homepage": "https://ritualdev.in/devshelf/",
-  "updatedAt": "2026-11-17T09:00:14.573Z",
-  "totalTools": 579,
+  "updatedAt": "2026-11-17T20:56:46.666Z",
+  "totalTools": 576,
   "documentation": "https://ritualdev.in/docs/",
   "compliance": {
     "airGappedReady": true,
@@ -2238,48 +2238,6 @@
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
       "installCommand": "git clone https://github.com/RitualDev-Lab/FinePrintAI"
-    },
-    {
-      "id": "gitwhisper",
-      "name": "GitWhisper",
-      "category": "Git & Version Control",
-      "section": "CLI & Productivity Tools",
-      "description": "Local-first & privacy-hardened AI Git commit intelligence with Conventional Commits, AST secret redaction, atomic hunk splitting, and 1-click VS Code extension.",
-      "repository": "https://github.com/RitualDev-Lab/GitWhisper",
-      "url": "https://github.com/RitualDev-Lab/GitWhisper",
-      "license": "MIT",
-      "language": "TypeScript",
-      "featured": true,
-      "ebpfVerifiedEgress": true,
-      "securityAttestation": {
-        "zeroExfiltrationSockets": true,
-        "airGapCompatible": true,
-        "slsaProvenance": "Level 3",
-        "status": "VERIFIED_SAFE",
-        "verifiedAt": "2026-11-08T00:00:00Z"
-      },
-      "installCommand": "git clone https://github.com/RitualDev-Lab/GitWhisper"
-    },
-    {
-      "id": "flashlane",
-      "name": "FlashLane",
-      "category": "OS & Hardware Utilities",
-      "section": "CLI & Productivity Tools",
-      "description": "Universal, high-speed bootable ISO/IMG USB writer with Rufus parity for Windows, macOS, and Linux. Streaming 4MB chunks, MBR/GPT, BIOS/UEFI, and simulation mode.",
-      "repository": "https://github.com/RitualDev-Lab/FlashLane",
-      "url": "https://github.com/RitualDev-Lab/FlashLane",
-      "license": "MIT",
-      "language": "TypeScript / Electron",
-      "featured": true,
-      "ebpfVerifiedEgress": true,
-      "securityAttestation": {
-        "zeroExfiltrationSockets": true,
-        "airGapCompatible": true,
-        "slsaProvenance": "Level 3",
-        "status": "VERIFIED_SAFE",
-        "verifiedAt": "2026-11-08T00:00:00Z"
-      },
-      "installCommand": "git clone https://github.com/RitualDev-Lab/FlashLane"
     },
     {
       "id": "lazygit",
@@ -4974,27 +4932,6 @@
         "verifiedAt": "2026-11-08T00:00:00Z"
       },
       "installCommand": "git clone https://github.com/RitualDev-Lab/MockForge"
-    },
-    {
-      "id": "autoheal-qa",
-      "name": "AutoHeal-QA",
-      "category": "Browser & E2E Testing",
-      "section": "Testing & QA Reliability",
-      "description": "100% Free & Local-first agentic self-healing E2E test runner for Playwright.  cloud cost with AST auto-patching and verification loop.",
-      "repository": "https://github.com/RitualDev-Lab/autoheal-qa",
-      "url": "https://github.com/RitualDev-Lab/autoheal-qa",
-      "license": "MIT",
-      "language": "TypeScript",
-      "featured": true,
-      "ebpfVerifiedEgress": true,
-      "securityAttestation": {
-        "zeroExfiltrationSockets": true,
-        "airGapCompatible": true,
-        "slsaProvenance": "Level 3",
-        "status": "VERIFIED_SAFE",
-        "verifiedAt": "2026-11-08T00:00:00Z"
-      },
-      "installCommand": "git clone https://github.com/RitualDev-Lab/autoheal-qa"
     },
     {
       "id": "agent-qa",

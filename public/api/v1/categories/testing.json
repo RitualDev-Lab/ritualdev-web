@@ -1,19 +1,19 @@
 {
   "version": "1.1.2",
-  "updatedAt": "2026-11-01T15:10:11.711Z",
+  "updatedAt": "2026-11-17T20:56:09.189Z",
   "slug": "testing",
   "name": "Testing & QA Automation",
   "count": 67,
   "items": [
     {
-      "name": "AutoHeal-QA",
-      "repo": "https://github.com/RitualDev-Lab/autoheal-qa",
+      "name": "MockForge AI",
+      "repo": "https://github.com/RitualDev-Lab/MockForge",
       "category": "Browser & E2E Testing",
-      "description": "100% Free & Local-first agentic self-healing E2E test runner for Playwright.  cloud cost with AST auto-patching and verification loop.",
-      "language": "TypeScript",
-      "license": "MIT",
+      "description": "High-throughput relational mock database and seed data synthesizer with 100% foreign-key integrity using Kahn DAG & WebAssembly SQLite.",
+      "language": "TypeScript / WebAssembly",
+      "license": "Proprietary / Community",
       "featured": true,
-      "goodFirstIssues": "https://github.com/RitualDev-Lab/autoheal-qa/issues",
+      "goodFirstIssues": "https://github.com/RitualDev-Lab/MockForge/issues",
       "type": "testing",
       "section": "Testing & QA Reliability"
     },
@@ -820,8 +820,8 @@
     },
     {
       "name": "VibeLocked LeakCheck",
-      "repo": "https://vibelocked.com/leakcheck/",
-      "url": "https://vibelocked.com/leakcheck/",
+      "repo": "https://vibelocked.com/leakcheck",
+      "url": "https://vibelocked.com/leakcheck",
       "category": "Security & Vulnerability Auditing",
       "description": "Read-only security scan for vibe-coded apps: leaked keys, open data, missing headers. Permanent free scan; Pro adds deploy watching from US$15/mo.",
       "language": "TypeScript, Next.js, Supabase",
