@@ -42,4 +42,6 @@ export function handleDodoWebhookEvent(params: {
   eventType?: string;
   paymentId?: string;
   fulfillmentNote?: string;
+  licenseJwt?: string | null;
+  tier?: string;
 }>;

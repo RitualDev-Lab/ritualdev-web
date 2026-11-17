@@ -20,5 +20,7 @@ export async function POST(req: Request) {
     eventType: result.eventType,
     paymentId: result.paymentId,
     fulfillmentNote: result.fulfillmentNote,
+    licenseJwt: result.licenseJwt,
+    tier: result.tier,
   });
 }
