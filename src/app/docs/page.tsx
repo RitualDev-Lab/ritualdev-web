@@ -202,7 +202,7 @@ export default function DocsPage() {
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 text-brand-neon border border-brand-green/30 text-xs font-bold">
             <BookOpen className="w-3.5 h-3.5" />
-            <span>RitualDev Unified Documentation • v0.2.1 / v1.2.3</span>
+            <span>RitualDev Unified Documentation • AgentShield v0.2.2</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Developer Documentation

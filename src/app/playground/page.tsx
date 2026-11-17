@@ -311,7 +311,7 @@ export default function PlaygroundPage() {
       <div className="text-center space-y-4 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/30 text-brand-neon text-xs font-mono font-bold">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Real-Time Defense Engine Simulator • v0.2.1 Core</span>
+          <span>Real-Time Defense Engine Simulator • v0.2.2 Core</span>
         </div>
         <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
           Adversarial Agent Playground

@@ -166,14 +166,14 @@ export default function AlternativesIndexPage() {
           Looking for a specific open-source tool?
         </h2>
         <p className="text-xs text-slate-400 leading-relaxed">
-          DevShelf indexes 565+ verified developer tools, CLI utilities, and MCP servers with instant search, Docker Compose recipes, and license filters.
+          DevShelf indexes 575+ verified developer tools, CLI utilities, and MCP servers with instant search, Docker Compose recipes, and license filters.
         </p>
         <Link
           href="/devshelf/"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs font-mono transition-colors shadow-[0_0_20px_rgba(168,85,247,0.3)]"
         >
           <Search className="w-4 h-4" />
-          <span>Search DevShelf Directory (565+ Tools)</span>
+          <span>Search DevShelf Directory (575+ Tools)</span>
         </Link>
       </div>
     </div>
