@@ -76,32 +76,32 @@ export default function Navbar() {
 
   const toolchainTools = [
     {
-      name: "MockForge AI",
-      desc: "Relational mock DB & production masking",
-      href: "/mockforge",
-      icon: Database,
-      badge: "88k rows/s"
-    },
-    {
-      name: "FinePrint AI",
-      desc: "In-memory contract & lease redlines",
-      href: "/fineprint",
-      icon: FileText,
-      badge: "Legal Tech"
-    },
-    {
       name: "SkillPrism",
       desc: "JIT context compactor & Redis VPC cache",
       href: "/skillprism",
       icon: Zap,
-      badge: "96.7% Cut"
+      badge: "98%+ Cut"
     },
     {
       name: "DevShelf",
-      desc: "570+ verified developer tools & MCP catalog",
+      desc: "575+ verified developer tools & MCP catalog",
       href: "/devshelf",
       icon: Layers,
       badge: "Directory"
+    },
+    {
+      name: "Security Benchmarks",
+      desc: "500-vector open-source agent firewall suite",
+      href: "/benchmarks",
+      icon: Terminal,
+      badge: "500 Vectors"
+    },
+    {
+      name: "MCP Security Report",
+      desc: "Top 100 MCP server vulnerability rankings",
+      href: "/mcp-security",
+      icon: Lock,
+      badge: "Top 100"
     }
   ];
 
@@ -133,7 +133,7 @@ export default function Navbar() {
                 </span>
               </div>
               <span className="text-[10px] text-slate-400 font-mono tracking-wider -mt-0.5">
-                AGENT DEFENSE & OFFLINE APPS
+                ENTERPRISE AI AGENT SECURITY
               </span>
             </div>
           </Link>
@@ -393,11 +393,11 @@ export default function Navbar() {
                     <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 border border-sky-500/40">Sponsor</span>
                   </Link>
                   <Link
-                    href="/apps"
+                    href="/projects"
                     onClick={() => setEcosystemOpen(false)}
                     className="block px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-slate-200 hover:text-white transition-colors"
                   >
-                    Android Apps Studio
+                    Active Repositories &amp; Projects
                   </Link>
                   <Link
                     href="/donate"
@@ -573,11 +573,11 @@ export default function Navbar() {
               Enterprise Governance
             </Link>
             <Link
-              href="/apps"
+              href="/projects"
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
             >
-              Android Apps Suite
+              Active Repositories &amp; Projects
             </Link>
             <Link
               href="/donate"

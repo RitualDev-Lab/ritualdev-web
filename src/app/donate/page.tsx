@@ -109,7 +109,7 @@ export default function DonatePage() {
       amountUSD: "$250+",
       amountINR: "₹20,000+",
       type: "Ecosystem Pillar",
-      desc: "Subsidizes edge CDN hosting, OpenAPI endpoints, and unthrottled zero-paywall directory search for 567+ developer tools.",
+      desc: "Subsidizes edge CDN hosting, OpenAPI endpoints, and unthrottled zero-paywall directory search for 575+ developer tools.",
       icon: Award,
       badge: "Pillar Backer",
       amountNumUSD: 250,

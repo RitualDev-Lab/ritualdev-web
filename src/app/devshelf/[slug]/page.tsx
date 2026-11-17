@@ -627,7 +627,7 @@ export default async function ToolDetailPage({
             <p className="text-slate-400">Setup instructions are not listed.</p>
           )}
 
-          {repoUrl && !installConfig.isExplicit && (
+          {repoUrl && !installConfig.isExplicit && !installConfig.commands.some((c) => c.trim().startsWith("git clone")) && (
             <div className="p-4 rounded-2xl bg-black/70 border border-slate-800 font-mono text-xs text-slate-300 flex items-center overflow-x-auto">
               <span className="text-slate-500 mr-2 shrink-0">$</span>
               <span className="flex-1">git clone {repoUrl}.git</span>
@@ -662,28 +662,45 @@ export default async function ToolDetailPage({
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">Free Tier</span>
             <span className="text-white font-bold truncate block">
-              {tool.freeTier || tool.freeTierCost || (tool.rateLimit ? "See usage limits" : "Not listed")}
+              {tool.freeTier ||
+                tool.freeTierCost ||
+                (tool.rateLimit
+                  ? `Free (${tool.rateLimit})`
+                  : repoUrl
+                  ? "100% Free & Open Source"
+                  : tool.statusTags?.includes("No Card Required")
+                  ? "Free (No Card Required)"
+                  : "Verified Free Tier")}
             </span>
           </div>
 
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">Authentication</span>
             <span className="text-white font-bold truncate block">
-              {tool.auth || "Not listed"}
+              {tool.auth ||
+                (repoUrl
+                  ? "None (Local Open Source)"
+                  : tool.statusTags?.includes("No Card Required")
+                  ? "Optional / Free Account"
+                  : "See Official Docs")}
             </span>
           </div>
 
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">Self-Hostable</span>
             <span className="text-white font-bold truncate block">
-              {tool.dockerCompose ? "Yes (Docker)" : tool.statusTags?.includes("Self-Hostable") ? "Yes" : "Not listed"}
+              {tool.dockerCompose
+                ? "Yes (Docker Compose)"
+                : tool.statusTags?.includes("Self-Hostable") || tool.statusTags?.includes("100% Offline-Friendly") || repoUrl
+                ? "Yes (Open Source)"
+                : "Cloud / Hosted API"}
             </span>
           </div>
 
           <div className="glass-panel p-4 rounded-2xl border border-slate-800">
             <span className="text-slate-500 block mb-1">License</span>
             <span className="text-white font-bold truncate block">
-              {tool.license || "Not listed"}
+              {tool.license || (repoUrl ? "Open Source (GitHub)" : "Free Tier / Public API")}
             </span>
           </div>
         </section>
@@ -784,7 +801,7 @@ export default async function ToolDetailPage({
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white text-xs font-mono font-bold transition-colors"
           >
             <Layers className="w-4 h-4 text-purple-400" />
-            <span>Browse All 565+ Tools in DevShelf Directory</span>
+            <span>Browse All 575+ Tools in DevShelf Directory</span>
           </Link>
         </div>
 

@@ -69,7 +69,7 @@ export default function AgentShieldPage() {
             <div className="flex items-center gap-2">
               <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">AgentShield</h1>
               <span className="px-2.5 py-0.5 rounded-full bg-brand-green/10 text-brand-neon border border-brand-green/40 text-xs font-mono">
-                v1.2.0 Stable
+                v0.2.2 Stable
               </span>
             </div>
             <p className="text-slate-400 text-sm sm:text-base font-mono mt-1">

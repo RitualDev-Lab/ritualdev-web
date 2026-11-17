@@ -130,7 +130,7 @@ export default function Footer() {
               <li>
                 <Link href="/advisories" className="hover:text-red-300 transition-colors flex items-center gap-1.5 text-slate-200">
                   <span>Security Advisories</span>
-                  <span className="text-[9px] font-mono px-1 py-0.2 bg-red-950/60 text-red-300 border border-red-800/40 rounded">CVEs</span>
+                  <span className="text-[9px] font-mono px-1 py-0.2 bg-red-950/60 text-red-300 border border-red-800/40 rounded">RDSA</span>
                 </Link>
               </li>
               <li>
@@ -142,10 +142,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Ecosystem & DevTools */}
+          {/* Ecosystem & Platform */}
           <div>
             <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-slate-200 mb-4">
-              Ecosystem &amp; Apps
+              Ecosystem &amp; Platform
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
@@ -167,7 +167,7 @@ export default function Footer() {
               <li>
                 <Link href="/partners" className="hover:text-sky-400 transition-colors flex items-center gap-1.5">
                   <span>DevShelf Partner Placements</span>
-                  <span className="text-[10px] font-mono px-1 py-0.2 bg-sky-950/60 text-sky-300 border border-sky-800/40 rounded">$499/mo</span>
+                  <span className="text-[10px] font-mono px-1 py-0.2 bg-sky-950/60 text-sky-300 border border-sky-800/40 rounded">From $19/mo</span>
                 </Link>
               </li>
               <li>
@@ -193,13 +193,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/apps" className="hover:text-brand-cyan transition-colors">
-                  All Android Applications
+                <Link href="/benchmarks" className="hover:text-brand-neon transition-colors">
+                  Agent Security Benchmarks (ASB)
                 </Link>
               </li>
               <li>
-                <Link href="/apps/all-in-one-calculator" className="hover:text-brand-cyan transition-colors">
-                  All-in-One Calculator Plus
+                <Link href="/mcp-security" className="hover:text-brand-neon transition-colors">
+                  Top 100 MCP Security Report
+                </Link>
+              </li>
+              <li>
+                <Link href="/projects" className="hover:text-brand-cyan transition-colors">
+                  Active Repositories &amp; Projects
                 </Link>
               </li>
               <li>

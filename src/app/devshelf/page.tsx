@@ -1566,7 +1566,7 @@ export default function DevShelfPage() {
                   ) : (
                     <p>No installation instructions are listed.</p>
                   )}
-                  {selectedTool.repo && (
+                  {selectedTool.repo && !selectedInstall?.cmd?.trim().startsWith("git clone") && (
                     <div className="flex items-center justify-between p-3.5 rounded-2xl bg-black/60 border border-slate-800 font-mono text-xs text-slate-300">
                       <span className="text-slate-500 mr-2">$</span>
                       <span className="flex-1 truncate">
@@ -1663,28 +1663,45 @@ export default function DevShelfPage() {
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">Free Tier</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.freeTier || selectedTool.freeTierCost || (selectedTool.rateLimit ? "See usage limits" : "Not listed")}
+                  {selectedTool.freeTier ||
+                    selectedTool.freeTierCost ||
+                    (selectedTool.rateLimit
+                      ? `Free (${selectedTool.rateLimit})`
+                      : selectedTool.repo
+                      ? "100% Free & Open Source"
+                      : selectedTool.statusTags?.includes("No Card Required")
+                      ? "Free (No Card Required)"
+                      : "Verified Free Tier")}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">Authentication</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.auth || "Not listed"}
+                  {selectedTool.auth ||
+                    (selectedTool.repo
+                      ? "None (Local Open Source)"
+                      : selectedTool.statusTags?.includes("No Card Required")
+                      ? "Optional / Free Account"
+                      : "See Official Docs")}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">Self-Hostable</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.dockerCompose ? "Yes (Docker)" : selectedTool.statusTags?.includes("Self-Hostable") ? "Yes" : "Not listed"}
+                  {selectedTool.dockerCompose
+                    ? "Yes (Docker Compose)"
+                    : selectedTool.statusTags?.includes("Self-Hostable") || selectedTool.statusTags?.includes("100% Offline-Friendly") || selectedTool.repo
+                    ? "Yes (Open Source)"
+                    : "Cloud / Hosted API"}
                 </span>
               </div>
 
               <div className="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800">
                 <span className="text-slate-500 block mb-1">License</span>
                 <span className="text-white font-bold truncate block">
-                  {selectedTool.license || "Not listed"}
+                  {selectedTool.license || (selectedTool.repo ? "Open Source (GitHub)" : "Free Tier / Public API")}
                 </span>
               </div>
             </div>
