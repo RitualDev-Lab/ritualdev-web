@@ -24,6 +24,7 @@ function DeviceActivationContent() {
   const [orgDomain, setOrgDomain] = useState("company.com");
   const [email, setEmail] = useState("developer@company.com");
   const [status, setStatus] = useState<"idle" | "authorizing" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const [sessionToken, setSessionToken] = useState("");
 
   useEffect(() => {
@@ -34,29 +35,41 @@ function DeviceActivationContent() {
   }, [searchParams]);
 
   const handleAuthorize = async () => {
-    if (!userCode || userCode.length < 8) {
+    if (!userCode || userCode.trim().length < 8) {
+      setErrorMessage("Please enter the complete 8-character verification code.");
       setStatus("error");
       return;
     }
 
     setStatus("authorizing");
-    // Simulate enterprise OIDC verification & JWT minting
-    setTimeout(() => {
-      const mockJwt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(
-        JSON.stringify({
-          sub: `usr_${Date.now()}`,
-          email,
-          orgId: orgDomain.replace(/\.[^/.]+$/, ""),
-          provider,
-          roles: ["developer", "security_auditor"],
-          iat: Math.floor(Date.now() / 1000),
-          exp: Math.floor(Date.now() / 1000) + 86400 * 30,
-        })
-      ).replace(/=/g, "")}.sso_sig_${Math.random().toString(36).substring(2, 12)}`;
+    setErrorMessage("");
 
-      setSessionToken(mockJwt);
+    try {
+      const res = await fetch("/api/device/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userCode: userCode.trim(),
+          email: email.trim(),
+          provider,
+          orgDomain,
+          tier: "enterprise",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setErrorMessage(data.error || "Failed to authorize device. Check your code and try again.");
+        setStatus("error");
+        return;
+      }
+
+      setSessionToken(data.license_token || "");
       setStatus("success");
-    }, 1200);
+    } catch (err: any) {
+      setErrorMessage(err.message || "Network error contacting authorization gateway.");
+      setStatus("error");
+    }
   };
 
   return (
@@ -155,7 +168,7 @@ function DeviceActivationContent() {
               {status === "error" && (
                 <div className="flex items-center gap-2 p-3 rounded-xl bg-rose-950/40 border border-rose-800/60 text-rose-300 text-xs font-mono">
                   <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
-                  <span>Please enter a valid 8-character verification code (e.g. WDJB-MJHT).</span>
+                  <span>{errorMessage || "Please enter a valid 8-character verification code (e.g. WDJB-MJHT)."}</span>
                 </div>
               )}
 

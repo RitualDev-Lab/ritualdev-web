@@ -18,5 +18,7 @@ export async function onRequestPost(context) {
     eventType: result.eventType,
     paymentId: result.paymentId,
     fulfillmentNote: result.fulfillmentNote,
+    licenseJwt: result.licenseJwt,
+    tier: result.tier,
   });
 }

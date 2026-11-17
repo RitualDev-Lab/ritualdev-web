@@ -1,12 +1,22 @@
 import { dispatchOrderWebhook } from "./cf-webhook.js";
+import { mintLicenseJwt, resolveTierFeatures } from "./license-engine.js";
+import { approveDeviceSession } from "./device-store.js";
 
 function decodeBase64(b64) {
-  const binStr = atob(b64);
-  const bytes = new Uint8Array(binStr.length);
-  for (let i = 0; i < binStr.length; i++) {
-    bytes[i] = binStr.charCodeAt(i);
+  try {
+    let str = b64.replace(/-/g, "+").replace(/_/g, "/");
+    while (str.length % 4 !== 0) {
+      str += "=";
+    }
+    const binStr = atob(str);
+    const bytes = new Uint8Array(binStr.length);
+    for (let i = 0; i < binStr.length; i++) {
+      bytes[i] = binStr.charCodeAt(i);
+    }
+    return bytes;
+  } catch {
+    return new Uint8Array(0);
   }
-  return bytes;
 }
 
 function encodeBase64(buffer) {
@@ -47,26 +57,32 @@ export async function verifyDodoWebhookSignature({
     return false;
   }
 
-  const cleanSecret = secret.startsWith("whsec_") ? secret.slice(6) : secret;
-  const keyBytes = decodeBase64(cleanSecret);
-  const cryptoKey = await crypto.subtle.importKey(
-    "raw",
-    keyBytes,
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
+  try {
+    const cleanSecret = secret.startsWith("whsec_") ? secret.slice(6) : secret;
+    const keyBytes = decodeBase64(cleanSecret);
+    if (!keyBytes || keyBytes.length === 0) return false;
 
-  const signedContent = new TextEncoder().encode(`${webhookId}.${webhookTimestamp}.${rawBody}`);
-  const sigBuf = await crypto.subtle.sign("HMAC", cryptoKey, signedContent);
-  const expectedB64 = encodeBase64(sigBuf);
+    const cryptoKey = await crypto.subtle.importKey(
+      "raw",
+      keyBytes,
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
 
-  const candidates = webhookSignature.trim().split(/\s+/);
-  for (const cand of candidates) {
-    const [version, sig] = cand.split(",");
-    if (version === "v1" && sig && timingSafeEqual(sig, expectedB64)) {
-      return true;
+    const signedContent = new TextEncoder().encode(`${webhookId}.${webhookTimestamp}.${rawBody}`);
+    const sigBuf = await crypto.subtle.sign("HMAC", cryptoKey, signedContent);
+    const expectedB64 = encodeBase64(sigBuf);
+
+    const candidates = webhookSignature.trim().split(/\s+/);
+    for (const cand of candidates) {
+      const [version, sig] = cand.split(",");
+      if (version === "v1" && sig && timingSafeEqual(sig, expectedB64)) {
+        return true;
+      }
     }
+  } catch {
+    return false;
   }
   return false;
 }
@@ -257,6 +273,9 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
     eventType === "subscription.renewed";
 
   let fulfillmentNote = "Recorded verified event.";
+  let licenseJwt = null;
+  let resolvedTier = undefined;
+
   if (isPaid) {
     const ghUser =
       metadata?.github_username ||
@@ -265,6 +284,7 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
       metadata?.github;
     const productId = data?.product_id || data?.product_cart?.[0]?.product_id || "";
     const tier = metadata?.tier || metadata?.package || metadata?.plan || productId || "hosted_relay";
+    resolvedTier = tier;
     const toolName = metadata?.toolName || metadata?.tool_name;
     const toolUrl = metadata?.toolUrl || metadata?.tool_url || metadata?.url;
     const orderId = metadata?.orderId || "";
@@ -327,6 +347,30 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
       fulfillmentNote = `Queue Pre-Launch Security Audit for ${customerEmail} (tier: ${tier})`;
     }
 
+    try {
+      licenseJwt = mintLicenseJwt({
+        customerEmail,
+        tier,
+        seats: metadata?.seats ? Number(metadata.seats) : (tier.includes("team") ? 5 : tier.includes("enterprise") ? 25 : 1),
+        paymentId: String(paymentId),
+        subscriptionId: String(data?.subscription_id || ""),
+        orgId: metadata?.orgId || metadata?.organization || (customerEmail.includes("@") ? customerEmail.split("@")[1] : "default"),
+        env,
+      });
+    } catch (err) {
+      console.error("Failed to mint Ed25519 license JWT:", err);
+    }
+
+    const userCode = metadata?.user_code || metadata?.userCode;
+    if (userCode && licenseJwt) {
+      approveDeviceSession(userCode, {
+        customerEmail,
+        licenseJwt,
+        licensePayload: { tier, paymentId, customerEmail },
+      });
+      fulfillmentNote += ` | Auto-approved RFC 8628 device session for code ${userCode}`;
+    }
+
     await dispatchOrderWebhook(
       env,
       [
@@ -336,7 +380,8 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
         `• **Amount:** ${amount} ${currency}`,
         `• **Tier / Metadata:** ${JSON.stringify(metadata)}`,
         `• **Fulfillment:** ${fulfillmentNote}`,
-      ].join("\n")
+        licenseJwt ? `• **Ed25519 License JWT:** Minted successfully` : "",
+      ].filter(Boolean).join("\n")
     );
   }
 
@@ -346,5 +391,7 @@ export async function handleDodoWebhookEvent({ rawBody, headers, env }) {
     eventType,
     paymentId,
     fulfillmentNote,
+    licenseJwt: isPaid ? licenseJwt : undefined,
+    tier: isPaid ? resolvedTier : undefined,
   };
 }
