@@ -47,6 +47,12 @@ const REGISTRIES = [
     href: "https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense",
     detail: "Live IDE sidebar for VS Code, Cursor, and Windsurf editors.",
   },
+  {
+    name: "Verified Gravatar Profile",
+    identifier: "gravatar.com/ritualdev",
+    href: "https://gravatar.com/ritualdev",
+    detail: "Cryptographic identity verification, verified public links, and official studio profile card.",
+  },
 ];
 
 export default function AboutPage() {
@@ -191,6 +197,39 @@ export default function AboutPage() {
             </a>
           ))}
         </div>
+      </section>
+
+      {/* Verified Gravatar Identity Anchor & QR */}
+      <section className="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col sm:flex-row items-center gap-6">
+          <div className="w-24 h-24 rounded-2xl bg-white p-2 shrink-0 shadow-lg flex items-center justify-center border border-brand-green/30">
+            <img
+              src="/ritual-dev.png"
+              alt="RitualDev Gravatar QR Code"
+              width={96}
+              height={96}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="space-y-2 text-center sm:text-left">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 text-[10px] font-mono">
+              <span>CRYPTOGRAPHIC IDENTITY ANCHOR</span>
+            </div>
+            <h3 className="text-xl font-bold text-white">Verified Gravatar Profile</h3>
+            <p className="text-sm text-slate-300 max-w-xl leading-relaxed">
+              Scan the QR code with your mobile camera or visit our verified profile to confirm RitualDev Studio identity, verified PGP/email anchors, and open-source release signatures.
+            </p>
+          </div>
+        </div>
+        <a
+          href="https://gravatar.com/ritualdev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-5 py-3 rounded-xl bg-slate-900 border border-slate-700 hover:border-brand-cyan text-brand-cyan hover:text-white font-mono text-xs font-bold transition-all flex items-center gap-2 shrink-0 group"
+        >
+          <span>gravatar.com/ritualdev</span>
+          <ExternalLink className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+        </a>
       </section>
 
       {/* Governance, Legal & Direct Contact */}

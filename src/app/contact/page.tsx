@@ -115,6 +115,7 @@ export default function ContactPage() {
         <div className="text-white font-bold text-sm">Official Distribution &amp; Identity Anchors:</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
           <div>GitHub Organization: <Link href="https://github.com/RitualDev-Lab" target="_blank" className="text-brand-green hover:underline">RitualDev-Lab</Link></div>
+          <div>Verified Gravatar: <Link href="https://gravatar.com/ritualdev" target="_blank" className="text-brand-cyan hover:underline">gravatar.com/ritualdev</Link></div>
           <div>PyPI Python SDK: <Link href="https://pypi.org/project/agentshield-defense/" target="_blank" className="text-brand-cyan hover:underline">agentshield-defense</Link></div>
           <div>VS Code Marketplace: <Link href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense" target="_blank" className="text-brand-cyan hover:underline">ritualdev.agentshield-defense</Link></div>
           <div>Open VSX Namespace: <Link href="https://open-vsx.org/namespace/ritualdev-lab" target="_blank" className="text-brand-cyan hover:underline">ritualdev-lab</Link></div>
