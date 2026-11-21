@@ -179,7 +179,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/devshelf" className="hover:text-brand-cyan transition-colors">
-                  DevShelf (575+ Tools &amp; MCPs)
+                  DevShelf (570+ Tools &amp; MCPs)
                 </Link>
               </li>
               <li>

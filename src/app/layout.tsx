@@ -6,7 +6,7 @@ import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
   title: "RitualDev — Autonomous AI Agent Defense, Sandboxing & Zero-Leak Studio",
-  description: "Enterprise runtime secret defense, kernel sandboxing (Bubblewrap, Landlock, Seatbelt, AppContainer), database wire proxy, 96.7% token compaction, and 575+ verified developer tools.",
+  description: "Enterprise runtime secret defense, kernel sandboxing (Bubblewrap, Landlock, Seatbelt, AppContainer), database wire proxy, 96.7% token compaction, and 570+ verified developer tools.",
   metadataBase: new URL("https://ritualdev.in"),
   keywords: [
     "AI agent security",
@@ -205,7 +205,7 @@ export default function RootLayout({
         "name": "DevShelf",
         "operatingSystem": "Web, CLI (npx devshelf-mcp)",
         "applicationCategory": "DeveloperApplication",
-        "description": "Curated catalog of 575+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.",
+        "description": "Curated catalog of 570+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with zero paywalls.",
         "url": "https://ritualdev.in/devshelf/",
         "offers": {
           "@type": "Offer",
@@ -230,7 +230,7 @@ export default function RootLayout({
             "name": "How does DevShelf help developers find tools and MCP servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "DevShelf is an open-access catalog indexing 575+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with no login or paywalls. It offers 1-click Docker Compose configs, package install snippets, a terminal CLI, and an official MCP server for AI coding assistants."
+              "text": "DevShelf is an open-access catalog indexing 570+ verified developer tools, free APIs, and Model Context Protocol (MCP) servers with no login or paywalls. It offers 1-click Docker Compose configs, package install snippets, a terminal CLI, and an official MCP server for AI coding assistants."
             }
           },
           {
