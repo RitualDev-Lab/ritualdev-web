@@ -84,7 +84,7 @@ export default function Navbar() {
     },
     {
       name: "DevShelf",
-      desc: "575+ verified developer tools & MCP catalog",
+      desc: "570+ verified developer tools & MCP catalog",
       href: "/devshelf",
       icon: Layers,
       badge: "Directory"
@@ -374,7 +374,7 @@ export default function Navbar() {
                     className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-slate-800/80 text-sm text-slate-200 hover:text-white transition-colors"
                   >
                     <span>DevShelf Directory</span>
-                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">575+</span>
+                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30">570+</span>
                   </Link>
                   <Link
                     href="/mcp-starter-kit"
@@ -534,7 +534,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-sm text-slate-200 hover:text-white rounded-lg hover:bg-slate-800"
             >
-              DevShelf (567+ Directory)
+              DevShelf (570+ Directory)
             </Link>
             <Link
               href="/compare"

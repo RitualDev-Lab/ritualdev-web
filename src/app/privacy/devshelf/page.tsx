@@ -143,7 +143,7 @@ export default function DevShelfPrivacyPage() {
             If you are a maintainer of an open-source project indexed on DevShelf and wish to update its metadata or request delisting:
           </p>
           <ul className="text-xs text-slate-300 space-y-1.5 list-disc pl-5">
-            <li>Submit a pull request to edit <code className="text-slate-200">data/ai-tools.json</code> on GitHub.</li>
+            <li>Submit a pull request to edit the appropriate category file in <code className="text-slate-200">shelf/</code> (e.g. <code className="text-slate-200">shelf/ai-tools.json</code>, <code className="text-slate-200">shelf/cli-tools.json</code>, or <code className="text-slate-200">shelf/apis.json</code>) on GitHub.</li>
             <li>Or email <a href="mailto:developer@ritualdev.in" className="text-emerald-400 hover:underline">developer@ritualdev.in</a> with your repository link for immediate manual removal.</li>
           </ul>
         </section>

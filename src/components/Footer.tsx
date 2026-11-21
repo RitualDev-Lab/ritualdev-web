@@ -34,6 +34,35 @@ export default function Footer() {
             <div className="pt-2 text-xs text-slate-400 font-mono">
               Founded by <span className="text-slate-300 font-medium">Divyanshu Jethi</span> &amp; <span className="text-slate-300 font-medium">Sakshi Sharma</span>.
             </div>
+
+            {/* Gravatar Verified Profile & QR */}
+            <div className="pt-2">
+              <a
+                href="https://gravatar.com/ritualdev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/80 hover:bg-slate-900 border border-slate-800 hover:border-brand-cyan/50 transition-all max-w-xs"
+              >
+                <div className="w-12 h-12 rounded-lg bg-white p-1 shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
+                  <img
+                    src="/ritual-dev.png"
+                    alt="RitualDev Gravatar QR Code"
+                    width={48}
+                    height={48}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <div className="space-y-0.5 min-w-0">
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-semibold text-slate-200 group-hover:text-brand-cyan transition-colors">
+                    <span>Verified Gravatar</span>
+                    <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-brand-cyan transition-colors" />
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-tight">
+                    Scan or click to verify studio identity on gravatar.com/ritualdev
+                  </p>
+                </div>
+              </a>
+            </div>
           </div>
 
           {/* AI Defense Suite */}
@@ -150,7 +179,7 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/devshelf" className="hover:text-brand-cyan transition-colors">
-                  DevShelf (575+ Tools &amp; MCPs)
+                  DevShelf (570+ Tools &amp; MCPs)
                 </Link>
               </li>
               <li>
@@ -299,6 +328,10 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <Link href="https://github.com/RitualDev-Lab" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
               GitHub
+            </Link>
+            <span>&middot;</span>
+            <Link href="https://gravatar.com/ritualdev" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">
+              Gravatar
             </Link>
             <span>&middot;</span>
             <Link href="https://marketplace.visualstudio.com/items?itemName=ritualdev.agentshield-defense" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">

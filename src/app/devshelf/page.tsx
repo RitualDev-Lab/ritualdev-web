@@ -452,7 +452,7 @@ export default function DevShelfPage() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: "DevShelf - The Crowdsourced Zero-Paywall Developer Directory",
-            description: "Discover 575+ verified open-source developer tools, free APIs, AI agents, and MCP servers.",
+            description: "Discover 570+ verified open-source developer tools, free APIs, AI agents, and MCP servers.",
             url: "https://ritualdev.in/devshelf/",
             mainEntity: {
               "@type": "ItemList",
@@ -480,7 +480,7 @@ export default function DevShelfPage() {
                 name: "What is DevShelf?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "DevShelf is an open-source, zero-paywall directory of 575+ verified developer tools, free APIs, AI agents, and MCP servers created and maintained by RitualDev-Lab.",
+                  text: "DevShelf is an open-source, zero-paywall directory of 570+ verified developer tools, free APIs, AI agents, and MCP servers created and maintained by RitualDev-Lab.",
                 },
               },
               {
@@ -553,7 +553,7 @@ export default function DevShelfPage() {
                 </span>
               </div>
               <p className="text-slate-400 text-sm sm:text-base font-mono mt-1.5">
-                The Community Directory for 575+ Open-Source Developer Tools, Free APIs &amp; MCP Servers
+                The Community Directory for 570+ Open-Source Developer Tools, Free APIs &amp; MCP Servers
               </p>
             </div>
           </div>
@@ -1782,7 +1782,7 @@ export default function DevShelfPage() {
                   </h2>
                 </div>
                 <p className="text-xs font-mono text-slate-400">
-                  Instant activation across 575+ web dossiers &amp; npx devshelf-mcp AI sessions.
+                  Instant activation across 570+ web dossiers &amp; npx devshelf-mcp AI sessions.
                 </p>
               </div>
 

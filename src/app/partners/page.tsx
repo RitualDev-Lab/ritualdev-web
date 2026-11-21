@@ -52,7 +52,7 @@ function PartnerOrderSuccessBanner() {
           Your DevShelf Placement Is Queued ({resolved.label})
         </h2>
         <p className="text-xs text-slate-300 font-mono">
-          Instant activation across 575+ web dossiers &amp; <code className="text-emerald-300">npx devshelf-mcp</code> AI sessions within 24 hours after review.
+          Instant activation across 570+ web dossiers &amp; <code className="text-emerald-300">npx devshelf-mcp</code> AI sessions within 24 hours after review.
         </p>
       </div>
     </div>
@@ -94,7 +94,7 @@ export default function PartnersPage() {
       badge: "Starter • $9",
       color: "border-sky-500/30 text-sky-400",
       features: [
-        "Verified dossier across DevShelf Web (575+ tools) & CLI (npx devshelf search)",
+        "Verified dossier across DevShelf Web (570+ tools) & CLI (npx devshelf search)",
         "Do-follow backlink to your homepage or GitHub repository",
         "Official 'Verified Zero-Paywall' green quality badge + README SVG embed",
         "Programmatic indexing in /api/v1/registry/tools.json",
@@ -196,7 +196,7 @@ export default function PartnersPage() {
   ];
 
   const allPaidFeaturesSummary = [
-    "Instant activation across 575+ web dossiers & npx devshelf-mcp AI sessions",
+    "Instant activation across 570+ web dossiers & npx devshelf-mcp AI sessions",
     "Custom promotional FAQs (FAQPage JSON-LD) & Quick Install Spotlight CTAs",
     "Category Exclusive sticky shelf banners & /alternatives/* comparison pins",
     "Category Combo Pack covering up to 3 shelves + Homepage Headline Spotlight",
@@ -341,7 +341,7 @@ export default function PartnersPage() {
             Feature Your Developer Tool
           </h1>
           <p className="text-emerald-300 font-mono text-sm sm:text-base font-bold">
-            Instant activation across 575+ web dossiers &amp; <code className="px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30">npx devshelf-mcp</code> AI sessions.
+            Instant activation across 570+ web dossiers &amp; <code className="px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30">npx devshelf-mcp</code> AI sessions.
           </p>
           <p className="text-slate-400 text-base leading-relaxed">
             Every paid DevShelf feature in one place: Starter listings, Launch Spotlights with Custom FAQs, Category Exclusives, MCP Pro AI ranking, Category Combo Packs, and Custom Sponsorships.
@@ -466,7 +466,7 @@ export default function PartnersPage() {
               Feature Your Developer Tool or Custom Sponsorship
             </h2>
             <p className="text-xs text-slate-400 font-mono mt-1">
-              Instant activation across 575+ web dossiers &amp; npx devshelf-mcp AI sessions. Must provide a genuine free tier or open-source core (Zero-Paywall rule).
+              Instant activation across 570+ web dossiers &amp; npx devshelf-mcp AI sessions. Must provide a genuine free tier or open-source core (Zero-Paywall rule).
             </p>
           </div>
 
