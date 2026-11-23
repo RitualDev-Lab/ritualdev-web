@@ -1,4 +1,8 @@
 # Cloudflare Pages Redirects & Rewrites
+# Dedicated Poly Subdomain Redirects (Decoupled Platform Lineage)
+/poly                               https://poly.ritualdev.in/        301
+/poly/*                             https://poly.ritualdev.in/:splat  301
+
 # Dedicated Mobile Applications Subdomain (Decoupled Consumer Lineage)
 https://mobile.ritualdev.in/        /apps/                        200
 https://mobile.ritualdev.in/*       /apps/:splat                  200
