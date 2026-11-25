@@ -545,7 +545,7 @@ export default function PromptShieldPlayground() {
               <span>3. Central Fleet Policy Sync</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-[11px]">
-              Distribute custom enterprise codenames, forbidden internal domains, and client PII regex rules across 10,000+ employee browsers via api.promptshield.io.
+              Distribute custom enterprise codenames, forbidden internal domains, and client PII regex rules across 10,000+ employee browsers via self-hosted signed policy endpoints.
             </p>
           </div>
         </div>

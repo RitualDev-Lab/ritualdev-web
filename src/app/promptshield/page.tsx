@@ -107,7 +107,7 @@ export default function PromptShieldPage() {
   const enterpriseFeatures = [
     {
       title: "Central Fleet Policy Sync",
-      desc: "Push company-wide regex rules, project codenames, and forbidden IP signatures across 10,000+ workstations via api.promptshield.io with HMAC-SHA256 signatures.",
+      desc: "Push company-wide regex rules, project codenames, and forbidden IP signatures across 10,000+ workstations via self-hosted policy endpoints with HMAC-SHA256 signatures.",
       icon: Radio
     },
     {
