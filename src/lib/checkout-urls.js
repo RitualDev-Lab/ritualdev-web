@@ -351,6 +351,27 @@ export const TEAM_PRODUCT_CONFIG = {
     label: "FinePrint Corporate Playbook Pro + FinePrintAI-Core ($79/mo)",
     redirectUrl: "https://ritualdev.in/pricing/success/?product=fineprint_pro_79",
   },
+  poly_cloud_pro_29: {
+    id: "poly_cloud_pro_29",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "29",
+    label: "Poly Cloud Remote Cache Pro — 50 GB ($29/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=poly_cloud_pro_29",
+  },
+  poly_cloud_enterprise_199: {
+    id: "poly_cloud_enterprise_199",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "199",
+    label: "Poly Cloud Remote Cache Enterprise — 500 GB + SLSA ($199/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=poly_cloud_enterprise_199",
+  },
+  skillprism_recruiter_29: {
+    id: "skillprism_recruiter_29",
+    productId: DODO_SERVICE_FLEX,
+    flexAmountUsd: "29",
+    label: "SkillPrism Recruiter Verified Proofs ($29/mo)",
+    redirectUrl: "https://ritualdev.in/pricing/success/?product=skillprism_recruiter_29",
+  },
   mcp_starter_49: {
     id: "mcp_starter_49",
     productId: DODO_MCP_STARTER_49,
