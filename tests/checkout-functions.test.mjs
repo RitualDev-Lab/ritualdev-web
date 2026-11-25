@@ -391,6 +391,19 @@ describe("Storefront Checkout URL Builders & Cloudflare Pages Functions", () => 
     assert.ok(fp79.includes("paymentAmount=79"));
     assert.ok(fp79.includes("FinePrintAI-Core"));
 
+    // Verify Stage 6C Poly Cloud & SkillPrism Recruiter SKUs
+    const pc29 = buildTeamProductCheckoutUrl({ tier: "poly_cloud_pro_29" });
+    assert.ok(pc29.includes("paymentAmount=29"));
+    assert.ok(pc29.includes("metadata_tier=poly_cloud_pro_29"));
+
+    const pc199 = buildTeamProductCheckoutUrl({ tier: "poly_cloud_enterprise_199" });
+    assert.ok(pc199.includes("paymentAmount=199"));
+    assert.ok(pc199.includes("metadata_tier=poly_cloud_enterprise_199"));
+
+    const sp29 = buildTeamProductCheckoutUrl({ tier: "skillprism_recruiter_29" });
+    assert.ok(sp29.includes("paymentAmount=29"));
+    assert.ok(sp29.includes("metadata_tier=skillprism_recruiter_29"));
+
     const coreBody = JSON.stringify({
       type: "payment.succeeded",
       data: {
